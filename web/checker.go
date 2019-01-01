@@ -43,6 +43,11 @@ func IsUserExist(url string, username string, site string) bool {
         return false
     }
 
+    if site == "gitlab" {
+        if url == respondedURL { return true }
+        return false
+    }
+
     if response.StatusCode == 200 { return true }
 
     return false
