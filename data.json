@@ -10,5 +10,6 @@
     "YouTube": "https://www.youtube.com/user/?",
     "Reddit": "https://www.reddit.com/user/?",
     "Medium": "https://medium.com/@?",
-    "Blogger": "https://?.blogspot.com/"
+    "Blogger": "https://?.blogspot.com/",
+    "GitLab": "https://gitlab.com/?"
 }
