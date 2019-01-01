@@ -3,5 +3,12 @@
     "WordPress": "https://?.wordpress.com",
     "NAVER": "https://blog.naver.com/?",
     "DAUM": "http://blog.daum.net/?",
-    "Pinterest": "https://www.pinterest.com/?"
+    "Pinterest": "https://www.pinterest.com/?",
+    "Instagram": "https://www.instagram.com/?",
+    "Twitter": "https://twitter.com/?",
+    "Steam": "https://steamcommunity.com/id/?",
+    "YouTube": "https://www.youtube.com/user/?",
+    "Reddit": "https://www.reddit.com/user/?",
+    "Medium": "https://medium.com/@?",
+    "Blogger": "https://?.blogspot.com/"
 }

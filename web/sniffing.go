@@ -2,6 +2,8 @@ package web
 
 import (
 	"os"
+	"fmt"
+	"strings"
 	"io/ioutil"
 	"encoding/json"
 )
@@ -23,6 +25,12 @@ func init() {
 // Sniffer search username across social media
 func Sniffer(username string) {
 	for site := range webURL {
-		IsUserExist(webURL[site].(string), username, site)
+		url := strings.Replace(webURL[site].(string), "?", username, 1)
+		
+		if IsUserExist(url, username, site) {
+			fmt.Printf("[+] %s: %s\n", site, url)
+		} else {
+			fmt.Printf("[-] %s: Not found\n", site)
+		}
 	}
 }
