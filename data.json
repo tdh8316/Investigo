@@ -1,4 +1,7 @@
 {
-    "github": "https://github.com/?",
-    "wordpress": "https://?.wordpress.com"
+    "Github": "https://github.com/?",
+    "WordPress": "https://?.wordpress.com",
+    "NAVER": "https://blog.naver.com/?",
+    "DAUM": "http://blog.daum.net/?",
+    "Pinterest": "https://www.pinterest.com/?"
 }
