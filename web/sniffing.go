@@ -1,24 +1,42 @@
 package web
 
 import (
-    "os"
+    //"os"
     "fmt"
     "strings"
-    "io/ioutil"
+    //"io/ioutil"
     "encoding/json"
 )
+
+const jsonData string = `
+{
+    "Github": "https://github.com/?",
+    "WordPress": "https://?.wordpress.com",
+    "NAVER": "https://blog.naver.com/?",
+    "DAUM": "http://blog.daum.net/?",
+    "Pinterest": "https://www.pinterest.com/?",
+    "Instagram": "https://www.instagram.com/?",
+    "Twitter": "https://twitter.com/?",
+    "Steam": "https://steamcommunity.com/id/?",
+    "YouTube": "https://www.youtube.com/user/?",
+    "Reddit": "https://www.reddit.com/user/?",
+    "Medium": "https://medium.com/@?",
+    "Blogger": "https://?.blogspot.com/",
+    "GitLab": "https://gitlab.com/?"
+}
+`
 
 var webURL map[string]interface{}
 
 func init() {
-    dataFile, err := os.Open("data.json")
+    /*dataFile, err := os.Open("data.json")
     if err != nil {
         panic(err)
     }
     defer dataFile.Close()
 
-    byteValue, _ := ioutil.ReadAll(dataFile)
-    json.Unmarshal([]byte(byteValue), &webURL)
+    byteValue, _ := ioutil.ReadAll(dataFile)*/
+    json.Unmarshal([]byte(jsonData), &webURL)
 }
 
 
