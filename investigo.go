@@ -12,6 +12,8 @@ var sns = map[string]string {
     "WordPress": "https://?.wordpress.com",
     "NAVER": "https://blog.naver.com/?",
     "DAUM Blog": "http://blog.daum.net/?",
+    "Tistory": "https://?.tistory.com/",
+    "Egloos": "http://?.egloos.com/",
     "Pinterest": "https://www.pinterest.com/?",
     "Instagram": "https://www.instagram.com/?",
     "Twitter": "https://twitter.com/?",
@@ -33,7 +35,8 @@ func getPageSource(response *http.Response) string {
 }
 
 
-func request(url string) (*http.Response, string) {
+func request(url string) (
+        response *http.Response, respondedURL string) {
     request, _ := http.NewRequest("GET", url, nil)
     request.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36")
     client := &http.Client{}
@@ -41,9 +44,9 @@ func request(url string) (*http.Response, string) {
     if err != nil {
         panic(err)
     }
-    respondedURL := response.Request.URL.String()
+    respondedURL = response.Request.URL.String()
     
-    return response, respondedURL
+    return
 }
 
 
@@ -88,9 +91,11 @@ func main() {
         fmt.Printf("Searching username %s on\n", username)
         for site := range sns {
             if isUserExist(site, username) {
-                fmt.Printf("[+] %s: %s\n", site, strings.Replace(sns[site], "?", username, 1))
+                fmt.Printf(
+                    "[+] %s: %s\n", site, strings.Replace(sns[site], "?", username, 1))
             } else {
-                fmt.Printf("[-] %s: Not found!\n", site)
+                fmt.Printf(
+                    "[-] %s: Not found!\n", site)
             }
         }
     }
