@@ -35,7 +35,7 @@ func getPageSource(response *http.Response) string {
 }
 
 
-func request(url string) (
+func httpRequest(url string) (
         response *http.Response, respondedURL string) {
     request, _ := http.NewRequest("GET", url, nil)
     request.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36")
@@ -52,9 +52,10 @@ func request(url string) (
 
 func isUserExist(snsName string, username string) bool {
     url := sns[snsName]
-    response, respondedURL := request(strings.Replace(url, "?", username, 1))
+    response, respondedURL := httpRequest(strings.Replace(url, "?", username, 1))
     snsName = strings.ToLower(snsName)
 
+    //TODO: Turn if into case
     if snsName == "wordpress" {
         if respondedURL == url {
             return true
