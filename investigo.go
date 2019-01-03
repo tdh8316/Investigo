@@ -23,6 +23,13 @@ var sns = map[string]string {
     "Medium": "https://medium.com/@?",
     "Blogger": "https://?.blogspot.com/",
     "GitLab": "https://gitlab.com/?",
+    "Google Plus": "https://plus.google.com/+?",
+    "About.me": "https://about.me/?",
+    "SlideShare": "https://slideshare.net/?",
+    "BitBucket": "https://bitbucket.org/?",
+    "Quora": "https://www.quora.com/profile/?",
+    "SourceForge": "https://sourceforge.net/u/?",
+    "Wix": "https://?.wix.com",
 }
 
 
