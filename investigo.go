@@ -31,7 +31,6 @@ var sns = map[string]string {
     "SourceForge": "https://sourceforge.net/u/?",
     "Wix": "https://?.wix.com",
     "Zhihu(Chinese)": "https://www.zhihu.com/people/?",
-    "Weibo(Chinese)": "https://www.weibo.com/?",
     "Gitee(Chinese)": "https://gitee.com/?",
 }
 
@@ -92,14 +91,6 @@ func isUserExist(snsName string, username string) bool {
         if !strings.Contains(
             getPageSource(response),
             "블로그가 존재하지 않습니다") { 
-                return true
-            }
-        return false
-    } else if snsName == "weibo(chinese)" {
-        fmt.Println(respondedURL, getPageSource(response))
-        if !strings.Contains(
-            getPageSource(response),
-            "请检查输入的网址是否正确，或者联系微博客服") { 
                 return true
             }
         return false
