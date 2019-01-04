@@ -1,11 +1,14 @@
 package main
 
-import "os"
-import "fmt"
-import "strings"
-import "net/http"
-import "io/ioutil"
-import color "github.com/logrusorgru/aurora"
+import (
+	"runtime"
+	"os"
+	"fmt"
+	"strings"
+	"net/http"
+	"io/ioutil"
+	color "github.com/logrusorgru/aurora"
+)
 
 
 var sns = map[string]string {
@@ -125,7 +128,7 @@ func main() {
         fmt.Printf("Searching username %s on\n", username)
         for site := range sns {
             if isUserExist(site, username) {
-                if disableColor {
+                if disableColor || runtime.GOOS == "windows" {
                     fmt.Printf(
                         "[+] %s: %s\n", site, strings.Replace(sns[site], "?", username, 1))
                 } else {
@@ -135,7 +138,7 @@ func main() {
                         strings.Replace(sns[site], "?", username, 1))
                 }
             } else {
-                if disableColor {
+                if disableColor || runtime.GOOS == "windows" {
                     fmt.Printf(
                         "[-] %s: Not found!\n", site)
                 } else {
