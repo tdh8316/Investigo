@@ -5,6 +5,7 @@ import "fmt"
 import "strings"
 import "net/http"
 import "io/ioutil"
+import color "github.com/logrusorgru/aurora"
 
 
 var sns = map[string]string {
@@ -30,8 +31,9 @@ var sns = map[string]string {
     "Quora": "https://www.quora.com/profile/?",
     "SourceForge": "https://sourceforge.net/u/?",
     "Wix": "https://?.wix.com",
-    "Zhihu(Chinese)": "https://www.zhihu.com/people/?",
-    "Gitee(Chinese)": "https://gitee.com/?",
+    "Facebook(Public)": "https://www.facebook.com/?",
+    "Zhihu": "https://www.zhihu.com/people/?",
+    "Gitee": "https://gitee.com/?",
 }
 
 
@@ -103,16 +105,45 @@ func isUserExist(snsName string, username string) bool {
 }
 
 
+func contains(array []string, str string) bool {
+    for _, item := range array {
+       if item == str {
+          return true
+       }
+    }
+    return false
+ }
+
+
 func main() {
-    for _, username := range os.Args[1:] {
+    args := os.Args[1:]
+    disableColor := contains(args, "--no-color")
+    for _, username := range args {
+        if username == "--no-color" {
+            continue
+        }
         fmt.Printf("Searching username %s on\n", username)
         for site := range sns {
             if isUserExist(site, username) {
-                fmt.Printf(
-                    "[+] %s: %s\n", site, strings.Replace(sns[site], "?", username, 1))
+                if disableColor {
+                    fmt.Printf(
+                        "[+] %s: %s\n", site, strings.Replace(sns[site], "?", username, 1))
+                } else {
+                    fmt.Printf(
+                        "[%s] %s: %s\n",
+                        color.Green("+"), color.Bold(color.Green(site)),
+                        strings.Replace(sns[site], "?", username, 1))
+                }
             } else {
-                fmt.Printf(
-                    "[-] %s: Not found!\n", site)
+                if disableColor {
+                    fmt.Printf(
+                        "[-] %s: Not found!\n", site)
+                } else {
+                    fmt.Printf(
+                        "[%s] %s: %s\n",
+                        color.Red("-"), color.Bold(color.Green(site)),
+                        color.Bold(color.Brown("Not found!")))
+                }
             }
         }
     }
