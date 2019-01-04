@@ -88,6 +88,21 @@ func isUserExist(snsName string, username string) bool {
             return true
         }
         return false
+    } else if snsName == "egloos" {
+        if !strings.Contains(
+            getPageSource(response),
+            "블로그가 존재하지 않습니다") { 
+                return true
+            }
+        return false
+    } else if snsName == "weibo(chinese)" {
+        fmt.Println(respondedURL, getPageSource(response))
+        if !strings.Contains(
+            getPageSource(response),
+            "请检查输入的网址是否正确，或者联系微博客服") { 
+                return true
+            }
+        return false
     }
 
     if response.StatusCode == 200 {
