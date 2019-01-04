@@ -30,6 +30,9 @@ var sns = map[string]string {
     "Quora": "https://www.quora.com/profile/?",
     "SourceForge": "https://sourceforge.net/u/?",
     "Wix": "https://?.wix.com",
+    "Zhihu(Chinese)": "https://www.zhihu.com/people/?",
+    "Weibo(Chinese)": "https://www.weibo.com/?",
+    "Gitee(Chinese)": "https://gitee.com/?",
 }
 
 
