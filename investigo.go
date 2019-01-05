@@ -34,6 +34,7 @@ var sns = map[string]string {
     "Quora": "https://www.quora.com/profile/?",
     "SourceForge": "https://sourceforge.net/u/?",
     "Wix": "https://?.wix.com",
+    "SoundCloud": "https://soundcloud.com/?",
     "Facebook(Public)": "https://www.facebook.com/?",
     "Zhihu": "https://www.zhihu.com/people/?",
     "Gitee": "https://gitee.com/?",
