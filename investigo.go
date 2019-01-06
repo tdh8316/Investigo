@@ -1,13 +1,12 @@
 package main
 
 import (
-	"runtime"
 	"os"
 	"fmt"
 	"strings"
 	"net/http"
 	"io/ioutil"
-	color "github.com/logrusorgru/aurora"
+	color "github.com/fatih/color"
 )
 
 
@@ -35,7 +34,7 @@ var sns = map[string]string {
     "SourceForge": "https://sourceforge.net/u/?",
     "Wix": "https://?.wix.com",
     "SoundCloud": "https://soundcloud.com/?",
-    "Facebook(Public)": "https://www.facebook.com/?",
+    "Facebook": "https://www.facebook.com/?",
     "Zhihu": "https://www.zhihu.com/people/?",
     "Gitee": "https://gitee.com/?",
 }
@@ -122,31 +121,37 @@ func contains(array []string, str string) bool {
 func main() {
     args := os.Args[1:]
     disableColor := contains(args, "--no-color")
+    disableQuiet := contains(args, "--verbose")
+
     for _, username := range args {
-        if username == "--no-color" {
+        if contains([]string{"--no-color", "--verbose"}, username) {
             continue
         }
-        fmt.Printf("Searching username %s on\n", username)
+        fmt.Fprintf(color.Output, "%s %s on:\n", color.HiMagentaString("Searching username"), username)
         for site := range sns {
             if isUserExist(site, username) {
-                if disableColor || runtime.GOOS == "windows" {
+                if disableColor {
                     fmt.Printf(
                         "[+] %s: %s\n", site, strings.Replace(sns[site], "?", username, 1))
                 } else {
-                    fmt.Printf(
+                    fmt.Fprintf(color.Output,
                         "[%s] %s: %s\n",
-                        color.Green("+"), color.Bold(color.Green(site)),
-                        strings.Replace(sns[site], "?", username, 1))
+                        color.HiGreenString("+"), color.HiWhiteString(site),
+                        color.WhiteString(strings.Replace(sns[site], "?", username, 1)))
                 }
             } else {
-                if disableColor || runtime.GOOS == "windows" {
+                if !disableQuiet {
+                    continue
+                }
+                
+                if disableColor {
                     fmt.Printf(
                         "[-] %s: Not found!\n", site)
                 } else {
-                    fmt.Printf(
+                    fmt.Fprintf(color.Output,
                         "[%s] %s: %s\n",
-                        color.Red("-"), color.Bold(color.Green(site)),
-                        color.Bold(color.Brown("Not found!")))
+                        color.HiRedString("-"), color.HiWhiteString(site),
+                        color.HiYellowString("Not found!"))
                 }
             }
         }
