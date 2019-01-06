@@ -9,7 +9,7 @@ Go 1.8 or higher is required.
 ```
 $ git clone https://github.com/tdh8316/Investigo.git
 $ cd investigo
-$ go run investigo.go USERNAMES...
+$ go run investigo.go USERNAMES... [--verbose] [--disable-color]
 ```
 
 # License
