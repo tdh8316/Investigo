@@ -35,6 +35,13 @@ var sns = map[string]string {
     "Wix": "https://?.wix.com",
     "SoundCloud": "https://soundcloud.com/?",
     "Facebook": "https://www.facebook.com/?",
+    "Disqus": "https://disqus.com/?",
+    "DevianArt": "https://www.deviantart.com/?",
+    "Spotify": "https://open.spotify.com/user/?",
+    "Patreon": "https://www.patreon.com/?",
+    "DailyMotion": "https://www.dailymotion.com/?",
+    "Slack": "https://?.slack.com",
+
     "Zhihu": "https://www.zhihu.com/people/?",
     "Gitee": "https://gitee.com/?",
 }
