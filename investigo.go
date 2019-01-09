@@ -131,6 +131,18 @@ func main() {
     disableQuiet := contains(args, "--verbose")
 
     for _, username := range args {
+        fileName := "./" + username + ".txt"
+        if _, err := os.Stat(fileName); !os.IsNotExist(err) {
+            if err = os.Remove(fileName); err != nil {
+                panic(err)
+            }
+        }
+        resFile, err := os.OpenFile(fileName, os.O_APPEND | os.O_CREATE | os.O_WRONLY, 0600)
+        if err != nil {
+            panic(err)
+        }
+        defer resFile.Close()
+
         if contains([]string{"--no-color", "--verbose"}, username) {
             continue
         }
@@ -145,6 +157,10 @@ func main() {
                         "[%s] %s: %s\n",
                         color.HiGreenString("+"), color.HiWhiteString(site),
                         color.WhiteString(strings.Replace(sns[site], "?", username, 1)))
+                }
+                if _, err = resFile.WriteString(strings.Replace(sns[site], "?", username, 1) + "\n");
+                err != nil {
+                    panic(err)
                 }
             } else {
                 if !disableQuiet {
