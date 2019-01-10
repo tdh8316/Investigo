@@ -139,8 +139,13 @@ func main() {
         if isOpt, _ := contains([]string{"--no-color", "--verbose", specifiedSite, "--site"}, username); isOpt {
             continue
         }
-        fmt.Fprintf(color.Output, "%s %s on:\n", color.HiMagentaString("Searching username"), username)
+        if disableColor {
+            fmt.Printf("Searching username %s on:\n", username)
+        } else {
+            fmt.Fprintf(color.Output, "%s %s on:\n", color.HiMagentaString("Searching username"), username)
+        }
         if specificSite {
+            // TODO: Case sensitivity
             if isUserExist(specifiedSite, username) {
                 if disableColor {
                     fmt.Printf(
