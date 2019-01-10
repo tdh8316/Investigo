@@ -41,6 +41,7 @@ var sns = map[string]string {
     "Patreon": "https://www.patreon.com/?",
     "DailyMotion": "https://www.dailymotion.com/?",
     "Slack": "https://?.slack.com",
+    "Kaggle": "https://www.kaggle.com/?",
 
     "Zhihu": "https://www.zhihu.com/people/?",
     "Gitee": "https://gitee.com/?",
