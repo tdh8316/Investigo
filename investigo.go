@@ -36,7 +36,7 @@ var sns = map[string]string {
     "SoundCloud": "https://soundcloud.com/?",
     "Facebook": "https://www.facebook.com/?",
     "Disqus": "https://disqus.com/?",
-    "DevianArt": "https://www.deviantart.com/?",
+    "DeviantART": "https://www.deviantart.com/?",
     "Spotify": "https://open.spotify.com/user/?",
     "Patreon": "https://www.patreon.com/?",
     "DailyMotion": "https://www.dailymotion.com/?",
