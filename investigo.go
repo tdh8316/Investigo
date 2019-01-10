@@ -117,22 +117,54 @@ func isUserExist(snsName string, username string) bool {
 }
 
 
-func contains(array []string, str string) bool {
-    for _, item := range array {
+func contains(array []string, str string) (bool, int) {
+    for index, item := range array {
        if item == str {
-          return true
+          return true, index
        }
     }
-    return false
+    return false, 0
  }
 
 
 func main() {
+    // TODO: Add argument: --site
     args := os.Args[1:]
-    disableColor := contains(args, "--no-color")
-    disableQuiet := contains(args, "--verbose")
+    disableColor, _ := contains(args, "--no-color")
+    disableQuiet, _ := contains(args, "--verbose")
+    specificSite, siteIndex := contains(args, "--site")
+    specifiedSite := args[siteIndex + 1]
 
     for _, username := range args {
+        if isOpt, _ := contains([]string{"--no-color", "--verbose", specifiedSite, "--site"}, username); isOpt {
+            continue
+        }
+        fmt.Fprintf(color.Output, "%s %s on:\n", color.HiMagentaString("Searching username"), username)
+        if specificSite {
+            if isUserExist(specifiedSite, username) {
+                if disableColor {
+                    fmt.Printf(
+                        "[+] %s: %s\n", specifiedSite, strings.Replace(sns[specifiedSite], "?", username, 1))
+                } else {
+                    fmt.Fprintf(color.Output,
+                        "[%s] %s: %s\n",
+                        color.HiGreenString("+"), color.HiWhiteString(specifiedSite),
+                        color.WhiteString(strings.Replace(sns[specifiedSite], "?", username, 1)))
+                }
+            } else {
+                if disableColor {
+                    fmt.Printf(
+                        "[-] %s: Not found!\n", specifiedSite)
+                } else {
+                    fmt.Fprintf(color.Output,
+                        "[%s] %s: %s\n",
+                        color.HiRedString("-"), color.HiWhiteString(specifiedSite),
+                        color.HiYellowString("Not found!"))
+                }
+            }
+            break
+        }
+
         fileName := "./" + username + ".txt"
         if _, err := os.Stat(fileName); !os.IsNotExist(err) {
             if err = os.Remove(fileName); err != nil {
@@ -145,10 +177,6 @@ func main() {
         }
         defer resFile.Close()
 
-        if contains([]string{"--no-color", "--verbose"}, username) {
-            continue
-        }
-        fmt.Fprintf(color.Output, "%s %s on:\n", color.HiMagentaString("Searching username"), username)
         for site := range sns {
             if isUserExist(site, username) {
                 if disableColor {
