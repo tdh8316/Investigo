@@ -42,6 +42,7 @@ var sns = map[string]string {
     "DailyMotion": "https://www.dailymotion.com/?",
     "Slack": "https://?.slack.com",
     "Kaggle": "https://www.kaggle.com/?",
+    "Itch.io": "https://?.itch.io/",
 
     "Zhihu": "https://www.zhihu.com/people/?",
     "Gitee": "https://gitee.com/?",
