@@ -77,8 +77,8 @@ func httpRequest(url string) (
 
 func isUserExist(snsName string, username string, caseLower bool) bool {
     url := sns[snsName]
-    if !caseLower {
-        url = snsCaseLower[snsName]
+    if caseLower {
+        url = snsCaseLower[strings.ToLower(snsName)]
     }
     response, respondedURL := httpRequest(strings.Replace(url, "?", username, 1))
     snsName = strings.ToLower(snsName)
@@ -137,7 +137,10 @@ func main() {
     disableColor, _ := contains(args, "--no-color")
     disableQuiet, _ := contains(args, "--verbose")
     specificSite, siteIndex := contains(args, "--site")
-    specifiedSite := args[siteIndex + 1]
+    specifiedSite := ""
+    if specificSite {
+        specifiedSite = args[siteIndex + 1]
+    }
 
     for _, username := range args {
         if isOpt, _ := contains([]string{"--no-color", "--verbose", specifiedSite, "--site"}, username); isOpt {
@@ -150,17 +153,20 @@ func main() {
         }
         if specificSite {
             for k, v := range sns {
-                snsCaseLower[k] = v
-              }
-            if isUserExist(specifiedSite, username, true) {
+                snsCaseLower[strings.ToLower(k)] = v
+            }
+            if isUserExist(strings.ToLower(specifiedSite), username, true) {
                 if disableColor {
                     fmt.Printf(
-                        "[+] %s: %s\n", specifiedSite, strings.Replace(snsCaseLower[specifiedSite], "?", username, 1))
+                        "[+] %s: %s\n", specifiedSite, strings.Replace(
+                            snsCaseLower[strings.ToLower(specifiedSite)], "?", username, 1))
                 } else {
                     fmt.Fprintf(color.Output,
                         "[%s] %s: %s\n",
                         color.HiGreenString("+"), color.HiWhiteString(specifiedSite),
-                        color.WhiteString(strings.Replace(snsCaseLower[specifiedSite], "?", username, 1)))
+                        color.WhiteString(
+                            strings.Replace(snsCaseLower[strings.ToLower(specifiedSite)],
+                            "?", username, 1)))
                 }
             } else {
                 if disableColor {
