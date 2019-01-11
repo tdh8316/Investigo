@@ -128,7 +128,6 @@ func contains(array []string, str string) (bool, int) {
 
 
 func main() {
-    // TODO: Add argument: --site
     args := os.Args[1:]
     disableColor, _ := contains(args, "--no-color")
     disableQuiet, _ := contains(args, "--verbose")
