@@ -78,36 +78,31 @@ func isUserExist(snsName string, username string) bool {
     response, respondedURL := httpRequest(strings.Replace(url, "?", username, 1))
     snsName = strings.ToLower(snsName)
 
-    //TODO: Turn if into case
-    if snsName == "wordpress" {
+    switch snsName {
+    case "wordpress":
         if respondedURL == url {
             return true
         }
-        return false
-    } else if snsName == "steam" {
+    case "steam":
         if !strings.Contains(
             getPageSource(response),
             "The specified profile could not be found.") { 
                 return true
-            }
-        return false
-    } else if snsName == "pinterest" {
+        }
+    case "pinterest":
         if url == respondedURL || strings.Contains(respondedURL, username) {
             return true
         }
-        return false
-    } else if snsName == "gitlab" {
+    case "gitlab":
         if url == respondedURL {
             return true
         }
-        return false
-    } else if snsName == "egloos" {
+    case "egloos":
         if !strings.Contains(
             getPageSource(response),
             "블로그가 존재하지 않습니다") { 
                 return true
-            }
-        return false
+        }
     }
 
     if response.StatusCode == 200 {
