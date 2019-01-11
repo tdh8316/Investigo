@@ -48,6 +48,8 @@ var sns = map[string]string {
     "Gitee": "https://gitee.com/?",
 }
 
+var snsCaseLower = map[string]string {}
+
 
 func getPageSource(response *http.Response) string {
     bodyBytes, err := ioutil.ReadAll(response.Body)
@@ -73,8 +75,11 @@ func httpRequest(url string) (
 }
 
 
-func isUserExist(snsName string, username string) bool {
+func isUserExist(snsName string, username string, caseLower bool) bool {
     url := sns[snsName]
+    if !caseLower {
+        url = snsCaseLower[snsName]
+    }
     response, respondedURL := httpRequest(strings.Replace(url, "?", username, 1))
     snsName = strings.ToLower(snsName)
 
@@ -144,16 +149,18 @@ func main() {
             fmt.Fprintf(color.Output, "%s %s on:\n", color.HiMagentaString("Searching username"), username)
         }
         if specificSite {
-            // TODO: Case sensitivity
-            if isUserExist(specifiedSite, username) {
+            for k, v := range sns {
+                snsCaseLower[k] = v
+              }
+            if isUserExist(specifiedSite, username, true) {
                 if disableColor {
                     fmt.Printf(
-                        "[+] %s: %s\n", specifiedSite, strings.Replace(sns[specifiedSite], "?", username, 1))
+                        "[+] %s: %s\n", specifiedSite, strings.Replace(snsCaseLower[specifiedSite], "?", username, 1))
                 } else {
                     fmt.Fprintf(color.Output,
                         "[%s] %s: %s\n",
                         color.HiGreenString("+"), color.HiWhiteString(specifiedSite),
-                        color.WhiteString(strings.Replace(sns[specifiedSite], "?", username, 1)))
+                        color.WhiteString(strings.Replace(snsCaseLower[specifiedSite], "?", username, 1)))
                 }
             } else {
                 if disableColor {
@@ -182,7 +189,7 @@ func main() {
         defer resFile.Close()
 
         for site := range sns {
-            if isUserExist(site, username) {
+            if isUserExist(site, username, false) {
                 if disableColor {
                     fmt.Printf(
                         "[+] %s: %s\n", site, strings.Replace(sns[site], "?", username, 1))
