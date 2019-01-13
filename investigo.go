@@ -2,53 +2,17 @@ package main
 
 import (
 	"os"
-	"fmt"
+    "fmt"
 	"strings"
 	"net/http"
-	"io/ioutil"
+    "io/ioutil"
+    "encoding/json"
 	color "github.com/fatih/color"
 )
 
 
-var sns = map[string]string {
-    "Github": "https://github.com/?",
-    "WordPress": "https://?.wordpress.com",
-    "NAVER": "https://blog.naver.com/?",
-    "DAUM Blog": "http://blog.daum.net/?",
-    "Tistory": "https://?.tistory.com/",
-    "Egloos": "http://?.egloos.com/",
-    "Pinterest": "https://www.pinterest.com/?",
-    "Instagram": "https://www.instagram.com/?",
-    "Twitter": "https://twitter.com/?",
-    "Steam": "https://steamcommunity.com/id/?",
-    "YouTube": "https://www.youtube.com/user/?",
-    "Reddit": "https://www.reddit.com/user/?",
-    "Medium": "https://medium.com/@?",
-    "Blogger": "https://?.blogspot.com/",
-    "GitLab": "https://gitlab.com/?",
-    "Google Plus": "https://plus.google.com/+?",
-    "About.me": "https://about.me/?",
-    "SlideShare": "https://slideshare.net/?",
-    "BitBucket": "https://bitbucket.org/?",
-    "Quora": "https://www.quora.com/profile/?",
-    "SourceForge": "https://sourceforge.net/u/?",
-    "Wix": "https://?.wix.com",
-    "SoundCloud": "https://soundcloud.com/?",
-    "Facebook": "https://www.facebook.com/?",
-    "Disqus": "https://disqus.com/?",
-    "DeviantART": "https://www.deviantart.com/?",
-    "Spotify": "https://open.spotify.com/user/?",
-    "Patreon": "https://www.patreon.com/?",
-    "DailyMotion": "https://www.dailymotion.com/?",
-    "Slack": "https://?.slack.com",
-    "Kaggle": "https://www.kaggle.com/?",
-    "Itch.io": "https://?.itch.io/",
-
-    "Zhihu": "https://www.zhihu.com/people/?",
-    "Gitee": "https://gitee.com/?",
-}
-
-var snsCaseLower = map[string]string {}
+var sns = map[string]string{}
+var snsCaseLower = map[string]string{}
 
 
 func getPageSource(response *http.Response) string {
@@ -132,7 +96,26 @@ func contains(array []string, str string) (bool, int) {
  }
 
 
+ func loadData() {
+    jsonFile, err := os.Open("./sites.json")
+    if err != nil {
+        panic(err)
+    } else {
+        defer jsonFile.Close()
+    }
+
+    byteValue, _ := ioutil.ReadAll(jsonFile)
+    var snsInterface map[string]interface{}
+    json.Unmarshal([]byte(byteValue), &snsInterface)
+    for k, v := range snsInterface {
+        sns[k] = v.(string)
+    }
+ }
+
+
 func main() {
+    loadData()
+    
     args := os.Args[1:]
     disableColor, _ := contains(args, "--no-color")
     disableQuiet, _ := contains(args, "--verbose")
