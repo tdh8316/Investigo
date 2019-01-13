@@ -110,7 +110,7 @@ func contains(array []string, str string) (bool, int) {
     for k, v := range snsInterface {
         sns[k] = v.(string)
     }
- }
+}
 
 
 func main() {
