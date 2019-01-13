@@ -188,7 +188,7 @@ func main() {
                         color.HiGreenString("+"), color.HiWhiteString(site),
                         color.WhiteString(strings.Replace(sns[site], "?", username, 1)))
                 }
-                if _, err = resFile.WriteString(strings.Replace(sns[site], "?", username, 1) + "\n");
+                if _, err = resFile.WriteString(site + "=>" + strings.Replace(sns[site], "?", username, 1) + "\n");
                 err != nil {
                     panic(err)
                 }
