@@ -13,7 +13,7 @@ def main():
         md.write("# {n} sites are supported!\n".format(n=len(json_data)))
         for name in json_data.keys():
             md.write(" - [{sns_name}]({url})\n".format(sns_name=name, url=str(
-                json_data[name]).replace('?', str()).replace("?.", str())))
+                json_data[name]).replace("?.", str()).replace('?', str())))
 
 if __name__ == "__main__":
     exit(
