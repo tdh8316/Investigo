@@ -3,6 +3,8 @@
 
 ![screenshot](./docs/sample.gif)
 
+[Supported sites...](./sites.md)
+
 # Usage
 ## With Go compiler
 Go 1.8 or higher is required.
