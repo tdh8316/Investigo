@@ -124,9 +124,9 @@ func main() {
 			continue
 		}
 		if disableColor {
-			fmt.Printf("Searching username %s on:\n", username)
+			fmt.Printf("Searching username %s\n", username)
 		} else {
-			fmt.Fprintf(color.Output, "%s %s on:\n", color.HiMagentaString("Searching username"), username)
+			fmt.Fprintf(color.Output, "%s %s\n", color.HiMagentaString("Searching username"), username)
 		}
 		if specificSite {
 			for k, v := range sns {
