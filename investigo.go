@@ -159,7 +159,7 @@ func main() {
 			break
 		}
 
-		fileName := "./" + username + ".txt"
+		fileName := username + ".txt"
 		if _, err := os.Stat(fileName); !os.IsNotExist(err) {
 			if err = os.Remove(fileName); err != nil {
 				panic(err)
@@ -182,7 +182,7 @@ func main() {
 						color.HiGreenString("+"), color.HiWhiteString(site),
 						color.WhiteString(strings.Replace(sns[site], "?", username, 1)))
 				}
-				if _, err = resFile.WriteString(site + "=>" + strings.Replace(sns[site], "?", username, 1) + "\n"); err != nil {
+				if _, err = resFile.WriteString(site + ": " + strings.Replace(sns[site], "?", username, 1) + "\n"); err != nil {
 					panic(err)
 				}
 			} else {
@@ -201,5 +201,6 @@ func main() {
 				}
 			}
 		}
+		fmt.Println("\nYour search results have been saved to " + fileName)
 	}
 }
