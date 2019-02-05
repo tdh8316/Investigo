@@ -13,9 +13,14 @@ def main():
     with open("sites.md", 'w', encoding="utf8") as md:
         md.write("# {n} sites are supported!\n".format(n=len(json_data)))
         for name in json_data.keys():
+            s = re.search(r'(?P<http>https?://)(?P<www>www\.)?(\?\.)?(?P<main>\w+\.\w+)', json_data[name])
+            http = s.group("http")
+            www = s.group("www")
+            url_main = s.group("main")
             md.write(" - [{sns_name}]({url})\n".format(
                 sns_name=name,
-                url=re.search(r'(https?://)?(www\.)?\??(\w+\.\w+)', json_data[name]).group()
+                url=(http if http else '') +
+                    (www if www else '') + url_main
             ))
 
 
