@@ -36,6 +36,7 @@ func httpRequest(url string) (
 	return
 }
 
+// Check if username is exist on snsName
 func isUserExist(snsName string, username string, caseLower bool) bool {
 	url := sns[snsName]
 	if caseLower {
