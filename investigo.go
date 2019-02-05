@@ -91,7 +91,7 @@ func contains(array []string, str string) (bool, int) {
 	return false, 0
 }
 
-func loadData() {
+func initListOfSNS() {
 	jsonFile, err := os.Open("./sites.json")
 	if err != nil {
 		panic(err)
@@ -108,7 +108,7 @@ func loadData() {
 }
 
 func main() {
-	loadData()
+	initListOfSNS()
 
 	args := os.Args[1:]
 	disableColor, _ := contains(args, "--no-color")
