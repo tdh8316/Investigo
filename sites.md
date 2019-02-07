@@ -1,7 +1,8 @@
-# 36 sites are supported!
+# 38 sites are supported!
  - [About.me](https://about.me)
  - [BitBucket](https://bitbucket.org)
  - [Blogger](https://blogspot.com)
+ - [Codecademy](https://www.codecademy.com)
  - [DAUM Blog](http://blog.daum)
  - [DailyMotion](https://www.dailymotion.com)
  - [DeviantART](https://www.deviantart.com)
@@ -31,6 +32,7 @@
  - [Tistory](https://tistory.com)
  - [Twitch](https://www.twitch.tv)
  - [Twitter](https://twitter.com)
+ - [Venmo](https://venmo.com)
  - [Wix](https://wix.com)
  - [WordPress](https://wordpress.com)
  - [YouTube](https://www.youtube.com)
