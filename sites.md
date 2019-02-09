@@ -1,7 +1,8 @@
-# 38 sites are supported!
+# 39 sites are supported!
  - [About.me](https://about.me)
  - [BitBucket](https://bitbucket.org)
  - [Blogger](https://blogspot.com)
+ - [Brunch](https://brunch.co)
  - [Codecademy](https://www.codecademy.com)
  - [DAUM Blog](http://blog.daum)
  - [DailyMotion](https://www.dailymotion.com)
