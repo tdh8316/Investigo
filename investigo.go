@@ -95,7 +95,7 @@ func contains(array []string, str string) (bool, int) {
 func initListOfSNS() {
 	jsonFile, err := os.Open("./sites.json")
 	if err != nil {
-		panic(err)
+		panic("Cannot Open File `sites.json`")
 	} else {
 		defer jsonFile.Close()
 	}
