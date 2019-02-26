@@ -1,4 +1,5 @@
 # Overview
+[English](./README.MD) [한국어](./README-ko_kr.MD)
 *Investigo* is the Go implementation of *[Sherlock](https://github.com/TheYahya/sherlock)*.
 
 ![screenshot](./docs/sample.gif)
