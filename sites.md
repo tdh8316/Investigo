@@ -21,7 +21,7 @@
  - [NAVER](https://blog.naver)
  - [Patreon](https://www.patreon.com)
  - [Pinterest](https://www.pinterest.com)
- - [Pornhub](https://pornhub.com) (It was temporarily removed by Korean Internet censorship. As I live in South Korea.)
+ - [Pornhub](https://pornhub.com)
  - [Quora](https://www.quora.com)
  - [Reddit](https://www.reddit.com)
  - [Slack](https://slack.com)
