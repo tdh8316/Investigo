@@ -22,16 +22,19 @@ func getPageSource(response *http.Response) string {
 }
 
 func httpRequest(url string) (
-	response *http.Response, respondedURL string) {
+	response *http.Response, respondedURL string, err error) {
 	request, _ := http.NewRequest("GET", url, nil)
 	request.Header.Set("User-Agent",
 		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36")
 	client := &http.Client{}
-	response, err := client.Do(request)
-	if err != nil {
-		panic(err)
+	response, clientError := client.Do(request)
+	if clientError == nil {
+		respondedURL = response.Request.URL.String()
+		err = nil
+	} else {
+		respondedURL = ""
+		err = clientError
 	}
-	respondedURL = response.Request.URL.String()
 
 	return
 }
@@ -43,8 +46,13 @@ func isUserExist(snsName string, username string, caseLower bool) bool {
 		url = snsCaseLower[strings.ToLower(snsName)]
 	}
 
-	response, respondedURL := httpRequest(strings.Replace(url, "?", username, 1))
-	
+	response, respondedURL, err := httpRequest(strings.Replace(url, "?", username, 1))
+	if err != nil {
+		fmt.Print("You can not access " + snsName + " in your country. ")
+		// fmt.Println(err)
+		return false
+	}
+
 	snsName = strings.ToLower(snsName)
 
 	switch snsName {
