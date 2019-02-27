@@ -93,13 +93,14 @@ func isUserExist(snsName string, username string, caseLower bool) bool {
 	return false
 }
 
+// Array, element
 func contains(array []string, str string) (bool, int) {
 	for index, item := range array {
 		if item == str {
 			return true, index
 		}
 	}
-	return false, 0
+	return false, 0 // Index
 }
 
 func initSNSList() {
