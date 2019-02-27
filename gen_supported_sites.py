@@ -1,12 +1,12 @@
 import json
-import os.path as osp
+from os.path import isfile
 import re
 
 file_name = "sites.json"
 
 
 def main():
-    if not osp.isfile(file_name):
+    if not isfile(file_name):
         raise FileNotFoundError("JSON data not found!")
     json_data: dict = json.loads(open(file_name, 'r', encoding="utf8").read())
 
