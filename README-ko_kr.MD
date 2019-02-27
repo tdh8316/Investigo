@@ -1,5 +1,5 @@
 # 개요
-[English](./README.MD) [한국어](./README-ko_kr.MD)
+[English](./README.MD), [한국어](./README-ko_kr.MD)
 
 *Investigo*는 *[Sherlock](https://github.com/TheYahya/sherlock)* 의 `Go`언어 구현입니다.
 
