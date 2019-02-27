@@ -7,7 +7,7 @@ file_name = "sites.json"
 
 def main():
     if not osp.isfile(file_name):
-        raise FileNotFoundError()
+        raise FileNotFoundError("JSON data not found!")
     json_data: dict = json.loads(open(file_name, 'r', encoding="utf8").read())
 
     with open("sites.md", 'w', encoding="utf8") as md:
