@@ -114,6 +114,7 @@ func initSNSList() {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	var snsInterface map[string]interface{}
 	json.Unmarshal([]byte(byteValue), &snsInterface)
+	// Json to map
 	for k, v := range snsInterface {
 		sns[k] = v.(string)
 	}
