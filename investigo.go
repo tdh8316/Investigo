@@ -142,6 +142,7 @@ func main() {
 			fmt.Fprintf(color.Output, "%s %s\n", color.HiMagentaString("Searching username"), username)
 		}
 		if specificSite {
+			// Case ignore
 			for k, v := range sns {
 				snsCaseLower[strings.ToLower(k)] = v
 			}
