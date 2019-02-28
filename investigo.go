@@ -120,17 +120,26 @@ func initSNSList() {
 	}
 }
 
-func main() {
-	initSNSList()
+func udpateSNSList() {
+	fmt.Println("INFO: udpateSNSList is not implemented")
+}
 
+func main() {
 	args := os.Args[1:]
 	disableColor, _ := contains(args, "--no-color")
 	disableQuiet, _ := contains(args, "--verbose")
+	updateData, _ := contains(args, "--update")
 	specificSite, siteIndex := contains(args, "--site")
 	specifiedSite := ""
 	if specificSite {
 		specifiedSite = args[siteIndex+1]
 	}
+
+	if updateData {
+		udpateSNSList()
+	}
+
+	initSNSList()
 
 	for _, username := range args {
 		if isOpt, _ := contains([]string{"--no-color", "--verbose", specifiedSite, "--site"}, username); isOpt {
