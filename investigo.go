@@ -131,14 +131,11 @@ func udpateSNSList() {
 			panic(err)
 		}
 	}
-	dataFile, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
-	if err != nil {
-		panic(err)
-	}
+	dataFile, _ := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 	defer dataFile.Close()
 
-	if _, err = dataFile.WriteString(jsonData); err != nil {
-		panic(err)
+	if _, err := dataFile.WriteString(jsonData); err != nil {
+		fmt.Fprintf(color.Output, color.RedString("Failed to update data"))
 	}
 }
 
