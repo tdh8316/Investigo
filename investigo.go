@@ -121,7 +121,25 @@ func initSNSList() {
 }
 
 func udpateSNSList() {
-	fmt.Println("INFO: udpateSNSList is not implemented")
+	fmt.Println("Updating sites.json")
+	response, _, _  := httpRequest("https://raw.githubusercontent.com/tdh8316/Investigo/master/sites.json")
+	jsonData := getPageSource(response)
+
+	fileName := "sites.json"
+	if _, err := os.Stat(fileName); !os.IsNotExist(err) {
+		if err = os.Remove(fileName); err != nil {
+			panic(err)
+		}
+	}
+	dataFile, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
+	if err != nil {
+		panic(err)
+	}
+	defer dataFile.Close()
+
+	if _, err = dataFile.WriteString(jsonData); err != nil {
+		panic(err)
+	}
 }
 
 func main() {
@@ -142,7 +160,7 @@ func main() {
 	initSNSList()
 
 	for _, username := range args {
-		if isOpt, _ := contains([]string{"--no-color", "--verbose", specifiedSite, "--site"}, username); isOpt {
+		if isOpt, _ := contains([]string{"--no-color", "--verbose", specifiedSite, "--site", "-update"}, username); isOpt {
 			continue
 		}
 		if disableColor {
