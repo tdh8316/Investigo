@@ -122,7 +122,7 @@ func initSNSList() {
 
 func udpateSNSList() {
 	fmt.Println("Updating sites.json")
-	response, _, _  := httpRequest("https://raw.githubusercontent.com/tdh8316/Investigo/master/sites.json")
+	response, _, _ := httpRequest("https://raw.githubusercontent.com/tdh8316/Investigo/master/sites.json")
 	jsonData := getPageSource(response)
 
 	fileName := "sites.json"
