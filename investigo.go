@@ -135,7 +135,7 @@ func udpateSNSList() {
 	defer dataFile.Close()
 
 	if _, err := dataFile.WriteString(jsonData); err != nil {
-		fmt.Fprintf(color.Output, color.RedString("Failed to update data"))
+		fmt.Fprintf(color.Output, color.RedString("Failed to update data\n"))
 	}
 }
 
