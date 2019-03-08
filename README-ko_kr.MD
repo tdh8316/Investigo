@@ -21,6 +21,7 @@ $ go run investigo.go USERNAMES... [--verbose] [--disable-color] [--site NAME]
 --site             검색할 사이트를 지정합니다. (e.g --site github)
 --disable-color    출력 색상을 비활성화합니다.
 --verbose          USERNAME 이 발견되지 않은 사이트도 출력합니다.
+--update           자동으로 데이터를 업데이트합니다.
 ```
 
 # License

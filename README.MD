@@ -21,6 +21,7 @@ $ go run investigo.go USERNAMES... [--verbose] [--disable-color] [--site NAME]
 --site             Specify sites to search. (e.g --site github)
 --disable-color
 --verbose          Print sites USERNAME is not found.
+--update           Update data automatically
 ```
 
 # License
