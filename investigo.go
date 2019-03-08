@@ -103,13 +103,15 @@ func contains(array []string, str string) (bool, int) {
 	return false, 0 // Index
 }
 
-func initSNSList() {
-	jsonFile, err := os.Open("./sites.json")
+func loadSNSList() {
+	jsonFile, err := os.Open("sites.json")
+	
 	if err != nil {
-		panic("Cannot Open File `sites.json`")
-	} else {
-		defer jsonFile.Close()
+		udpateSNSList()
+		jsonFile, _ = os.Open("sites.json")
 	}
+
+	defer jsonFile.Close()
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	var snsInterface map[string]interface{}
@@ -154,7 +156,7 @@ func main() {
 		udpateSNSList()
 	}
 
-	initSNSList()
+	loadSNSList()
 
 	for _, username := range args {
 		if isOpt, _ := contains([]string{"--no-color", "--verbose", specifiedSite, "--site", "-update"}, username); isOpt {
