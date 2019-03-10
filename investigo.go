@@ -105,7 +105,7 @@ func contains(array []string, str string) (bool, int) {
 
 func loadSNSList() {
 	jsonFile, err := os.Open("sites.json")
-	
+
 	if err != nil {
 		udpateSNSList()
 		jsonFile, _ = os.Open("sites.json")
@@ -141,11 +141,24 @@ func udpateSNSList() {
 	}
 }
 
+func printHelp() {
+	fmt.Println("Investigo - Investigate User Across Social Networks.")
+	fmt.Println("\nUsage: go run investigo.go [-h] [--no-color] [--verbose] [--update] [--site SITE_NAME] USERNAMES\n" +
+		"\npositional arguments:\n\tUSERNAMES\t\tUsernames to investigate")
+}
+
 func main() {
 	args := os.Args[1:]
+	if len(args) < 1 {
+		printHelp()
+	}
 	disableColor, _ := contains(args, "--no-color")
 	disableQuiet, _ := contains(args, "--verbose")
 	updateData, _ := contains(args, "--update")
+	printHelpAndExit, _ := contains(args, "--help")
+	if !printHelpAndExit {
+		printHelpAndExit, _ = contains(args, "-h")
+	}
 	specificSite, siteIndex := contains(args, "--site")
 	specifiedSite := ""
 	if specificSite {
@@ -156,10 +169,16 @@ func main() {
 		udpateSNSList()
 	}
 
+	if printHelpAndExit {
+		printHelp()
+		os.Exit(0)
+	}
+
 	loadSNSList()
 
 	for _, username := range args {
-		if isOpt, _ := contains([]string{"--no-color", "--verbose", specifiedSite, "--site", "-update"}, username); isOpt {
+		if isOpt, _ :=
+			contains([]string{"--no-color", "--verbose", specifiedSite, "--site", "-update", "-h"}, username); isOpt {
 			continue
 		}
 		if disableColor {
