@@ -48,7 +48,7 @@ func isUserExist(snsName string, username string, caseLower bool) bool {
 
 	response, respondedURL, err := httpRequest(strings.Replace(url, "?", username, 1))
 	if err != nil {
-		fmt.Print("You can not access " + snsName + " in your country. ")
+		fmt.Print("You can not access " + snsName + " in your country.\n")
 		// fmt.Println(err)
 		return false
 	}
