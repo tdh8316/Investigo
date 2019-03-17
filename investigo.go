@@ -147,7 +147,14 @@ func udpateSNSList() {
 func printHelp() {
 	fmt.Println("Investigo - Investigate User Across Social Networks.")
 	fmt.Println("\nUsage: go run investigo.go [-h] [--no-color] [--verbose] [--update] [--site SITE_NAME] USERNAMES\n" +
-		"\npositional arguments:\n\tUSERNAMES\t\tUsernames to investigate")
+		"\n positional arguments:\n\tUSERNAMES\t   Usernames to investigate")
+
+	fmt.Println(`
+ optional arguments:
+	--site             Specify sites to search. (e.g --site github)
+	--disable-color
+	--verbose          Print sites USERNAME is not found.
+	--update           Update data automatically`)
 }
 
 func main() {
