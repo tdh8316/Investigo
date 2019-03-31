@@ -1,7 +1,7 @@
 # 개요
 [[English]](./README.MD) [[한국어]](./README-ko_kr.MD)
 
-*Investigo*는 *[Sherlock](https://github.com/TheYahya/sherlock)* 의 `Go`언어 구현입니다.
+*Investigo*는 *[Sherlock](https://sherlock-project.github.io/)* 의 `Go`언어 구현입니다.
 
 [여기](./sites.md)에서 지원되는 사이트 목록을 확인할 수 있습니다.
 
