@@ -29,7 +29,7 @@ Usage: go run investigo.go [-h] [--no-color] [--verbose] [--update] [--site SITE
         --site             Specify sites to search. (e.g --site github)
         --disable-color
         --verbose          Print sites USERNAME is not found.
-        --update           Update data automatically
+        --update           Update list automatically
 ```
 
 # License
