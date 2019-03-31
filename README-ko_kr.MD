@@ -18,10 +18,18 @@ $ go run investigo.go USERNAMES... [--verbose] [--disable-color] [--site NAME]
 
 ## Optional Arguments
 ```
---site             검색할 사이트를 지정합니다. (e.g --site github)
---disable-color    출력 색상을 비활성화합니다.
---verbose          USERNAME 이 발견되지 않은 사이트도 출력합니다.
---update           자동으로 데이터를 업데이트합니다.
+Investigo - Investigate User Across Social Networks.
+
+Usage: go run investigo.go [-h] [--no-color] [--verbose] [--update] [--site SITE_NAME] USERNAMES
+
+ positional arguments:
+        USERNAMES          찾을 ID를 지정합니다.
+
+ optional arguments:
+        --site             찾을 사이트를 지정합니다. (e.g --site github)
+        --disable-color
+        --verbose          해당 ID가 검색되지 않은 사이트 목록을 출력합니다.
+        --update           사이트 목록을 업데이트합니다.
 ```
 
 # License
