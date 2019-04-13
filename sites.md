@@ -1,4 +1,4 @@
-# 39 sites are supported!
+# 38 sites are supported!
  - [About.me](https://about.me)
  - [BitBucket](https://bitbucket.org)
  - [Blogger](https://blogspot.com)
@@ -13,7 +13,6 @@
  - [GitLab](https://gitlab.com)
  - [Gitee](https://gitee.com)
  - [Github](https://github.com)
- - [Google Plus](https://plus.google.com)
  - [Instagram](https://www.instagram.com)
  - [Itch.io](https://itch.io)
  - [Kaggle](https://www.kaggle.com)
