@@ -123,7 +123,7 @@ func loadSNSList() {
 }
 
 func udpateSNSList() {
-	fmt.Println("Updating sites.json")
+	fmt.Printf("Update investigo... ")
 	response, _, err := httpRequest("https://raw.githubusercontent.com/tdh8316/Investigo/master/sites.json1")
 	if err != nil || response.StatusCode == 404 {
 		panic("Failed to connect to Investigo repository.")
@@ -142,6 +142,7 @@ func udpateSNSList() {
 	if _, err := dataFile.WriteString(jsonData); err != nil {
 		fmt.Fprintf(color.Output, color.RedString("Failed to update data\n"))
 	}
+	fmt.Println("Done.")
 }
 
 func printHelp() {
