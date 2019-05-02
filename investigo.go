@@ -202,7 +202,10 @@ func main() {
 			for k, v := range sns {
 				snsCaseLower[strings.ToLower(k)] = v
 			}
-			if isUserExist(strings.ToLower(specifiedSite), username, true) {
+
+			specifiedSite = strings.ToLower(specifiedSite)
+
+			if isUserExist(specifiedSite, username, true) {
 				if disableColor {
 					fmt.Printf(
 						"[+] %s: %s\n", specifiedSite, strings.Replace(
@@ -216,14 +219,23 @@ func main() {
 								"?", username, 1)))
 				}
 			} else {
-				if disableColor {
-					fmt.Printf(
-						"[-] %s: Not found!\n", specifiedSite)
+				if _, isExist := snsCaseLower[specifiedSite]; !isExist {
+					if disableColor {
+						fmt.Println("Unknown site: " + specifiedSite)
+					} else {
+						fmt.Fprintf(color.Output,
+							"Unknown site: "+specifiedSite)
+					}
 				} else {
-					fmt.Fprintf(color.Output,
-						"[%s] %s: %s\n",
-						color.HiRedString("-"), color.HiWhiteString(specifiedSite),
-						color.HiYellowString("Not found!"))
+					if disableColor {
+						fmt.Printf(
+							"[-] %s: Not found!\n", specifiedSite)
+					} else {
+						fmt.Fprintf(color.Output,
+							"[%s] %s: %s\n",
+							color.HiRedString("-"), color.HiWhiteString(specifiedSite),
+							color.HiYellowString("Not found!"))
+					}
 				}
 			}
 			break
@@ -252,17 +264,18 @@ func main() {
 						color.HiGreenString("+"), color.HiWhiteString(site),
 						color.WhiteString(strings.Replace(sns[site], "?", username, 1)))
 				}
+
 				if _, err = resFile.WriteString(site + ": " + strings.Replace(sns[site], "?", username, 1) + "\n"); err != nil {
 					panic(err)
 				}
+
 			} else {
 				if !disableQuiet {
 					continue
 				}
 
 				if disableColor {
-					fmt.Printf(
-						"[-] %s: Not found!\n", site)
+					fmt.Printf("[-] %s: Not found!\n", site)
 				} else {
 					fmt.Fprintf(color.Output,
 						"[%s] %s: %s\n",
