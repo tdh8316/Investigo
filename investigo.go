@@ -205,6 +205,15 @@ func main() {
 
 			specifiedSite = strings.ToLower(specifiedSite)
 
+			if _, isExist := snsCaseLower[specifiedSite]; !isExist {
+				if disableColor {
+					fmt.Println("Unknown site: " + specifiedSite)
+				} else {
+					fmt.Fprintf(color.Output, "%s: %s", color.RedString("Unknown site"), specifiedSite)
+				}
+				break
+			}
+
 			if isUserExist(specifiedSite, username, true) {
 				if disableColor {
 					fmt.Printf(
@@ -219,22 +228,14 @@ func main() {
 								"?", username, 1)))
 				}
 			} else {
-				if _, isExist := snsCaseLower[specifiedSite]; !isExist {
-					if disableColor {
-						fmt.Println("Unknown site: " + specifiedSite)
-					} else {
-						fmt.Fprintf(color.Output, "%s: %s", color.RedString("Unknown site"), specifiedSite)
-					}
+				if disableColor {
+					fmt.Printf(
+						"[-] %s: Not found!\n", specifiedSite)
 				} else {
-					if disableColor {
-						fmt.Printf(
-							"[-] %s: Not found!\n", specifiedSite)
-					} else {
-						fmt.Fprintf(color.Output,
-							"[%s] %s: %s\n",
-							color.HiRedString("-"), color.HiWhiteString(specifiedSite),
-							color.HiYellowString("Not found!"))
-					}
+					fmt.Fprintf(color.Output,
+						"[%s] %s: %s\n", color.HiRedString("-"),
+						color.HiWhiteString(specifiedSite),
+						color.HiYellowString("Not found!"))
 				}
 			}
 			break
