@@ -223,8 +223,7 @@ func main() {
 					if disableColor {
 						fmt.Println("Unknown site: " + specifiedSite)
 					} else {
-						fmt.Fprintf(color.Output,
-							"Unknown site: "+specifiedSite)
+						fmt.Fprintf(color.Output, "%s: %s", color.RedString("Unknown site"), specifiedSite)
 					}
 				} else {
 					if disableColor {
