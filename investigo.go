@@ -10,6 +10,10 @@ import (
 	"strings"
 )
 
+type error interface {
+    Error() string
+}
+
 var sns = map[string]string{}
 var snsCaseLower = map[string]string{}
 
@@ -50,6 +54,9 @@ func isUserExist(snsName string, username string, caseLower bool) bool {
 	if err != nil {
 		fmt.Fprintf(color.Output, color.HiYellowString("Failed to make a connection to %s\n"), snsName)
 		// fmt.Println(err)
+		log, _ := os.OpenFile("http-request-exception.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
+		defer log.Close()
+		log.WriteString(err.Error() + "\n")
 		return false
 	}
 
