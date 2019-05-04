@@ -3,7 +3,7 @@
 
 *Investigo* is the Go implementation of *[Sherlock](https://sherlock-project.github.io/)*.
 
-![screenshot](./docs/sample.gif)
+![screenshot](./docs/sample.png)
 
 [Supported sites...](./sites.md)
 

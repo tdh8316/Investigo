@@ -5,7 +5,7 @@
 
 [여기](./sites.md)에서 지원되는 사이트 목록을 확인할 수 있습니다.
 
-![screenshot](./docs/sample.gif)
+![screenshot](./docs/sample.png)
 
 # 사용법
 ## With Go compiler
