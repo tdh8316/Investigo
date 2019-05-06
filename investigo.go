@@ -29,7 +29,7 @@ func httpRequest(url string) (
 	response *http.Response, respondedURL string, err error) {
 	request, _ := http.NewRequest("GET", url, nil)
 	request.Header.Set("User-Agent",
-		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36")
+		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36")
 	client := &http.Client{}
 	response, clientError := client.Do(request)
 	if clientError == nil {
