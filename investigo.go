@@ -19,7 +19,7 @@ var snsCaseLower = map[string]string{}
 
 var userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36"
 
-func getPageSource(response *http.Response) string {
+func readPageSource(response *http.Response) string {
 	bodyBytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		panic(err)
@@ -72,7 +72,7 @@ func isUserExist(snsName string, username string, caseLower bool) bool {
 		return false
 	case "steam":
 		if !strings.Contains(
-			getPageSource(response),
+			readPageSource(response),
 			"The specified profile could not be found.") {
 			return true
 		}
@@ -89,7 +89,7 @@ func isUserExist(snsName string, username string, caseLower bool) bool {
 		return false
 	case "egloos":
 		if !strings.Contains(
-			getPageSource(response),
+			readPageSource(response),
 			"블로그가 존재하지 않습니다") {
 			return true
 		}
@@ -137,7 +137,7 @@ func udpateSNSList() {
 	if err != nil || response.StatusCode == 404 {
 		panic("Failed to connect to Investigo repository.")
 	}
-	jsonData := getPageSource(response)
+	jsonData := readPageSource(response)
 
 	fileName := "sites.json"
 	if _, err := os.Stat(fileName); !os.IsNotExist(err) {
