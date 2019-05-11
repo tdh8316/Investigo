@@ -203,7 +203,7 @@ func main() {
 
 	for _, username := range args {
 		if isOpt, _ :=
-			contains([]string{"--no-color", "--verbose", specifiedSite, "--site", "--update"}, username); isOpt {
+			contains([]string{"--no-color", "--verbose", specifiedSite, "--site", "--update", "--user-agent"}, username); isOpt {
 			continue
 		}
 		if disableColor {
