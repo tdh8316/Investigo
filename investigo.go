@@ -17,6 +17,8 @@ type error interface {
 var sns = map[string]string{}
 var snsCaseLower = map[string]string{}
 
+var userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36"
+
 func getPageSource(response *http.Response) string {
 	bodyBytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
@@ -29,7 +31,7 @@ func httpRequest(url string) (
 	response *http.Response, respondedURL string, err error) {
 	request, _ := http.NewRequest("GET", url, nil)
 	request.Header.Set("User-Agent",
-		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36")
+		userAgent)
 	client := &http.Client{}
 	response, clientError := client.Do(request)
 	if clientError == nil {
@@ -181,6 +183,11 @@ func main() {
 	specifiedSite := ""
 	if specificSite {
 		specifiedSite = args[siteIndex+1]
+	}
+
+	useCustomUserAgent, argIndex := contains(args, "--user-agent")
+	if useCustomUserAgent {
+		userAgent = args[argIndex+1]
 	}
 
 	if updateData {
