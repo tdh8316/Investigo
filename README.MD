@@ -1,11 +1,14 @@
 # Overview
-[[English]](./README.MD) [[한국어]](./README-ko_kr.MD)
 
-*Investigo* is the Go implementation of *[Sherlock](https://sherlock-project.github.io/)*.
++ [English](./README.MD) 
+  
+  [한국어](./README-ko_kr.MD)
+
+*Investigo* is the `Go` implementation of *[Sherlock](https://sherlock-project.github.io/)*.
+
+Investigo supports [several Social Media](./sites.md).
 
 ![screenshot](./docs/sample.png)
-
-[Supported sites...](./sites.md)
 
 # Usage
 ## With Go compiler
