@@ -133,7 +133,7 @@ func loadSNSList() {
 
 func udpateSNSList() {
 	fmt.Printf("Update investigo... ")
-	response, _, err := httpRequest("https://raw.githubusercontent.com/tdh8316/Investigo/master/sites.json1")
+	response, _, err := httpRequest("https://raw.githubusercontent.com/tdh8316/Investigo/master/sites.json")
 	if err != nil || response.StatusCode == 404 {
 		panic("Failed to connect to Investigo repository.")
 	}
