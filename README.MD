@@ -2,7 +2,7 @@
 
 ![Commits](https://img.shields.io/github/commit-activity/m/tdh8316/Investigo.svg?label=Commits&style=popout)
 ![Go](https://img.shields.io/badge/Go-%3E%3D1.8-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 + [English](./README.MD) 
   
