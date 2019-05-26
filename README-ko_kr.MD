@@ -1,5 +1,9 @@
 # 개요
 
+![Commits](https://img.shields.io/github/commit-activity/m/tdh8316/Investigo.svg?label=Commits&style=popout)
+![Go](https://img.shields.io/badge/Go-%3E%3D1.8-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+
   [English](./README.MD) 
   
 + [한국어](./README-ko_kr.MD)
