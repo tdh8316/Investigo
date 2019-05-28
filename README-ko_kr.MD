@@ -3,7 +3,7 @@
 ![Commits](https://img.shields.io/github/commit-activity/m/tdh8316/Investigo.svg?label=Commits&style=popout)
 ![Go](https://img.shields.io/badge/Go-%3E%3D1.8-blue.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-![GitHub stars](https://img.shields.io/github/stars/tdh8316/Investigo.svg?style=social)
+[![GitHub stars](https://img.shields.io/github/stars/tdh8316/Investigo.svg?style=social)](https://github.com/tdh8316/Investigo/stargazers)
 
   [English](./README.MD) 
   
