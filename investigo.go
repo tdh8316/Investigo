@@ -116,6 +116,7 @@ func loadSNSList() {
 	jsonFile, err := os.Open("sites.json")
 
 	if err != nil {
+		fmt.Println("Failed to load data from disk. try to update...")
 		udpateSNSList()
 		jsonFile, _ = os.Open("sites.json")
 	}
