@@ -11,7 +11,7 @@ import (
 )
 
 type error interface {
-    Error() string
+	Error() string
 }
 
 var sns = map[string]string{}
@@ -309,7 +309,8 @@ func main() {
 			}
 		}
 		fmt.Println("\nYour search results have been saved to " + fileName)
-		if (isFailed) {
-		fmt.Println("Exception details have been saved to http-request-exception.txt")}
+		if isFailed {
+			fmt.Println("Exception details have been saved to http-request-exception.txt")
+		}
 	}
 }
