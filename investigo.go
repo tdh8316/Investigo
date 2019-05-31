@@ -19,6 +19,8 @@ var snsCaseLower = map[string]string{}
 
 var userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36"
 
+var isFailed = false
+
 func readPageSource(response *http.Response) string {
 	bodyBytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
@@ -59,6 +61,7 @@ func isUserExist(snsName string, username string, caseLower bool) bool {
 		log, _ := os.OpenFile("http-request-exception.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 		defer log.Close()
 		log.WriteString(err.Error() + "\n")
+		isFailed = true
 		return false
 	}
 
@@ -202,6 +205,12 @@ func main() {
 
 	loadSNSList()
 
+	if _, err := os.Stat("http-request-exception.txt"); !os.IsNotExist(err) {
+		if err = os.Remove("http-request-exception.txt"); err != nil {
+			panic(err)
+		}
+	}
+
 	for _, username := range args {
 		if isOpt, _ :=
 			contains([]string{"--no-color", "--verbose", specifiedSite, "--site", "--update", "--user-agent"}, username); isOpt {
@@ -300,5 +309,7 @@ func main() {
 			}
 		}
 		fmt.Println("\nYour search results have been saved to " + fileName)
+		if (isFailed) {
+		fmt.Println("Exception details have been saved to http-request-exception.txt")}
 	}
 }
