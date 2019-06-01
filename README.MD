@@ -20,8 +20,9 @@ You can download the latest version of investigo.
  - [Releases](https://github.com/tdh8316/Investigo/releases)
 
 # Usage
-## With Go compiler
-Go 1.8 or higher is required.
+`$ investigo.exe USERNAMES... [--verbose] [--disable-color] [--site NAME]`
+## Build from source
+To compile investigo, Go 1.8 or higher is required.
 ```
 $ git clone https://github.com/tdh8316/Investigo.git
 $ cd investigo
