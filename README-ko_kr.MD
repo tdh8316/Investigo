@@ -15,6 +15,10 @@
 
 ![screenshot](./docs/sample.png)
 
+# Download Windows Binary
+investigo의 최신 버전을 다운로드하세요.
+ - [Releases](https://github.com/tdh8316/Investigo/releases)
+
 # 사용법
 ## With Go compiler
 Go 1.8 이상이 필요합니다.

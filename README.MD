@@ -15,6 +15,10 @@ Investigo supports [several Social Media](./sites.md).
 
 ![screenshot](./docs/sample.png)
 
+# Download Windows Binary
+You can download the latest version of investigo.
+ - [Releases](https://github.com/tdh8316/Investigo/releases)
+
 # Usage
 ## With Go compiler
 Go 1.8 or higher is required.
