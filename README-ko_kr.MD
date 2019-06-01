@@ -15,20 +15,21 @@
 
 ![screenshot](./docs/sample.png)
 
-# Download Windows Binary
+# 다운로드
 investigo의 최신 버전을 다운로드하세요.
  - [Releases](https://github.com/tdh8316/Investigo/releases)
 
 # 사용법
-## With Go compiler
-Go 1.8 이상이 필요합니다.
+`$ investigo.exe USERNAMES... [--verbose] [--disable-color] [--site NAME]`
+## 직접 컴파일하기
+investigo를 컴파일하기 위해서는 Go 1.8 이상이 필요합니다.
 ```
 $ git clone https://github.com/tdh8316/Investigo.git
 $ cd investigo
 $ go run investigo.go USERNAMES... [--verbose] [--disable-color] [--site NAME]
 ```
 
-## Optional Arguments
+## 선택적 인자
 ```
 Investigo - Investigate User Across Social Networks.
 
