@@ -136,7 +136,7 @@ func loadSNSList() {
 }
 
 func udpateSNSList() {
-	fmt.Printf("Update investigo... ")
+	fmt.Printf("Updating investigo... ")
 	response, _, err := httpRequest("https://raw.githubusercontent.com/tdh8316/Investigo/master/sites.json")
 	if err != nil || response.StatusCode == 404 {
 		panic("Failed to connect to Investigo repository.")
@@ -175,6 +175,7 @@ func main() {
 	args := os.Args[1:]
 	if len(args) < 1 {
 		printHelp()
+		os.Exit(0)
 	}
 	disableColor, _ := contains(args, "--no-color")
 	disableQuiet, _ := contains(args, "--verbose")
