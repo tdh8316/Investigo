@@ -1,15 +1,17 @@
-# 38 sites are supported!
+# 40 sites are supported!
  - [About.me](https://about.me)
  - [BitBucket](https://bitbucket.org)
  - [Blogger](https://blogspot.com)
  - [Brunch](https://brunch.co.kr)
  - [Codecademy](https://www.codecademy.com)
+ - [Codementor](https://www.codementor.io)
  - [DAUM Blog](http://blog.daum.net)
  - [DailyMotion](https://www.dailymotion.com)
  - [DeviantART](https://www.deviantart.com)
  - [Disqus](https://disqus.com)
  - [Egloos](http://egloos.com)
  - [Facebook](https://www.facebook.com)
+ - [Giphy](https://giphy.com)
  - [GitLab](https://gitlab.com)
  - [Gitee](https://gitee.com)
  - [Github](https://github.com)
