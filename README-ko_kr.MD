@@ -11,7 +11,7 @@
 
 *Investigo*는 *[Sherlock](https://sherlock-project.github.io/)* 의 `Go`언어 구현입니다.
 
-[여기](./sites.md)에서 지원되는 사이트 목록을 확인할 수 있습니다.
+[여러 SNS](./sites.md)에서 사용자 이름이 사용되는지 여부를 조사합니다.
 
 ![screenshot](./docs/sample.png)
 
