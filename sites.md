@@ -32,7 +32,7 @@
  - [Spotify](https://open.spotify.com)
  - [Steam](https://steamcommunity.com)
  - [Tistory](https://tistory.com)
- - [Twitch](https://www.twitch.tv)
+ - [Twitch](https://m.twitch.tv)
  - [Twitter](https://twitter.com)
  - [Venmo](https://venmo.com)
  - [Wix](https://wix.com)
