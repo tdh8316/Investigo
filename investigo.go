@@ -56,8 +56,9 @@ func isUserExist(snsName string, username string, caseLower bool) bool {
 
 	response, respondedURL, err := httpRequest(strings.Replace(url, "?", username, 1))
 	if err != nil {
-		fmt.Fprintf(color.Output, color.HiYellowString("Failed to make a connection to %s\n"), snsName)
-		// fmt.Println(err)
+		fmt.Fprintf(color.Output,
+			"%s %s\n", color.HiRedString("    ↓↓↓"),
+			color.HiRedString("Failed to make a connection to " + snsName))
 		log, _ := os.OpenFile("http-request-exception.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 		defer log.Close()
 		log.WriteString(err.Error() + "\n")
@@ -309,9 +310,9 @@ func main() {
 				}
 			}
 		}
-		fmt.Println("\nYour search results have been saved to " + fileName)
+		fmt.Println("\nYour search results saved to " + fileName)
 		if isFailed {
-			fmt.Println("Exception details have been saved to http-request-exception.txt")
+			fmt.Println("Exception details saved to http-request-exception.txt")
 		}
 	}
 }
