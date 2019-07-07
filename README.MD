@@ -13,7 +13,7 @@
 
 *Investigo* is the `Go` implementation of *[Sherlock](https://sherlock-project.github.io/)*.
 
-Investigo investigates if your username is used on [Social Media](./sites.md).
+Investigo investigates if your username is being used on [Social Media](./sites.md).
 
 ![screenshot](./docs/sample.png)
 
