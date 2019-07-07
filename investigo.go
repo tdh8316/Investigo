@@ -59,7 +59,7 @@ func isUserExist(snsName string, username string, caseLower bool) bool {
 	response, respondedURL, err := httpRequest(strings.Replace(url, "?", username, 1))
 	if err != nil {
 		fmt.Fprintf(color.Output,
-			"%s %s\n", color.HiRedString("    ↓↓↓"),
+			"[%s] %s\n", color.HiRedString("N/A"),
 			color.HiRedString("Failed to make a connection to " + snsName))
 		log, _ := os.OpenFile("http-request-exception.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 		defer log.Close()
@@ -80,11 +80,6 @@ func isUserExist(snsName string, username string, caseLower bool) bool {
 		if !strings.Contains(
 			readPageSource(response),
 			"The specified profile could not be found.") {
-			return true
-		}
-		return false
-	case "pinterest":
-		if url == respondedURL || strings.Contains(respondedURL, username) {
 			return true
 		}
 		return false
