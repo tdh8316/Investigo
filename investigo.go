@@ -54,6 +54,8 @@ func isUserExist(snsName string, username string, caseLower bool) bool {
 		url = snsCaseLower[strings.ToLower(snsName)]
 	}
 
+	url = strings.Replace(url, "?", username, 1)
+
 	response, respondedURL, err := httpRequest(strings.Replace(url, "?", username, 1))
 	if err != nil {
 		fmt.Fprintf(color.Output,
