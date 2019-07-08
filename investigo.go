@@ -17,7 +17,7 @@ type error interface {
 var sns = map[string]string{}
 var snsCaseLower = map[string]string{}
 
-var userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36"
+var userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
 
 var isFailed = false
 
@@ -60,7 +60,7 @@ func isUserExist(snsName string, username string, caseLower bool) bool {
 	if err != nil {
 		fmt.Fprintf(color.Output,
 			"[%s] %s\n", color.HiRedString("N/A"),
-			color.HiRedString("Failed to make a connection to " + snsName))
+			color.HiRedString("Failed to make a connection to "+snsName))
 		log, _ := os.OpenFile("http-request-exception.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 		defer log.Close()
 		log.WriteString(err.Error() + "\n")
