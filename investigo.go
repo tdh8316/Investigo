@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	// "fmt"
+	"fmt"
 	"io/ioutil"
 	// "net/http"
 	"os"
@@ -22,13 +22,27 @@ var siteData = map[string]SiteData{}
 
 // A SiteData struct for json datatype
 type SiteData struct {
-	ErrorMsg  string `json:"errorMsg"`
 	ErrorType string `json:"errorType"`
+	ErrorMsg  string `json:"errorMsg"`
 	// Rank int`json:"rank"`
-	URL            string `json:"url"`
-	URLMain        string `json:"urlMain"`
-	UsedUsername   string `json:"username_claimed"`
-	UnusedUsername string `json:"username_unclaimed"`
+	URL     string `json:"url"`
+	URLMain string `json:"urlMain"`
+	// UsedUsername   string `json:"username_claimed"`
+	// UnusedUsername string `json:"username_unclaimed"`
+}
+
+// Options contains command line arguments data object
+type Options struct {
+	color           bool
+	updateBeforeRun bool
+	verbose         bool
+}
+
+var options Options
+
+// Investigo investigate if username exists on social media.
+func Investigo(name string) {
+
 }
 
 func initializeSiteData() {
@@ -48,6 +62,34 @@ func initializeSiteData() {
 	return
 }
 
+func contains(array []string, targets ...string) (bool, int) {
+	for index, item := range array {
+		for _, target := range targets {
+			if item == target {
+				return true, index
+			}
+		}
+	}
+	return false, -1
+}
+
 func main() {
+	args := os.Args[1:]
+	var argIndex int
+
+	options.color, argIndex = contains(args, "--no-color")
+	if options.color {
+		args = append(args[:argIndex], args[argIndex+1:]...)
+	}
+
+	if help, _ := contains(args, "-h", "--help"); help || len(args) < 1 {
+		fmt.Println(`Investigo - Investigate User Across Social Networks.`)
+		os.Exit(0)
+	}
+
 	initializeSiteData()
+
+	for _, username := range args {
+		fmt.Println(username)
+	}
 }
