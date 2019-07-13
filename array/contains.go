@@ -1,4 +1,4 @@
-package utils
+package array
 
 // Contains reports whether elements is within array.
 func Contains(array []string, targets ...string) (bool, int) {
