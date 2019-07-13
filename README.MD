@@ -12,6 +12,9 @@
   [한국어](./README-ko_kr.MD)
 
 *Investigo* is the `Go` implementation of *[Sherlock](https://sherlock-project.github.io/)*.
+Supports extension database.
+
+![screenshot](./docs/sample.png)
 
 # ATTENTION
 Investigo is redeveloping for compatibility with Sherlock project and I'm trying to build our own database while keeping compatibility with Sherlock.
