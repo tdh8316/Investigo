@@ -51,23 +51,35 @@ var options Options
 
 func request(url string) (*http.Response, error) {
 	req, _ := http.NewRequest("GET", url, nil)
-	req.Header.Set("User-Agent",
-		userAgent)
+	req.Header.Set("User-Agent", userAgent)
 	client := &http.Client{}
 	response, clientError := client.Do(req)
 
 	return response, clientError
 }
 
+func readResponseBody(response *http.Response) string {
+	bodyBytes, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		panic(err)
+	}
+	return string(bodyBytes)
+}
+
 // Investigo investigate if username exists on social media.
 func Investigo(username string, site string, data SiteData) Result {
-	var url string
-	url = strings.Replace(data.URL, "{}", username, 1)
-	if data.URLProbe != "" {
-		url = strings.Replace(data.URLProbe, "{}", username, 1)
-	}
-	r, err := request(url)
+	var url, urlProbe string
 
+	// string to display
+	url = strings.Replace(data.URL, "{}", username, 1)
+
+	if data.URLProbe != "" {
+		urlProbe = strings.Replace(data.URLProbe, "{}", username, 1)
+	} else {
+		urlProbe = strings.Replace(data.URL, "{}", username, 1)
+	}
+
+	r, err := request(urlProbe)
 	if err != nil {
 		panic(err)
 	}
@@ -80,7 +92,12 @@ func Investigo(username string, site string, data SiteData) Result {
 		}
 		return Result{exist: false, message: color.HiYellowString("Not Found!")}
 	} else if data.ErrorType == "message" {
-
+		if !strings.Contains(readResponseBody(r), data.ErrorMsg) {
+			return Result{
+				exist: true, link: url,
+			}
+		}
+		return Result{exist: false, message: color.HiYellowString("Not Found!")}
 	} else if data.ErrorType == "response_url" {
 
 	} else {
