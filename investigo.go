@@ -4,18 +4,18 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"net/http"
 	"os"
 	"strings"
 )
 
 import (
+	array "./array"
+	http "./http"
 	color "github.com/fatih/color"
 )
 
 const (
 	dataFileName string = "data.json"
-	userAgent    string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
 )
 
 var siteData = map[string]SiteData{}
@@ -47,24 +47,8 @@ type Options struct {
 	verbose         bool
 }
 
+// Command line options (arguments)
 var options Options
-
-func request(url string) (*http.Response, error) {
-	req, _ := http.NewRequest("GET", url, nil)
-	req.Header.Set("User-Agent", userAgent)
-	client := &http.Client{}
-	response, clientError := client.Do(req)
-
-	return response, clientError
-}
-
-func readResponseBody(response *http.Response) string {
-	bodyBytes, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		panic(err)
-	}
-	return string(bodyBytes)
-}
 
 // Investigo investigate if username exists on social media.
 func Investigo(username string, site string, data SiteData) Result {
@@ -79,7 +63,7 @@ func Investigo(username string, site string, data SiteData) Result {
 		urlProbe = strings.Replace(data.URL, "{}", username, 1)
 	}
 
-	r, err := request(urlProbe)
+	r, err := http.Request(urlProbe)
 	if err != nil {
 		panic(err)
 	}
@@ -92,7 +76,7 @@ func Investigo(username string, site string, data SiteData) Result {
 		}
 		return Result{exist: false, message: color.HiYellowString("Not Found!")}
 	} else if data.ErrorType == "message" {
-		if !strings.Contains(readResponseBody(r), data.ErrorMsg) {
+		if !strings.Contains(http.ReadResponseBody(r), data.ErrorMsg) {
 			return Result{
 				exist: true, link: url,
 			}
@@ -111,7 +95,8 @@ func Investigo(username string, site string, data SiteData) Result {
 	}
 }
 
-func print(site string, exist bool, detail string) {
+// Write result
+func resultWriter(site string, exist bool, detail string) {
 	if exist {
 		fmt.Fprintf(
 			color.Output,
@@ -147,32 +132,21 @@ func initializeSiteData() {
 	return
 }
 
-func contains(array []string, targets ...string) (bool, int) {
-	for index, item := range array {
-		for _, target := range targets {
-			if item == target {
-				return true, index
-			}
-		}
-	}
-	return false, -1
-}
-
 func main() {
 	args := os.Args[1:]
 	var argIndex int
 
-	options.color, argIndex = contains(args, "--no-color")
+	options.color, argIndex = array.Contains(args, "--no-color")
 	if options.color {
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
-	options.verbose, argIndex = contains(args, "-v", "--verbose")
+	options.verbose, argIndex = array.Contains(args, "-v", "--verbose")
 	if options.verbose {
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
-	if help, _ := contains(args, "-h", "--help"); help || len(args) < 1 {
+	if help, _ := array.Contains(args, "-h", "--help"); help || len(args) < 1 {
 		fmt.Println(`Investigo - Investigate User Across Social Networks.`)
 		os.Exit(0)
 	}
@@ -183,9 +157,9 @@ func main() {
 		for site := range siteData {
 			investigo := Investigo(username, site, siteData[site])
 			if investigo.exist {
-				print(site, true, investigo.link)
+				resultWriter(site, true, investigo.link)
 			} else {
-				print(site, false, color.HiMagentaString(investigo.message))
+				resultWriter(site, false, color.HiMagentaString(investigo.message))
 			}
 		}
 	}
