@@ -160,33 +160,35 @@ func Investigo(username string, site string, data SiteData) Result {
 				color.RedString("!"), color.HiWhiteString(site), err.Error(),
 			)
 		}
-		return Result{exist:false, message: err.Error()}
+		return Result{exist: false, message: err.Error()}
 	}
 
-	if data.ErrorType == "status_code" {
+	switch data.ErrorType {
+	case "status_code":
 		if r.StatusCode <= 300 || r.StatusCode < 200 {
 			return Result{
 				exist: true, link: url,
 			}
 		}
 		return notExist
-	} else if data.ErrorType == "message" {
+	case "message":
 		if !strings.Contains(ReadResponseBody(r), data.ErrorMsg) {
 			return Result{
 				exist: true, link: url,
 			}
 		}
 		return notExist
-	} else if data.ErrorType == "response_url" {
-
-	} else {
+	case "response_url":
+		if r.Request.URL.String() == url && (r.StatusCode <= 300 || r.StatusCode < 200) {
+			return Result{
+				exist: true, link: url,
+			}
+		}
+		return notExist
+	default:
 		return Result{
 			exist: false, message: "ERROR: Unsupported error type",
 		}
-	}
-
-	return Result{
-		exist: false, message: "ERROR: No return value",
 	}
 }
 
