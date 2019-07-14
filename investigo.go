@@ -49,6 +49,10 @@ type SiteData struct {
 
 var siteData = map[string]SiteData{}
 
+type error interface {
+	Error() string
+}
+
 func initializeSiteData() {
 	jsonFile, err := os.Open(dataFileName)
 	if err != nil {
@@ -148,7 +152,14 @@ func Investigo(username string, site string, data SiteData) Result {
 
 	r, err := Request(urlProbe)
 	if err != nil {
-		panic(err)
+		if !options.verbose {
+			fmt.Fprintf(
+				color.Output,
+				"[%s] %s: %s\n",
+				color.RedString("!"), color.HiWhiteString(site), err.Error(),
+			)
+		}
+		return Result{exist:false, message: err.Error()}
 	}
 
 	if data.ErrorType == "status_code" {
