@@ -49,7 +49,8 @@ type SiteData struct {
 
 var siteData = map[string]SiteData{}
 
-type error interface {
+// RequestError interface
+type RequestError interface {
 	Error() string
 }
 
@@ -107,7 +108,7 @@ func main() {
 }
 
 // Request makes HTTP request
-func Request(url string) (*http.Response, error) {
+func Request(url string) (*http.Response, RequestError) {
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Set("User-Agent", userAgent)
 	client := &http.Client{}
