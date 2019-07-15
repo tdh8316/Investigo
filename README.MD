@@ -16,6 +16,11 @@ Supports extension database.
 
 ![screenshot](./docs/sample.png)
 
+# Usage
+## Download Windows Binary
+You can download the binary for Windows.
+ - [Download latest](https://github.com/tdh8316/Investigo/releases)
+
 # ATTENTION
 Investigo is redeveloping for compatibility with Sherlock project and I'm trying to build our own database while keeping compatibility with Sherlock.
 This is because even though Sherlock project contains a vast database, adult sites are forbidden.
