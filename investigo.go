@@ -4,12 +4,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"strings"
+	"sync"
 )
 
 import (
+	"time"
+	"runtime"
 	color "github.com/fatih/color"
 )
 
@@ -26,6 +30,7 @@ type Result struct {
 }
 
 var (
+	logger   = log.New(color.Output, "", 0)
 	notExist = Result{exist: false, message: color.HiYellowString("Not Found!")}
 	options  struct {
 		color           bool
@@ -93,16 +98,27 @@ func main() {
 	// Loads site data from sherlock database and assign to a variable.
 	initializeSiteData()
 
+	var wg sync.WaitGroup
+
 	for _, username := range args {
 		for site := range siteData {
-			investigo := Investigo(username, site, siteData[site])
-			if investigo.exist {
-				WriteResult(site, true, investigo.link)
-			} else {
-				WriteResult(site, false, color.HiMagentaString(investigo.message))
-			}
+			wg.Add(1)
+			go func(site string) {
+				defer wg.Done()
+				investigo := Investigo(username, site, siteData[site])
+				if investigo.exist {
+					WriteResult(site, true, investigo.link)
+				} else {
+					WriteResult(site, false, color.HiMagentaString(investigo.message))
+				}
+				runtime.Gosched()
+			}(site)
 		}
 	}
+
+	wg.Wait()
+
+	time.Sleep(1)
 
 	return
 }
@@ -195,15 +211,13 @@ func Investigo(username string, site string, data SiteData) Result {
 // WriteResult writes investigation result to stdout and file
 func WriteResult(site string, exist bool, detail string) {
 	if exist {
-		fmt.Fprintf(
-			color.Output,
+		logger.Printf(
 			"[%s] %s: %s\n",
 			color.HiGreenString("+"), color.HiWhiteString(site), detail,
 		)
 	} else {
 		if options.verbose {
-			fmt.Fprintf(
-				color.Output,
+			logger.Printf(
 				"[%s] %s: %s\n",
 				color.HiRedString("-"), color.HiWhiteString(site), detail,
 			)
