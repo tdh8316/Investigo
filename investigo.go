@@ -12,9 +12,9 @@ import (
 )
 
 import (
-	"time"
-	"runtime"
 	color "github.com/fatih/color"
+	"runtime"
+	"time"
 )
 
 const (
@@ -112,13 +112,14 @@ func main() {
 					WriteResult(site, false, color.HiMagentaString(investigo.message))
 				}
 				runtime.Gosched()
+				return
 			}(site)
 		}
 	}
 
 	wg.Wait()
 
-	time.Sleep(1)
+	time.Sleep(1000)
 
 	return
 }
