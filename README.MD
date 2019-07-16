@@ -9,21 +9,36 @@
 
 + [English](./README.MD) 
   
-  [한국어](./README-ko_kr.MD)
+  ~~[한국어](./README-ko_kr.MD)~~
 
 *Investigo* is the `Go` implementation of *[Sherlock](https://sherlock-project.github.io/)*.
-Supports extension database.
 
-![screenshot](./docs/sample.png)
+It's more than 2x faster and supports more sites!
+
+![screenshot](./docs/screenshot.png)
 
 # Usage
-## Download Windows Binary
+#### Download Windows Binary
 You can download the binary for Windows.
- - [Download latest](https://github.com/tdh8316/Investigo/releases)
+ - [Download latest release](https://github.com/tdh8316/Investigo/releases)
 
-# ATTENTION
-Investigo is redeveloping for compatibility with Sherlock project and I'm trying to build our own database while keeping compatibility with Sherlock.
+`$ investigo.exe USERNAMES... [--verbose] [--disable-color]`
+
+## Build from source
+To compile investigo, Go 1.8 or higher is required.
+
+```
+$ git clone https://github.com/tdh8316/Investigo.git
+$ cd investigo
+$ go run investigo.go USERNAMES... [--verbose] [--disable-color]
+```
+
+# Why Investigo?
+Investigo is trying to build our own database while keeping compatibility with Sherlock.
 This is because even though Sherlock project contains a vast database, adult sites are forbidden.
+
+# Become a stargazer
+★
 
 # License
 Licensed under the MIT License
