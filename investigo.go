@@ -10,6 +10,7 @@ import (
 	"runtime"
 	"strings"
 	"sync"
+	"time"
 )
 
 import (
@@ -62,10 +63,34 @@ type RequestError interface {
 func initializeSiteData() {
 	jsonFile, err := os.Open(dataFileName)
 	if err != nil {
-		panic("Failed to open " + dataFileName)
-	} else {
-		defer jsonFile.Close()
+		fmt.Fprintf(
+			color.Output,
+			"%s Failed to read %s from current directory. %s",
+			color.HiRedString("->"),
+			dataFileName,
+			color.HiYellowString("Downloading..."),
+		)
+		r, err := Request("https://raw.githubusercontent.com/tdh8316/Investigo/master/data.json")
+		if err != nil || r.StatusCode != 200 {
+			fmt.Fprintf(color.Output, " [%s]\n", color.HiRedString("Failed"))
+			panic("Failed to connect to Investigo repository.")
+		}
+		if _, err := os.Stat(dataFileName); !os.IsNotExist(err) {
+			if err = os.Remove(dataFileName); err != nil {
+				panic(err)
+			}
+		}
+		_updateFile, _ := os.OpenFile(dataFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
+		if _, err := _updateFile.WriteString(ReadResponseBody(r)); err != nil {
+			fmt.Fprintf(color.Output, color.RedString("Failed to update data\n"))
+		}
+		_updateFile.Close()
+		jsonFile, _ = os.Open(dataFileName)
+		
+		fmt.Println(" [Done]")
 	}
+
+	defer jsonFile.Close()
 
 	byteValue, err := ioutil.ReadAll(jsonFile)
 	if err != nil {
@@ -117,7 +142,7 @@ func main() {
 		wg.Wait()
 	}
 
-	wg.Wait()
+	time.Sleep(1000)
 
 	return
 }
