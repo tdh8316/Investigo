@@ -7,14 +7,13 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"runtime"
 	"strings"
 	"sync"
 )
 
 import (
 	color "github.com/fatih/color"
-	"runtime"
-	"time"
 )
 
 const (
@@ -30,6 +29,7 @@ type Result struct {
 }
 
 var (
+	wg       = &sync.WaitGroup{}
 	logger   = log.New(color.Output, "", 0)
 	notExist = Result{exist: false, message: color.HiYellowString("Not Found!")}
 	options  struct {
@@ -77,6 +77,8 @@ func initializeSiteData() {
 }
 
 func main() {
+	fmt.Println(`Investigo - Investigate User Across Social Networks.`)
+
 	args := os.Args[1:]
 	var argIndex int
 
@@ -91,35 +93,31 @@ func main() {
 	}
 
 	if help, _ := HasElement(args, "-h", "--help"); help || len(args) < 1 {
-		fmt.Println(`Investigo - Investigate User Across Social Networks.`)
 		os.Exit(0)
 	}
 
 	// Loads site data from sherlock database and assign to a variable.
 	initializeSiteData()
 
-	var wg sync.WaitGroup
-
 	for _, username := range args {
+		wg.Add(len(siteData))
 		for site := range siteData {
-			wg.Add(1)
 			go func(site string) {
-				defer wg.Done()
 				investigo := Investigo(username, site, siteData[site])
 				if investigo.exist {
 					WriteResult(site, true, investigo.link)
 				} else {
 					WriteResult(site, false, color.HiMagentaString(investigo.message))
 				}
+				wg.Done()
 				runtime.Gosched()
 				return
 			}(site)
 		}
+		wg.Wait()
 	}
 
 	wg.Wait()
-
-	time.Sleep(1000)
 
 	return
 }
@@ -171,8 +169,7 @@ func Investigo(username string, site string, data SiteData) Result {
 	r, err := Request(urlProbe)
 	if err != nil {
 		if !options.verbose {
-			fmt.Fprintf(
-				color.Output,
+			logger.Printf(
 				"[%s] %s: %s\n",
 				color.RedString("!"), color.HiWhiteString(site), err.Error(),
 			)
