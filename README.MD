@@ -15,7 +15,7 @@
 
 It's more than 2x faster and supports more sites!
 
-![screenshot](./docs/screenshot.png)
+![screenshot](./docs/GIF.gif)
 
 # Usage
 #### Download Windows Binary
