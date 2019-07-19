@@ -23,17 +23,18 @@ const (
 
 // Result of Investigo function
 type Result struct {
-	exist   bool
-	link    string
-	message string
+	exist  bool
+	site   string
+	link   string
+	err    bool
+	errMsg string
 }
 
 var (
-	wg       = &sync.WaitGroup{}
-	logger   = log.New(color.Output, "", 0)
-	notExist = Result{exist: false, message: color.HiYellowString("Not Found!")}
-	options  struct {
-		color           bool
+	wg      = &sync.WaitGroup{}
+	logger  = log.New(color.Output, "", 0)
+	options struct {
+		noColor         bool
 		updateBeforeRun bool
 		verbose         bool
 	}
@@ -108,8 +109,8 @@ func main() {
 	args := os.Args[1:]
 	var argIndex int
 
-	options.color, argIndex = HasElement(args, "--no-color")
-	if options.color {
+	options.noColor, argIndex = HasElement(args, "--no-color")
+	if options.noColor {
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
@@ -129,12 +130,9 @@ func main() {
 		wg.Add(len(siteData))
 		for site := range siteData {
 			go func(site string) {
-				investigo := Investigo(username, site, siteData[site])
-				if investigo.exist {
-					WriteResult(site, true, investigo.link)
-				} else {
-					WriteResult(site, false, color.HiMagentaString(investigo.message))
-				}
+				WriteResult(
+					Investigo(username, site, siteData[site]),
+				)
 				wg.Done()
 				runtime.Gosched()
 				return
@@ -148,12 +146,14 @@ func main() {
 
 // Request makes HTTP request
 func Request(url string) (*http.Response, RequestError) {
-	req, _ := http.NewRequest("GET", url, nil)
-	req.Header.Set("User-Agent", userAgent)
+	request, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+	request.Header.Set("User-Agent", userAgent)
 	client := &http.Client{}
-	response, clientError := client.Do(req)
 
-	return response, clientError
+	return client.Do(request)
 }
 
 // ReadResponseBody reads response body and return string
@@ -187,65 +187,63 @@ func Investigo(username string, site string, data SiteData) Result {
 	if data.URLProbe != "" {
 		urlProbe = strings.Replace(data.URLProbe, "{}", username, 1)
 	} else {
-		urlProbe = strings.Replace(data.URL, "{}", username, 1)
+		urlProbe = url
 	}
 
 	r, err := Request(urlProbe)
-	if err != nil {
-		if !options.verbose {
-			logger.Printf(
-				"[%s] %s: %s\n",
-				color.RedString("!"), color.HiWhiteString(site), err.Error(),
-			)
-		}
-		return Result{exist: false, message: err.Error()}
+	if r != nil && r.Body != nil {
+		defer r.Body.Close()
 	}
-	
-	defer r.Body.Close()
+	if err != nil {
+		return Result{
+			exist: false, site: site, err: true, errMsg: err.Error(),
+		}
+	}
 
 	switch data.ErrorType {
 	case "status_code":
 		if r.StatusCode <= 300 || r.StatusCode < 200 {
 			return Result{
-				exist: true, link: url,
+				exist: true, link: url, site: site,
 			}
 		}
-		return notExist
+		return Result{site: site}
 	case "message":
 		if !strings.Contains(ReadResponseBody(r), data.ErrorMsg) {
 			return Result{
-				exist: true, link: url,
+				exist: true, link: url, site: site,
 			}
 		}
-		return notExist
+		return Result{site: site}
 	case "response_url":
 		if r.Request.URL.String() == url && (r.StatusCode <= 300 || r.StatusCode < 200) {
 			return Result{
-				exist: true, link: url,
+				exist: true, link: url, site: site,
 			}
 		}
-		return notExist
+		return Result{site: site}
 	default:
 		return Result{
-			exist: false, message: "ERROR: Unsupported error type",
+			exist: false, err: true, errMsg: "Unsupported error type `" + data.ErrorType + "`", site: site,
 		}
 	}
 }
 
 // WriteResult writes investigation result to stdout and file
-func WriteResult(site string, exist bool, detail string) {
-	if exist {
-		logger.Printf(
-			"[%s] %s: %s\n",
-			color.HiGreenString("+"), color.HiWhiteString(site), detail,
-		)
+func WriteResult(result Result) {
+	if options.noColor {
+
 	} else {
-		if options.verbose {
-			logger.Printf(
-				"[%s] %s: %s\n",
-				color.HiRedString("-"), color.HiWhiteString(site), detail,
-			)
+		if result.exist {
+			logger.Printf("[%s] %s: %s\n", color.HiGreenString("+"), result.site, result.link)
+		} else {
+			if result.err {
+				logger.Printf("[%s] %s: %s", color.HiRedString("!"), result.site, color.HiRedString(result.errMsg))
+			} else if options.verbose {
+				logger.Printf("[%s] %s: %s", color.HiRedString("-"), result.site, color.HiYellowString("Not Found!"))
+			}
 		}
 	}
+
 	return
 }
