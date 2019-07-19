@@ -191,7 +191,6 @@ func Investigo(username string, site string, data SiteData) Result {
 	}
 
 	r, err := Request(urlProbe)
-	defer func() { _ = r.Body.Close() }()
 	if err != nil {
 		if !options.verbose {
 			logger.Printf(
@@ -201,6 +200,8 @@ func Investigo(username string, site string, data SiteData) Result {
 		}
 		return Result{exist: false, message: err.Error()}
 	}
+	
+	defer r.Body.Close()
 
 	switch data.ErrorType {
 	case "status_code":
