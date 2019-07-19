@@ -10,7 +10,6 @@ import (
 	"runtime"
 	"strings"
 	"sync"
-	"time"
 )
 
 import (
@@ -71,6 +70,7 @@ func initializeSiteData() {
 			color.HiYellowString("Downloading..."),
 		)
 		r, err := Request("https://raw.githubusercontent.com/tdh8316/Investigo/master/data.json")
+		defer r.Body.Close()
 		if err != nil || r.StatusCode != 200 {
 			fmt.Fprintf(color.Output, " [%s]\n", color.HiRedString("Failed"))
 			panic("Failed to connect to Investigo repository.")
@@ -142,8 +142,6 @@ func main() {
 		wg.Wait()
 	}
 
-	time.Sleep(1000)
-
 	return
 }
 
@@ -192,6 +190,7 @@ func Investigo(username string, site string, data SiteData) Result {
 	}
 
 	r, err := Request(urlProbe)
+	defer r.Body.Close()
 	if err != nil {
 		if !options.verbose {
 			logger.Printf(
