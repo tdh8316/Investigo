@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"runtime"
 	"strings"
 	"sync"
 )
@@ -31,9 +30,9 @@ type Result struct {
 }
 
 var (
-	wg      = &sync.WaitGroup{}
-	logger  = log.New(color.Output, "", 0)
-	options struct {
+	waitGroup = &sync.WaitGroup{}
+	logger    = log.New(color.Output, "", 0)
+	options   struct {
 		noColor         bool
 		updateBeforeRun bool
 		verbose         bool
@@ -47,6 +46,7 @@ type SiteData struct {
 	URL       string `json:"url"`
 	URLMain   string `json:"urlMain"`
 	URLProbe  string `json:"urlProbe"`
+	URLError  string `json:"errorUrl"`
 	// UsedUsername   string `json:"username_claimed"`
 	// UnusedUsername string `json:"username_unclaimed"`
 	// RegexCheck string `json:"regexCheck"`
@@ -127,18 +127,17 @@ func main() {
 	initializeSiteData()
 
 	for _, username := range args {
-		wg.Add(len(siteData))
+		waitGroup.Add(len(siteData))
 		for site := range siteData {
 			go func(site string) {
+				defer waitGroup.Done()
 				WriteResult(
 					Investigo(username, site, siteData[site]),
 				)
-				wg.Done()
-				runtime.Gosched()
 				return
 			}(site)
 		}
-		wg.Wait()
+		waitGroup.Wait()
 	}
 
 	return
@@ -180,6 +179,12 @@ func HasElement(array []string, targets ...string) (bool, int) {
 // Investigo investigate if username exists on social media.
 func Investigo(username string, site string, data SiteData) Result {
 	var url, urlProbe string
+	result := Result{
+		exist:  false,
+		site:   site,
+		err:    true,
+		errMsg: "No return value",
+	}
 
 	// string to display
 	url = strings.Replace(data.URL, "{}", username, 1)
@@ -191,10 +196,11 @@ func Investigo(username string, site string, data SiteData) Result {
 	}
 
 	r, err := Request(urlProbe)
-	if r != nil && r.Body != nil {
-		defer r.Body.Close()
-	}
+
 	if err != nil {
+		if r != nil {
+			r.Body.Close()
+		}
 		return Result{
 			exist: false, site: site, err: true, errMsg: err.Error(),
 		}
@@ -203,30 +209,39 @@ func Investigo(username string, site string, data SiteData) Result {
 	switch data.ErrorType {
 	case "status_code":
 		if r.StatusCode <= 300 || r.StatusCode < 200 {
-			return Result{
+			result = Result{
 				exist: true, link: url, site: site,
 			}
+		} else {
+			result = Result{site: site}
 		}
-		return Result{site: site}
 	case "message":
 		if !strings.Contains(ReadResponseBody(r), data.ErrorMsg) {
-			return Result{
+			result = Result{
 				exist: true, link: url, site: site,
 			}
+		} else {
+			result = Result{site: site}
 		}
-		return Result{site: site}
 	case "response_url":
-		if r.Request.URL.String() == url && (r.StatusCode <= 300 || r.StatusCode < 200) {
-			return Result{
+		// In the original Sherlock implementation,
+		// the error type `response_url` works as `status_code`.
+		if (r.StatusCode <= 300 || r.StatusCode < 200) && r.Request.URL.String() == url {
+			result = Result{
 				exist: true, link: url, site: site,
 			}
+		} else {
+			result = Result{site: site}
 		}
-		return Result{site: site}
 	default:
-		return Result{
+		result = Result{
 			exist: false, err: true, errMsg: "Unsupported error type `" + data.ErrorType + "`", site: site,
 		}
 	}
+
+	r.Body.Close()
+
+	return result
 }
 
 // WriteResult writes investigation result to stdout and file
