@@ -35,7 +35,7 @@ $ go run investigo.go -h
 
 # Usage
 ```cmd
-
+$ investigo USERNAMES [-v|--verbose] [--no-color]
 ```
 
 # Why Investigo?
@@ -43,6 +43,14 @@ Investigo is trying to build our own database while keeping compatibility with S
 This is because even though Sherlock project contains a vast database, adult sites are forbidden.
 
 Furthermore, Investigo is more than twice as fast as the original implementation!
+
+## TODO
+Investigo is another implementation of Sherlock. Accordingly, I would like not to make a competition with Sherlock.
+ - [ ] Avoid deep packet inspection
+ - [ ] Support Tor
+ - [ ] Implement regex check
+ - [ ] Command-line arguments
+ - [ ] Add tests
 
 ## Become a stargazer
 ★
