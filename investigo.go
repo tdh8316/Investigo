@@ -16,8 +16,9 @@ import (
 )
 
 const (
-	dataFileName string = "data.json"
-	userAgent    string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
+	dataFileName  string = "data.json"
+	userAgent     string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
+	maxGoroutines int    = 64
 )
 
 // Result of Investigo function
@@ -30,8 +31,10 @@ type Result struct {
 }
 
 var (
+	guard     = make(chan struct{}, maxGoroutines)
 	waitGroup = &sync.WaitGroup{}
 	logger    = log.New(color.Output, "", 0)
+	siteData  = map[string]SiteData{}
 	options   struct {
 		noColor         bool
 		updateBeforeRun bool
@@ -52,8 +55,6 @@ type SiteData struct {
 	// RegexCheck string `json:"regexCheck"`
 	// Rank int`json:"rank"`
 }
-
-var siteData = map[string]SiteData{}
 
 // RequestError interface
 type RequestError interface {
@@ -129,12 +130,13 @@ func main() {
 	for _, username := range args {
 		waitGroup.Add(len(siteData))
 		for site := range siteData {
+			guard <- struct{}{}
 			go func(site string) {
 				defer waitGroup.Done()
 				WriteResult(
 					Investigo(username, site, siteData[site]),
 				)
-				return
+				<-guard
 			}(site)
 		}
 		waitGroup.Wait()
