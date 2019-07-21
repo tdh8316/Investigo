@@ -44,8 +44,10 @@ This is because even though Sherlock project contains a vast database, adult sit
 
 Furthermore, Investigo is more than twice as fast as the original implementation!
 
-## TODO
+# TODO
+## Manifesto
 Investigo is another implementation of Sherlock. Accordingly, I would like not to make a competition with Sherlock.
+
  - [ ] Avoid deep packet inspection
  - [ ] Support Tor
  - [ ] Implement regex check
