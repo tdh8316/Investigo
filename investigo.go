@@ -112,6 +112,7 @@ func main() {
 
 	options.noColor, argIndex = HasElement(args, "--no-color")
 	if options.noColor {
+		logger = log.New(os.Stdout, "", 0)
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
@@ -249,13 +250,21 @@ func Investigo(username string, site string, data SiteData) Result {
 // WriteResult writes investigation result to stdout and file
 func WriteResult(result Result) {
 	if options.noColor {
-
-	} else {
 		if result.exist {
-			logger.Printf("[%s] %s: %s\n", color.HiGreenString("+"), result.site, result.link)
+			logger.Printf("[%s] %s: %s\n", ("+"), result.site, result.link)
 		} else {
 			if result.err {
-				logger.Printf("[%s] %s: %s", color.HiRedString("!"), result.site, color.HiRedString(result.errMsg))
+				logger.Printf("[%s] %s: ERROR: %s", ("!"), result.site, (result.errMsg))
+			} else if options.verbose {
+				logger.Printf("[%s] %s: %s", ("-"), result.site, ("Not Found!"))
+			}
+		}
+	} else {
+		if result.exist {
+			logger.Printf("[%s] %s: %s\n", color.HiGreenString("+"), color.HiWhiteString(result.site), result.link)
+		} else {
+			if result.err {
+				logger.Printf("[%s] %s: ERROR: %s", color.HiRedString("!"), result.site, color.HiRedString(result.errMsg))
 			} else if options.verbose {
 				logger.Printf("[%s] %s: %s", color.HiRedString("-"), result.site, color.HiYellowString("Not Found!"))
 			}
