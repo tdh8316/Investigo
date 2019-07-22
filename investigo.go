@@ -64,16 +64,30 @@ type RequestError interface {
 func initializeSiteData() {
 	jsonFile, err := os.Open(dataFileName)
 	if err != nil {
-		fmt.Fprintf(
-			color.Output,
-			"%s Failed to read %s from current directory. %s",
-			color.HiRedString("->"),
-			dataFileName,
-			color.HiYellowString("Downloading..."),
-		)
+		if options.noColor {
+			fmt.Printf(
+				"%s Failed to read %s from current directory. %s",
+				("->"),
+				dataFileName,
+				("Downloading..."),
+			)
+		} else {
+			fmt.Fprintf(
+				color.Output,
+				"%s Failed to read %s from current directory. %s",
+				color.HiRedString("->"),
+				dataFileName,
+				color.HiYellowString("Downloading..."),
+			)
+		}
+
 		r, err := Request("https://raw.githubusercontent.com/tdh8316/Investigo/master/data.json")
 		if err != nil || r.StatusCode != 200 {
-			fmt.Fprintf(color.Output, " [%s]\n", color.HiRedString("Failed"))
+			if options.noColor {
+				fmt.Printf(" [%s]\n", ("Failed"))
+			} else {
+				fmt.Fprintf(color.Output, " [%s]\n", color.HiRedString("Failed"))
+			}
 			panic("Failed to connect to Investigo repository.")
 		} else {
 			defer r.Body.Close()
@@ -85,8 +99,14 @@ func initializeSiteData() {
 		}
 		_updateFile, _ := os.OpenFile(dataFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 		if _, err := _updateFile.WriteString(ReadResponseBody(r)); err != nil {
-			fmt.Fprintf(color.Output, color.RedString("Failed to update data\n"))
+			if options.noColor {
+				fmt.Printf("Failed to update data.\n")
+			} else {
+				fmt.Fprintf(color.Output, color.RedString("Failed to update data.\n"))
+			}
+			panic(err)
 		}
+
 		_updateFile.Close()
 		jsonFile, _ = os.Open(dataFileName)
 
