@@ -1,4 +1,4 @@
-# 160 sites are supprted!
+# 163 sites are supprted!
  - [500px](https://500px.com/)
  - [9GAG](https://9gag.com/)
  - [About.me](https://about.me/)
@@ -20,6 +20,7 @@
  - [Canva](https://www.canva.com/)
  - [Carbonmade](https://carbonmade.com/)
  - [CashMe](https://cash.me/)
+ - [Cent](https://cent.co/)
  - [Cloob](https://www.cloob.com/)
  - [Codecademy](https://www.codecademy.com/)
  - [Codechef](https://www.codechef.com/)
@@ -100,6 +101,7 @@
  - [Photobucket](https://photobucket.com/)
  - [Pinterest](https://www.pinterest.com/)
  - [Pixabay](https://pixabay.com/)
+ - [PlayStore](https://play.google.com/store)
  - [Plug.DJ](https://plug.dj/)
  - [Pokemon Showdown](https://pokemonshowdown.com)
  - [ProductHunt](https://www.producthunt.com/)
@@ -147,6 +149,7 @@
  - [Wikipedia](https://www.wikipedia.org/)
  - [Wix](https://wix.com/)
  - [WordPress](https://wordpress.com)
+ - [WordPressOrg](https://wordpress.org/)
  - [YouNow](https://www.younow.com/)
  - [YouPic](https://youpic.com/)
  - [YouTube](https://www.youtube.com/)
