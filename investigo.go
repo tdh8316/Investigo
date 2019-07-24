@@ -31,7 +31,7 @@ type Result struct {
 }
 
 var (
-	guard     = make(chan struct{}, maxGoroutines)
+	guard     = make(chan int, maxGoroutines)
 	waitGroup = &sync.WaitGroup{}
 	logger    = log.New(color.Output, "", 0)
 	siteData  = map[string]SiteData{}
@@ -151,7 +151,7 @@ func main() {
 	for _, username := range args {
 		waitGroup.Add(len(siteData))
 		for site := range siteData {
-			guard <- struct{}{}
+			guard <- 1
 			go func(site string) {
 				defer waitGroup.Done()
 				WriteResult(
