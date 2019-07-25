@@ -284,7 +284,7 @@ func WriteResult(result Result) {
 			logger.Printf("[%s] %s: %s\n", color.HiGreenString("+"), color.HiWhiteString(result.site), result.link)
 		} else {
 			if result.err {
-				logger.Printf("[%s] %s: ERROR: %s", color.HiRedString("!"), result.site, color.HiRedString(result.errMsg))
+				logger.Printf("[%s] %s: %s: %s", color.HiRedString("!"), result.site, color.HiMagentaString("ERROR"), color.HiRedString(result.errMsg))
 			} else if options.verbose {
 				logger.Printf("[%s] %s: %s", color.HiRedString("-"), result.site, color.HiYellowString("Not Found!"))
 			}
