@@ -149,6 +149,11 @@ func main() {
 	initializeSiteData()
 
 	for _, username := range args {
+		if options.noColor {
+			fmt.Printf("Investigating %s on:\n", username)
+		} else {
+			fmt.Fprintf(color.Output, "Investigating %s on:\n", color.HiGreenString(username))
+		}
 		waitGroup.Add(len(siteData))
 		for site := range siteData {
 			guard <- 1
