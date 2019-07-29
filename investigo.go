@@ -124,6 +124,15 @@ func initializeSiteData() {
 	return
 }
 
+// Initialize sites banned from Sherlock
+func initializeExtraSiteData() {
+	siteData["Pornhub"] = SiteData{
+		ErrorType: "status_code",
+		URLMain: "https://www.pornhub.com/",
+		URL: "https://www.pornhub.com/users/{}",
+	}
+}
+
 func main() {
 	fmt.Println(`Investigo - Investigate User Across Social Networks.`)
 
@@ -147,6 +156,9 @@ func main() {
 
 	// Loads site data from sherlock database and assign to a variable.
 	initializeSiteData()
+
+	// Loads extra site data
+	initializeExtraSiteData()
 
 	for _, username := range args {
 		if options.noColor {
