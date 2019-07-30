@@ -39,6 +39,7 @@ var (
 		noColor         bool
 		updateBeforeRun bool
 		verbose         bool
+		checkForUpdate  bool
 	}
 )
 
@@ -61,9 +62,9 @@ type RequestError interface {
 	Error() string
 }
 
-func initializeSiteData() {
+func initializeSiteData(forceUpdate bool) {
 	jsonFile, err := os.Open(dataFileName)
-	if err != nil {
+	if err != nil || forceUpdate {
 		if options.noColor {
 			fmt.Printf(
 				"%s Failed to read %s from current directory. %s",
@@ -81,7 +82,7 @@ func initializeSiteData() {
 			)
 		}
 
-		r, err := Request("https://raw.githubusercontent.com/tdh8316/Investigo/master/data.json")
+		r, err := Request("https://sherlock-project.github.io/sherlock-data/data.json")
 		if err != nil || r.StatusCode != 200 {
 			if options.noColor {
 				fmt.Printf(" [%s]\n", ("Failed"))
@@ -150,12 +151,17 @@ func main() {
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
+	options.checkForUpdate, argIndex = HasElement(args, "--update")
+	if options.checkForUpdate {
+		args = append(args[:argIndex], args[argIndex+1:]...)
+	}
+
 	if help, _ := HasElement(args, "-h", "--help"); help || len(args) < 1 {
 		os.Exit(0)
 	}
 
 	// Loads site data from sherlock database and assign to a variable.
-	initializeSiteData()
+	initializeSiteData(options.checkForUpdate)
 
 	// Loads extra site data
 	initializeExtraSiteData()
