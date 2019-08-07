@@ -125,12 +125,17 @@ func initializeSiteData(forceUpdate bool) {
 	return
 }
 
-// Initialize sites banned from Sherlock
+// Initialize sites not included in Sherlock
 func initializeExtraSiteData() {
 	siteData["Pornhub"] = SiteData{
 		ErrorType: "status_code",
 		URLMain: "https://www.pornhub.com/",
 		URL: "https://www.pornhub.com/users/{}",
+	}
+	siteData["NAVER"] = SiteData{
+		ErrorType: "status_code",
+		URLMain: "https://www.naver.com/",
+		URL: "https://blog.naver.com/{}",
 	}
 }
 
