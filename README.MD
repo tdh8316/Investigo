@@ -13,7 +13,7 @@
 
 *Investigo* is the `Go` implementation of *[Sherlock](https://sherlock-project.github.io/)*.
 
-Investigo is more than twice as fast as the original implementation, and supports more sites (TODO)!
+Sherlock is a command-line tool for searching usernames on [many social media]((./sites.md)).
 
 ![screenshot](./docs/GIF.gif)
 
@@ -51,7 +51,7 @@ Investigo is another implementation of Sherlock. Accordingly, I would like not t
  - [ ] Avoid deep packet inspection
  - [ ] Support Tor
  - [ ] Implement regex check
- - [ ] Command-line arguments
+ - [x] Command-line arguments
  - [ ] Add tests
 
 ## Become a stargazer
