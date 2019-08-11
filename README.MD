@@ -30,6 +30,7 @@ To compile investigo, Go 1.8 or higher is required.
 ```cmd
 $ git clone https://github.com/tdh8316/Investigo.git
 $ cd investigo
+$ go get github.com/fatih/color
 $ go run investigo.go -h
 ```
 
