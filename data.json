@@ -251,6 +251,14 @@
     "username_claimed": "jenny",
     "username_unclaimed": "noonewouldeverusethis7"
   },
+  "Codewars": {
+    "errorType": "status_code",
+    "rank": 0,
+    "url": "https://www.codewars.com/users/{}",
+    "urlMain": "https://www.codewars.com",
+    "username_claimed": "example",
+    "username_unclaimed": "noonewouldeverusethis7"
+  },
   "ColourLovers": {
     "errorType": "status_code",
     "rank": 0,
@@ -368,6 +376,15 @@
     "regexCheck": "^[a-zA-Z][a-zA-Z0-9_-]*$",
     "url": "https://dribbble.com/{}",
     "urlMain": "https://dribbble.com/",
+    "username_claimed": "blue",
+    "username_unclaimed": "noonewouldeverusethis7"
+  },
+  "Duolingo": {
+    "errorType": "response_url",
+    "errorUrl": "https://www.duolingo.com/errors/404.html",
+    "rank": 0,
+    "url": "https://www.duolingo.com/{}",
+    "urlMain": "https://www.duolingo.com/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
   },
@@ -887,8 +904,9 @@
     "username_unclaimed": "noonewouldeverusethis7"
   },
   "PayPal": {
-    "errorType": "message",
     "errorMsg": "name=\"twitter:title\" content=\"Get your very own PayPal.Me link\"",
+    "errorType": "message",
+    "rank": 0,
     "url": "https://www.paypal.me/{}",
     "urlMain": "https://www.paypal.me/",
     "username_claimed": "blue",
