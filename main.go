@@ -77,7 +77,9 @@ func main() {
 	}
 
 	configor.Load(&Config, "config.yml", "data.yml")
-	pp.Println("config: ", Config)
+	if options.verbose {
+		pp.Println("config: ", Config)
+	}
 
 	// Loads site data from sherlock database and assign to a variable.
 	initializeSiteData(options.checkForUpdate)
