@@ -1,3 +1,9 @@
+.drone.yml
+plugin
+shared
+model
+config
+
 ### Go ###
 # Binaries for programs and plugins
 *.exe
