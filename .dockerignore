@@ -1,0 +1,13 @@
+.git
+.git/**
+.github/
+.github/**
+.gitignore
+.dockerignore
+*.yml
+*.md
+Dockerfile
+Gopkg.*
+data
+data/**
+.DS_Store
