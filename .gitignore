@@ -1,3 +1,7 @@
+cmd
+_examples
+_examples/*
+_examples/**
 *.db
 .drone.yml
 cmd
