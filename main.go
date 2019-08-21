@@ -12,12 +12,16 @@ import (
 	"os"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/agrison/go-tablib"
 	color "github.com/fatih/color"
 	"github.com/jinzhu/configor"
 	"github.com/jinzhu/gorm"
 	"github.com/k0kubun/pp"
+	"github.com/kamilsk/breaker"
+	"github.com/kamilsk/retry"
+	"github.com/kamilsk/retry/strategy"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/qor/admin"
 	"golang.org/x/net/proxy"
@@ -291,6 +295,24 @@ func Request(target string) (*http.Response, RequestError) {
 
 	// https://github.com/kamilsk/retry#retryretry
 	// backoff strategy
+	var response *http.Response
+	/*
+		var response *http.Response
+
+		action := func(uint) error {
+			var err error
+			response, err = http.Get("https://github.com/kamilsk/retry")
+			return err
+		}
+
+		if err := retry.Retry(breaker.BreakByTimeout(time.Minute), action, strategy.Limit(3)); err != nil {
+			if err == retry.Interrupted {
+				// timeout exceeded
+			}
+			// handle error
+		}
+		// work with response
+	*/
 
 	request, err := http.NewRequest("GET", target, nil)
 	if err != nil {
@@ -316,8 +338,22 @@ func Request(target string) (*http.Response, RequestError) {
 		client.Transport = tbTransport
 		// fmt.Println("tor IP:", getIPAdress(request))
 	}
+	action := func(uint) error {
+		var err error
+		// pp.Printf("retry# %d \n", i)
+		response, err = client.Do(request)
+		return err
+	}
+	if err := retry.Retry(breaker.BreakByTimeout(time.Second*30), action, strategy.Limit(3)); err != nil {
+		if err == retry.Interrupted {
+			// timeout exceeded
+			return nil, err
+		}
+		// handle error
+		return nil, err
+	}
 	// pp.Println(request)
-	return client.Do(request)
+	return response, err // client.Do(request)
 }
 
 // ReadResponseBody reads response body and return string
