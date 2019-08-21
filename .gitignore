@@ -1,4 +1,6 @@
+*.db
 .drone.yml
+cmd
 plugin
 shared
 model
