@@ -59,9 +59,9 @@ Investigo is another implementation of Sherlock. Accordingly, I would like not t
 ★
 
 # Site support
-I'm sorry for the Sherlock team, Investigo uses Sherlock's database.
+Investigo uses Sherlock's database.
 
-Accordingly, If you want to add sites to Investigo, make a PR to [Sherlock project](https://github.com/sherlock-project/sherlock). But you want to add prohibited sites for Sherlock, make an issue or PR to this repository!
+Accordingly, If you want to add sites to Investigo, make a PR to [Sherlock project](https://github.com/sherlock-project/sherlock). Or if you want to add prohibited sites for Sherlock, make an issue or a PR to this repository!
 
 # License
 Licensed under the MIT License
