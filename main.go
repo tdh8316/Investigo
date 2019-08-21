@@ -13,6 +13,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/agrison/go-tablib"
 	color "github.com/fatih/color"
 	"github.com/jinzhu/configor"
 	"github.com/jinzhu/gorm"
@@ -31,6 +32,7 @@ const (
 var (
 	DB    *gorm.DB
 	Admin *admin.Admin
+	DBook *tablib.Databook
 )
 
 func main() {
@@ -47,6 +49,11 @@ func main() {
 
 	options.withTor, argIndex = HasElement(args, "-t", "--tor")
 	if options.withTor {
+		args = append(args[:argIndex], args[argIndex+1:]...)
+	}
+
+	options.withExport, argIndex = HasElement(args, "-e", "--export")
+	if options.withExport {
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
@@ -93,7 +100,15 @@ func main() {
 		// Admin.AddResource(&SiteData{})
 	}
 
+	if options.withExport {
+		DBook = tablib.NewDatabook()
+	}
+
 	for _, username := range args {
+		var output *tablib.Dataset
+		if options.withExport {
+			output = tablib.NewDataset([]string{"Username", "Site", "Info"})
+		}
 		if options.noColor {
 			fmt.Printf("Investigating %s on:\n", username)
 		} else {
@@ -104,15 +119,24 @@ func main() {
 			guard <- 1
 			go func(site string) {
 				defer waitGroup.Done()
-				WriteResult(
-					Investigo(username, site, siteData[site]),
-				)
+				res := Investigo(username, site, siteData[site])
+				WriteResult(res)
+				if res.Exist || res.Err {
+					output.AppendValues(username, site, res.ErrMsg)
+				}
 				<-guard
 			}(site)
 		}
 		waitGroup.Wait()
+		DBook.AddSheet(username, output)
 	}
-
+	if options.withExport {
+		// fmt.Println(DBook.YAML())
+		for name := range DBook.Sheets() {
+			ods := DBook.Sheet(name).Dataset().Tabular("markdown" /* tablib.TabularMarkdown */)
+			fmt.Println(ods)
+		}
+	}
 	if options.withAdmin {
 		// initalize an HTTP request multiplexer
 		mux := http.NewServeMux()
@@ -128,16 +152,16 @@ func main() {
 
 // Result of Investigo function
 type Result struct {
-	gorm.Model
-	Usernane string
-	Exist    bool
-	Proxied  bool
-	Site     string
-	URL      string
-	URLProbe string
-	Link     string
-	Err      bool
-	ErrMsg   string
+	gorm.Model `yaml:-`
+	Usernane   string
+	Exist      bool
+	Proxied    bool
+	Site       string
+	URL        string
+	URLProbe   string
+	Link       string
+	Err        bool
+	ErrMsg     string
 }
 
 var (
@@ -150,6 +174,7 @@ var (
 		updateBeforeRun bool
 		withTor         bool
 		withAdmin       bool
+		withExport      bool
 		verbose         bool
 		checkForUpdate  bool
 	}
@@ -157,13 +182,13 @@ var (
 
 // A SiteData struct for json datatype
 type SiteData struct {
-	gorm.Model
-	ErrorType string `json:"errorType"`
-	ErrorMsg  string `json:"errorMsg"`
-	URL       string `json:"url"`
-	URLMain   string `json:"urlMain"`
-	URLProbe  string `json:"urlProbe"`
-	URLError  string `json:"errorUrl"`
+	gorm.Model `yaml:-`
+	ErrorType  string `json:"errorType"`
+	ErrorMsg   string `json:"errorMsg"`
+	URL        string `json:"url"`
+	URLMain    string `json:"urlMain"`
+	URLProbe   string `json:"urlProbe"`
+	URLError   string `json:"errorUrl"`
 	// UsedUsername   string `json:"username_claimed"`
 	// UnusedUsername string `json:"username_unclaimed"`
 	// RegexCheck string `json:"regexCheck"`
@@ -263,6 +288,9 @@ func initializeExtraSiteData() {
 // Request makes HTTP request
 func Request(target string) (*http.Response, RequestError) {
 	// Add tor proxy
+
+	// https://github.com/kamilsk/retry#retryretry
+	// backoff strategy
 
 	request, err := http.NewRequest("GET", target, nil)
 	if err != nil {
