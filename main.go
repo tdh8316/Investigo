@@ -111,7 +111,7 @@ func main() {
 	for _, username := range args {
 		var output *tablib.Dataset
 		if options.withExport {
-			output = tablib.NewDataset([]string{"Username", "Site", "Info"})
+			output = tablib.NewDataset([]string{"Status", "Username", "Site", "Info"})
 		}
 		if options.noColor {
 			fmt.Printf("Investigating %s on:\n", username)
@@ -125,8 +125,10 @@ func main() {
 				defer waitGroup.Done()
 				res := Investigo(username, site, siteData[site])
 				WriteResult(res)
-				if res.Exist || res.Err {
-					output.AppendValues(username, site, res.ErrMsg)
+				if options.withExport {
+					if res.Exist || res.Err {
+						output.AppendValues(res.Exist, username, site, res.ErrMsg)
+					}
 				}
 				<-guard
 			}(site)
