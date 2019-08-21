@@ -136,7 +136,9 @@ func main() {
 			}(site)
 		}
 		waitGroup.Wait()
-		DBook.AddSheet(username, output)
+		if options.withExport {
+			DBook.AddSheet(username, output)
+		}
 	}
 	if options.withExport {
 		// fmt.Println(DBook.YAML())
