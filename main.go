@@ -25,13 +25,38 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/qor/admin"
 	"golang.org/x/net/proxy"
+	// "github.com/spf13/cobra"
 )
+
+/*
+Similar:
+- https://github.com/mesuutt/sherlock/blob/master/main.go
+*/
 
 const (
 	dataFileName  string = "data.json"
 	userAgent     string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
 	maxGoroutines int    = 64
 )
+
+// Initialize sites not included in Sherlock
+func initializeExtraSiteData() {
+	siteData["Pornhub"] = SiteData{
+		ErrorType: "status_code",
+		URLMain:   "https://www.pornhub.com/",
+		URL:       "https://www.pornhub.com/users/{}",
+	}
+	siteData["NAVER"] = SiteData{
+		ErrorType: "status_code",
+		URLMain:   "https://www.naver.com/",
+		URL:       "https://blog.naver.com/{}",
+	}
+	siteData["xvideos"] = SiteData{
+		ErrorType: "status_code",
+		URLMain:   "https://xvideos.com/",
+		URL:       "https://xvideos.com/profiles/{}",
+	}
+}
 
 var (
 	DB    *gorm.DB
@@ -126,7 +151,9 @@ func main() {
 			go func(site string) {
 				defer waitGroup.Done()
 				res := Investigo(username, site, siteData[site])
+				//if !options.withExport {
 				WriteResult(res)
+				//}
 				if options.withExport {
 					if res.Exist || res.Err {
 						output.AppendValues(res.Exist, username, site, res.ErrMsg)
@@ -277,20 +304,6 @@ func initializeSiteData(forceUpdate bool) {
 	return
 }
 
-// Initialize sites not included in Sherlock
-func initializeExtraSiteData() {
-	siteData["Pornhub"] = SiteData{
-		ErrorType: "status_code",
-		URLMain:   "https://www.pornhub.com/",
-		URL:       "https://www.pornhub.com/users/{}",
-	}
-	siteData["NAVER"] = SiteData{
-		ErrorType: "status_code",
-		URLMain:   "https://www.naver.com/",
-		URL:       "https://blog.naver.com/{}",
-	}
-}
-
 // Specify Tor proxy ip and port
 // var torProxy string = "socks5://127.0.0.1:9050" // 9150 w/ Tor Browser
 // var UseTor bool = true
@@ -299,33 +312,17 @@ func initializeExtraSiteData() {
 func Request(target string) (*http.Response, RequestError) {
 	// Add tor proxy
 
-	// https://github.com/kamilsk/retry#retryretry
-	// backoff strategy
 	var response *http.Response
-	/*
-		var response *http.Response
-
-		action := func(uint) error {
-			var err error
-			response, err = http.Get("https://github.com/kamilsk/retry")
-			return err
-		}
-
-		if err := retry.Retry(breaker.BreakByTimeout(time.Minute), action, strategy.Limit(3)); err != nil {
-			if err == retry.Interrupted {
-				// timeout exceeded
-			}
-			// handle error
-		}
-		// work with response
-	*/
-
 	request, err := http.NewRequest("GET", target, nil)
 	if err != nil {
 		return nil, err
 	}
 	request.Header.Set("User-Agent", userAgent)
+
 	client := &http.Client{}
+	// client.CheckRedirect = func(req *http.Request, via []*http.Request) error {
+	//	return errors.New("Redirect")
+	// }
 
 	if options.withTor {
 
@@ -350,6 +347,7 @@ func Request(target string) (*http.Response, RequestError) {
 		response, err = client.Do(request)
 		return err
 	}
+
 	if err := retry.Retry(breaker.BreakByTimeout(time.Second*30), action, strategy.Limit(3)); err != nil {
 		if err == retry.Interrupted {
 			// timeout exceeded
@@ -407,8 +405,6 @@ func Investigo(username string, site string, data SiteData) Result {
 	}
 
 	r, err := Request(urlProbe)
-	// pp.Println(r)
-	//pp.Println("forward: ", forward)
 
 	if err != nil {
 		if r != nil {
@@ -425,6 +421,7 @@ func Investigo(username string, site string, data SiteData) Result {
 			ErrMsg:   err.Error(),
 		}
 	}
+
 	// check error types
 	switch data.ErrorType {
 	case "status_code":
@@ -456,6 +453,7 @@ func Investigo(username string, site string, data SiteData) Result {
 				Site:     site,
 			}
 		} else {
+			// check if 404
 			result = Result{
 				URL:      data.URL,
 				URLProbe: data.URLProbe,
@@ -648,4 +646,18 @@ func getMyIp() {
 			}
 		}
 	}
+}
+
+func showBanner() {
+	banner := `
+                                              ."""-.
+                                             /      \
+ ____  _               _            _        |  _..--'-.
+/ ___|| |__   ___ _ __| | ___   ___| |__    >.` + "`" + `__.-""\;"` + "`" + `
+\___ \| '_ \ / _ \ '__| |/ _ \ / __| |/ /   / /(     ^\
+ ___) | | | |  __/ |  | | (_) | (__|   <    '-` + "`" + `)     =|-.
+|____/|_| |_|\___|_|  |_|\___/ \___|_|\_\    /` + "`" + `--.'--'   \ .-.
+                                           .'` + "`" + `-._ ` + "`" + `.\    | J /`
+
+	fmt.Printf("%v\n\n", banner)
 }
