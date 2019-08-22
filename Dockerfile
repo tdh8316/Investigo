@@ -25,5 +25,5 @@ RUN apk add --no-cache libevent bash
 RUN apk add --allow-untrusted /packages/tor-0.*.apk && rm -Rf /packages
 # ADD scallion /
 ADD torrc /
-# ENTRYPOINT ["/scallion"]
+# ENTRYPOINT ["/investigo"]
 CMD ["/bin/bash"]
