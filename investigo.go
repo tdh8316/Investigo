@@ -1,37 +1,19 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net"
 	"net/http"
 	"net/url"
 	"os"
 	"strings"
 	"sync"
-	"time"
 
-	"github.com/agrison/go-tablib"
 	color "github.com/fatih/color"
-	"github.com/jinzhu/configor"
-	"github.com/jinzhu/gorm"
-	"github.com/k0kubun/pp"
-	"github.com/kamilsk/breaker"
-	"github.com/kamilsk/retry"
-	"github.com/kamilsk/retry/strategy"
-	_ "github.com/mattn/go-sqlite3"
-	"github.com/qor/admin"
 	"golang.org/x/net/proxy"
-	// "github.com/spf13/cobra"
 )
-
-/*
-Similar:
-- https://github.com/mesuutt/sherlock/blob/master/main.go
-*/
 
 const (
 	dataFileName  string = "data.json"
@@ -58,12 +40,6 @@ func initializeExtraSiteData() {
 	}
 }
 
-var (
-	DB    *gorm.DB
-	Admin *admin.Admin
-	DBook *tablib.Databook
-)
-
 func main() {
 	fmt.Println(`Investigo - Investigate User Across Social Networks.`)
 
@@ -81,16 +57,6 @@ func main() {
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
-	options.withExport, argIndex = HasElement(args, "-e", "--export")
-	if options.withExport {
-		args = append(args[:argIndex], args[argIndex+1:]...)
-	}
-
-	options.withAdmin, argIndex = HasElement(args, "-a", "--admin")
-	if options.withAdmin {
-		args = append(args[:argIndex], args[argIndex+1:]...)
-	}
-
 	options.verbose, argIndex = HasElement(args, "-v", "--verbose")
 	if options.verbose {
 		args = append(args[:argIndex], args[argIndex+1:]...)
@@ -99,11 +65,6 @@ func main() {
 	options.checkForUpdate, argIndex = HasElement(args, "--update")
 	if options.checkForUpdate {
 		args = append(args[:argIndex], args[argIndex+1:]...)
-	}
-
-	configor.Load(&Config, "config.yml", "data.yml")
-	if options.verbose {
-		pp.Println("config: ", Config)
 	}
 
 	// Loads site data from sherlock database and assign to a variable.
@@ -116,30 +77,7 @@ func main() {
 	// Loads extra site data
 	initializeExtraSiteData()
 
-	if options.withTor {
-		pp.Println("Using tor...")
-	}
-
-	if options.withAdmin {
-		DB, _ = gorm.Open("sqlite3", "investigo.db")
-		DB.AutoMigrate(&Result{})
-		// Initalize
-		Admin = admin.New(&admin.AdminConfig{DB: DB})
-
-		// Allow to use Admin to manage User, Product
-		Admin.AddResource(&Result{})
-		// Admin.AddResource(&SiteData{})
-	}
-
-	if options.withExport {
-		DBook = tablib.NewDatabook()
-	}
-
 	for _, username := range args {
-		var output *tablib.Dataset
-		if options.withExport {
-			output = tablib.NewDataset([]string{"Status", "Username", "Site", "Info"})
-		}
 		if options.noColor {
 			fmt.Printf("Investigating %s on:\n", username)
 		} else {
@@ -151,54 +89,26 @@ func main() {
 			go func(site string) {
 				defer waitGroup.Done()
 				res := Investigo(username, site, siteData[site])
-				//if !options.withExport {
 				WriteResult(res)
-				//}
-				if options.withExport {
-					if res.Exist || res.Err {
-						output.AppendValues(res.Exist, username, site, res.ErrMsg)
-					}
-				}
 				<-guard
 			}(site)
 		}
 		waitGroup.Wait()
-		if options.withExport {
-			DBook.AddSheet(username, output)
-		}
 	}
-	if options.withExport {
-		// fmt.Println(DBook.YAML())
-		for name := range DBook.Sheets() {
-			ods := DBook.Sheet(name).Dataset().Tabular("markdown" /* tablib.TabularMarkdown */)
-			fmt.Println(ods)
-		}
-	}
-	if options.withAdmin {
-		// initalize an HTTP request multiplexer
-		mux := http.NewServeMux()
-
-		// Mount admin interface to mux
-		Admin.MountTo("/admin", mux)
-		fmt.Println("Listening on: 9000")
-		http.ListenAndServe(":9000", mux)
-	}
-
 	return
 }
 
 // Result of Investigo function
 type Result struct {
-	gorm.Model `yaml:-`
-	Usernane   string
-	Exist      bool
-	Proxied    bool
-	Site       string
-	URL        string
-	URLProbe   string
-	Link       string
-	Err        bool
-	ErrMsg     string
+	Usernane string
+	Exist    bool
+	Proxied  bool
+	Site     string
+	URL      string
+	URLProbe string
+	Link     string
+	Err      bool
+	ErrMsg   string
 }
 
 var (
@@ -219,13 +129,12 @@ var (
 
 // A SiteData struct for json datatype
 type SiteData struct {
-	gorm.Model `yaml:-`
-	ErrorType  string `json:"errorType"`
-	ErrorMsg   string `json:"errorMsg"`
-	URL        string `json:"url"`
-	URLMain    string `json:"urlMain"`
-	URLProbe   string `json:"urlProbe"`
-	URLError   string `json:"errorUrl"`
+	ErrorType string `json:"errorType"`
+	ErrorMsg  string `json:"errorMsg"`
+	URL       string `json:"url"`
+	URLMain   string `json:"urlMain"`
+	URLProbe  string `json:"urlProbe"`
+	URLError  string `json:"errorUrl"`
 	// UsedUsername   string `json:"username_claimed"`
 	// UnusedUsername string `json:"username_unclaimed"`
 	// RegexCheck string `json:"regexCheck"`
@@ -261,7 +170,7 @@ func initializeSiteData(forceUpdate bool) {
 			jsonFile.Close()
 		}
 
-		r, err := Request("https://github.com/sherlock-project/sherlock/blob/master/data.json")
+		r, err := Request("https://raw.githubusercontent.com/sherlock-project/sherlock/master/data.json")
 		if err != nil || r.StatusCode != 200 {
 			if options.noColor {
 				fmt.Printf(" [%s]\n", ("Failed"))
@@ -310,9 +219,6 @@ func initializeSiteData(forceUpdate bool) {
 
 // Request makes HTTP request
 func Request(target string) (*http.Response, RequestError) {
-	// Add tor proxy
-
-	var response *http.Response
 	request, err := http.NewRequest("GET", target, nil)
 	if err != nil {
 		return nil, err
@@ -339,25 +245,9 @@ func Request(target string) (*http.Response, RequestError) {
 			Dial: tbDialer.Dial,
 		}
 		client.Transport = tbTransport
-		// fmt.Println("tor IP:", getIPAdress(request))
-	}
-	action := func(uint) error {
-		var err error
-		// pp.Printf("retry# %d \n", i)
-		response, err = client.Do(request)
-		return err
 	}
 
-	if err := retry.Retry(breaker.BreakByTimeout(time.Second*30), action, strategy.Limit(3)); err != nil {
-		if err == retry.Interrupted {
-			// timeout exceeded
-			return nil, err
-		}
-		// handle error
-		return nil, err
-	}
-	// pp.Println(request)
-	return response, err // client.Do(request)
+	return client.Do(request)
 }
 
 // ReadResponseBody reads response body and return string
@@ -517,21 +407,9 @@ func WriteResult(result Result) {
 	} else {
 		if result.Exist {
 			logger.Printf("[%s] %s: %s\n", color.HiGreenString("+"), color.HiWhiteString(result.Site), result.Link)
-			if options.withAdmin {
-				if err := DB.Create(&result).Error; err != nil {
-					fmt.Println(err)
-					return
-				}
-			}
 		} else {
 			if result.Err {
 				logger.Printf("[%s] %s: %s: %s", color.HiRedString("!"), result.Site, color.HiMagentaString("ERROR"), color.HiRedString(result.ErrMsg))
-				if options.withAdmin {
-					if err := DB.Create(&result).Error; err != nil {
-						fmt.Println(err)
-						return
-					}
-				}
 			} else if options.verbose {
 				logger.Printf("[%s] %s: %s", color.HiRedString("-"), result.Site, color.HiYellowString("Not Found!"))
 			}
@@ -539,113 +417,6 @@ func WriteResult(result Result) {
 	}
 
 	return
-}
-
-// test configor for extra rules
-var Config = struct {
-	APPName string `default:"investigo"`
-	DB      struct {
-		Name     string
-		User     string `default:"root"`
-		Password string `required:"true" env:"DBPassword"`
-		Port     uint   `default:"3306"`
-	}
-	Contacts []struct {
-		Name  string
-		Email string `required:"true"`
-	}
-	SiteData []SiteData
-}{}
-
-//ipRange - a structure that holds the start and end of a range of ip addresses
-type ipRange struct {
-	start net.IP
-	end   net.IP
-}
-
-// inRange - check to see if a given ip address is within a range given
-func inRange(r ipRange, ipAddress net.IP) bool {
-	// strcmp type byte comparison
-	if bytes.Compare(ipAddress, r.start) >= 0 && bytes.Compare(ipAddress, r.end) < 0 {
-		return true
-	}
-	return false
-}
-
-var privateRanges = []ipRange{
-	{
-		start: net.ParseIP("10.0.0.0"),
-		end:   net.ParseIP("10.255.255.255"),
-	},
-	{
-		start: net.ParseIP("100.64.0.0"),
-		end:   net.ParseIP("100.127.255.255"),
-	},
-	{
-		start: net.ParseIP("172.16.0.0"),
-		end:   net.ParseIP("172.31.255.255"),
-	},
-	{
-		start: net.ParseIP("192.0.0.0"),
-		end:   net.ParseIP("192.0.0.255"),
-	},
-	{
-		start: net.ParseIP("192.168.0.0"),
-		end:   net.ParseIP("192.168.255.255"),
-	},
-	{
-		start: net.ParseIP("198.18.0.0"),
-		end:   net.ParseIP("198.19.255.255"),
-	},
-}
-
-// isPrivateSubnet - check to see if this ip is in a private subnet
-func isPrivateSubnet(ipAddress net.IP) bool {
-	// my use case is only concerned with ipv4 atm
-	if ipCheck := ipAddress.To4(); ipCheck != nil {
-		// iterate over all our ranges
-		for _, r := range privateRanges {
-			// check if this ip is in a private range
-			if inRange(r, ipAddress) {
-				return true
-			}
-		}
-	}
-	return false
-}
-
-func getIPAdress(r *http.Request) string {
-	for _, h := range []string{"X-Forwarded-For", "X-Real-Ip"} {
-		addresses := strings.Split(r.Header.Get(h), ",")
-		// march from right to left until we get a public address
-		// that will be the address right before our proxy.
-		for i := len(addresses) - 1; i >= 0; i-- {
-			ip := strings.TrimSpace(addresses[i])
-			// header can contain spaces too, strip those out.
-			realIP := net.ParseIP(ip)
-			if !realIP.IsGlobalUnicast() || isPrivateSubnet(realIP) {
-				// bad address, go to next
-				continue
-			}
-			return ip
-		}
-	}
-	return ""
-}
-
-func getMyIp() {
-	addrs, err := net.InterfaceAddrs()
-	if err != nil {
-		os.Stderr.WriteString("Oops: " + err.Error() + "\n")
-		os.Exit(1)
-	}
-	for _, a := range addrs {
-		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-			if ipnet.IP.To4() != nil {
-				os.Stdout.WriteString(ipnet.IP.String() + "\n")
-			}
-		}
-	}
 }
 
 func showBanner() {
