@@ -1,3 +1,15 @@
+cmd
+_examples
+_examples/*
+_examples/**
+*.db
+.drone.yml
+cmd
+plugin
+shared
+model
+config
+
 ### Go ###
 # Binaries for programs and plugins
 *.exe
@@ -22,3 +34,5 @@
 ### VisualStudioCode ###
 .vscode/settings.json
 .vscode/launch.json
+.DS_Store
+/data/
