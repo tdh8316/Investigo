@@ -149,7 +149,7 @@ func initializeSiteData(forceUpdate bool) {
 	if err != nil || forceUpdate {
 		if options.noColor {
 			fmt.Printf(
-				"%s Failed to read %s from current directory. %s",
+				"%s Update %s:%s",
 				("->"),
 				dataFileName,
 				("Downloading..."),
@@ -157,7 +157,7 @@ func initializeSiteData(forceUpdate bool) {
 		} else {
 			fmt.Fprintf(
 				color.Output,
-				"%s Failed to read %s from current directory. %s",
+				"%s Update %s:%s",
 				color.HiRedString("->"),
 				dataFileName,
 				color.HiYellowString("Downloading..."),
