@@ -120,8 +120,6 @@ var (
 		noColor         bool
 		updateBeforeRun bool
 		withTor         bool
-		withAdmin       bool
-		withExport      bool
 		verbose         bool
 		checkForUpdate  bool
 	}
@@ -231,8 +229,6 @@ func Request(target string) (*http.Response, RequestError) {
 	// }
 
 	if options.withTor {
-
-		// fmt.Println("using tor... ")
 		tbProxyURL, err := url.Parse("socks5://127.0.0.1:9050")
 		if err != nil {
 			return nil, err
@@ -417,18 +413,4 @@ func WriteResult(result Result) {
 	}
 
 	return
-}
-
-func showBanner() {
-	banner := `
-                                              ."""-.
-                                             /      \
- ____  _               _            _        |  _..--'-.
-/ ___|| |__   ___ _ __| | ___   ___| |__    >.` + "`" + `__.-""\;"` + "`" + `
-\___ \| '_ \ / _ \ '__| |/ _ \ / __| |/ /   / /(     ^\
- ___) | | | |  __/ |  | | (_) | (__|   <    '-` + "`" + `)     =|-.
-|____/|_| |_|\___|_|  |_|\___/ \___|_|\_\    /` + "`" + `--.'--'   \ .-.
-                                           .'` + "`" + `-._ ` + "`" + `.\    | J /`
-
-	fmt.Printf("%v\n\n", banner)
 }
