@@ -1,4 +1,4 @@
-# 172 sites are supprted!
+# 177 sites are supprted!
  - [500px](https://500px.com/)
  - [9GAG](https://9gag.com/)
  - [About.me](https://about.me/)
@@ -29,6 +29,7 @@
  - [Codementor](https://www.codementor.io/)
  - [Codepen](https://codepen.io/)
  - [Coderwall](https://coderwall.com/)
+ - [Codewars](https://www.codewars.com)
  - [ColourLovers](https://www.colourlovers.com/)
  - [Contently](https://contently.com/)
  - [Coroflot](https://coroflot.com/)
@@ -43,6 +44,7 @@
  - [Disqus](https://disqus.com/)
  - [Docker Hub](https://hub.docker.com/)
  - [Dribbble](https://dribbble.com/)
+ - [Duolingo](https://www.duolingo.com/)
  - [EVE Online](https://eveonline.com)
  - [Ebay](https://www.ebay.com/)
  - [Ello](https://ello.co/)
@@ -55,6 +57,7 @@
  - [Flightradar24](https://www.flightradar24.com/)
  - [Flipboard](https://flipboard.com/)
  - [Foursquare](https://foursquare.com/)
+ - [Furaffinity](https://www.furaffinity.net)
  - [Giphy](https://giphy.com/)
  - [GitHub](https://www.github.com/)
  - [GitLab](https://gitlab.com/)
@@ -136,6 +139,7 @@
  - [SteamGroup](https://steamcommunity.com/)
  - [Taringa](https://taringa.net/)
  - [Telegram](https://t.me/)
+ - [Tellonym.me](https://tellonym.me/)
  - [TikTok](https://www.tiktok.com/)
  - [Tinder](https://tinder.com/)
  - [TradingView](https://www.tradingview.com/)
@@ -171,3 +175,4 @@
  - [last.fm](https://last.fm/)
  - [mixer.com](https://mixer.com/)
  - [osu!](https://osu.ppy.sh/)
+ - [segmentfault](https://segmentfault.com/)
