@@ -13,7 +13,7 @@
 
 *Investigo* is the `Go` implementation of *[Sherlock](https://sherlock-project.github.io/)*.
 
-Sherlock is a command-line tool for searching usernames on [many social media]((./sites.md)).
+Sherlock is a command-line tool for searching usernames on [many social media](./sites.md).
 
 ![screenshot](./docs/GIF.gif)
 
