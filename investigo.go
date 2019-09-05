@@ -211,11 +211,7 @@ func initializeSiteData(forceUpdate bool) {
 	return
 }
 
-// Specify Tor proxy ip and port
-// var torProxy string = "socks5://127.0.0.1:9050" // 9150 w/ Tor Browser
-// var UseTor bool = true
-
-// Request makes HTTP request
+// Request makes an HTTP request
 func Request(target string) (*http.Response, RequestError) {
 	request, err := http.NewRequest("GET", target, nil)
 	if err != nil {
@@ -224,9 +220,6 @@ func Request(target string) (*http.Response, RequestError) {
 	request.Header.Set("User-Agent", userAgent)
 
 	client := &http.Client{}
-	// client.CheckRedirect = func(req *http.Request, via []*http.Request) error {
-	//	return errors.New("Redirect")
-	// }
 
 	if options.withTor {
 		tbProxyURL, err := url.Parse("socks5://127.0.0.1:9050")
