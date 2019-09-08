@@ -43,6 +43,7 @@ func initializeExtraSiteData() {
 func main() {
 	fmt.Println(`Investigo - Investigate User Across Social Networks.`)
 
+	// Parse command-line arguments
 	args := os.Args[1:]
 	var argIndex int
 
@@ -54,6 +55,11 @@ func main() {
 
 	options.withTor, argIndex = HasElement(args, "-t", "--tor")
 	if options.withTor {
+		args = append(args[:argIndex], args[argIndex+1:]...)
+	}
+
+	options.runTest, argIndex = HasElement(args, "--test")
+	if options.runTest {
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
@@ -70,7 +76,12 @@ func main() {
 	// Loads site data from sherlock database and assign to a variable.
 	initializeSiteData(options.checkForUpdate)
 
-	if help, _ := HasElement(args, "-h", "--help"); help || len(args) < 1 {
+	if help, _ := HasElement(args, "-h", "--help"); help || len(args) < 1 && !options.runTest {
+		os.Exit(0)
+	}
+
+	if options.runTest {
+		test()
 		os.Exit(0)
 	}
 
@@ -122,19 +133,20 @@ var (
 		withTor         bool
 		verbose         bool
 		checkForUpdate  bool
+		runTest         bool
 	}
 )
 
 // A SiteData struct for json datatype
 type SiteData struct {
-	ErrorType string `json:"errorType"`
-	ErrorMsg  string `json:"errorMsg"`
-	URL       string `json:"url"`
-	URLMain   string `json:"urlMain"`
-	URLProbe  string `json:"urlProbe"`
-	URLError  string `json:"errorUrl"`
-	// UsedUsername   string `json:"username_claimed"`
-	// UnusedUsername string `json:"username_unclaimed"`
+	ErrorType      string `json:"errorType"`
+	ErrorMsg       string `json:"errorMsg"`
+	URL            string `json:"url"`
+	URLMain        string `json:"urlMain"`
+	URLProbe       string `json:"urlProbe"`
+	URLError       string `json:"errorUrl"`
+	UsedUsername   string `json:"username_claimed"`
+	UnusedUsername string `json:"username_unclaimed"`
 	// RegexCheck string `json:"regexCheck"`
 	// Rank int`json:"rank"`
 }
@@ -406,4 +418,25 @@ func WriteResult(result Result) {
 	}
 
 	return
+}
+
+func test() {
+	log.Println("ENTERED TEST")
+	waitGroup.Add(len(siteData) * 2)
+	for site := range siteData {
+		guard <- 1
+		go func(site string) {
+			defer waitGroup.Done()
+			var _currentContext = siteData[site]
+			_usedUsername := _currentContext.UsedUsername
+			_unusedUsername := _currentContext.UnusedUsername
+			if Investigo(_usedUsername, site, siteData[site]).Exist && !Investigo(_unusedUsername, site, siteData[site]).Exist {
+				// Works
+			} else {
+				// Not works
+				logger.Printf("[-] %s: NOT WORKING", site)
+			}
+			<-guard
+		}(site)
+	}
 }
