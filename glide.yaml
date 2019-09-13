@@ -1,0 +1,6 @@
+package: github.com/tdh8316/Investigo
+import:
+- package: github.com/fatih/color
+- package: golang.org/x/net
+  subpackages:
+  - proxy
