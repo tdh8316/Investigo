@@ -21,31 +21,14 @@ const (
 	maxGoroutines int    = 64
 )
 
-// Initialize sites not included in Sherlock
-func initializeExtraSiteData() {
-	siteData["Pornhub"] = SiteData{
-		ErrorType: "status_code",
-		URLMain:   "https://www.pornhub.com/",
-		URL:       "https://www.pornhub.com/users/{}",
-	}
-	siteData["NAVER"] = SiteData{
-		ErrorType: "status_code",
-		URLMain:   "https://www.naver.com/",
-		URL:       "https://blog.naver.com/{}",
-	}
-	siteData["xvideos"] = SiteData{
-		ErrorType: "status_code",
-		URLMain:   "https://xvideos.com/",
-		URL:       "https://xvideos.com/profiles/{}",
-	}
-}
-
-func main() {
-	fmt.Println(`Investigo - Investigate User Across Social Networks.`)
-
-	// Parse command-line arguments
+func parseArguments() []string {
 	args := os.Args[1:]
 	var argIndex int
+
+	if help, _ := HasElement(args, "-h", "--help"); help || len(args) < 1 && !options.runTest {
+		// TODO: Add help
+		os.Exit(0)
+	}
 
 	options.noColor, argIndex = HasElement(args, "--no-color")
 	if options.noColor {
@@ -73,22 +56,46 @@ func main() {
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
+	return args
+}
+
+// Initialize sites not included in Sherlock
+func initializeExtraSiteData() {
+	siteData["Pornhub"] = SiteData{
+		ErrorType: "status_code",
+		URLMain:   "https://www.pornhub.com/",
+		URL:       "https://www.pornhub.com/users/{}",
+	}
+	siteData["NAVER"] = SiteData{
+		ErrorType: "status_code",
+		URLMain:   "https://www.naver.com/",
+		URL:       "https://blog.naver.com/{}",
+	}
+	siteData["xvideos"] = SiteData{
+		ErrorType: "status_code",
+		URLMain:   "https://xvideos.com/",
+		URL:       "https://xvideos.com/profiles/{}",
+	}
+}
+
+func main() {
+	fmt.Println("Investigo - Investigate User Across Social Networks.")
+
+	// Parse command-line arguments
+	usernames := parseArguments()
+
 	// Loads site data from sherlock database and assign to a variable.
 	initializeSiteData(options.checkForUpdate)
 
-	if help, _ := HasElement(args, "-h", "--help"); help || len(args) < 1 && !options.runTest {
-		os.Exit(0)
-	}
+	// Loads extra site data
+	initializeExtraSiteData()
 
 	if options.runTest {
 		test()
 		os.Exit(0)
 	}
 
-	// Loads extra site data
-	initializeExtraSiteData()
-
-	for _, username := range args {
+	for _, username := range usernames {
 		if options.noColor {
 			fmt.Printf("Investigating %s on:\n", username)
 		} else {
