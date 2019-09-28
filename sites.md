@@ -1,4 +1,4 @@
-# 177 sites are supprted!
+# 179 sites are supprted!
  - [500px](https://500px.com/)
  - [9GAG](https://9gag.com/)
  - [About.me](https://about.me/)
@@ -41,6 +41,7 @@
  - [Designspiration](https://www.designspiration.net/)
  - [DeviantART](https://deviantart.com)
  - [Discogs](https://www.discogs.com/)
+ - [Discuss.Elastic.co](https://discuss.elastic.co/)
  - [Disqus](https://disqus.com/)
  - [Docker Hub](https://hub.docker.com/)
  - [Dribbble](https://dribbble.com/)
@@ -149,6 +150,7 @@
  - [TripAdvisor](https://tripadvisor.com/)
  - [Twitch](https://www.twitch.tv/)
  - [Twitter](https://www.twitter.com/)
+ - [Ultimate-Guitar](https://ultimate-guitar.com/)
  - [Unsplash](https://unsplash.com/)
  - [VK](https://vk.com/)
  - [VSCO](https://vsco.co/)
