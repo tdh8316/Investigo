@@ -50,10 +50,10 @@ Furthermore, Investigo is more than twice as fast as the original implementation
 Investigo is another implementation of Sherlock. Accordingly, I would like not to make a competition with Sherlock.
 
  - [ ] Avoid deep packet inspection
- - [ ] Support Tor
+ - [x] Support Tor
  - [ ] Implement regex check
  - [x] Command-line arguments
- - [ ] Add tests
+ - [x] Add tests
 
 ## Become a stargazer
 ★
