@@ -11,9 +11,7 @@
   
   ~~[한국어](./README-ko_kr.MD)~~
 
-*Investigo* is the `Go` implementation of *[Sherlock](https://sherlock-project.github.io/)*.
-
-Sherlock is a command-line tool for searching usernames on [many social media](./sites.md).
+*Investigo* is a command-line tool written in `Go` for searching usernames on [social media](./sites.md).
 
 ![screenshot](./docs/GIF.gif)
 
