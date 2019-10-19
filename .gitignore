@@ -32,7 +32,6 @@ config
 /Godeps/
 
 ### VisualStudioCode ###
-.vscode/settings.json
-.vscode/launch.json
+.vscode/*
 .DS_Store
 /data/
