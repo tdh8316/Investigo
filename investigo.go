@@ -398,8 +398,6 @@ func Investigo(username string, site string, data SiteData) Result {
 	return result
 }
 
-// Check content of
-
 // WriteResult writes investigation result to stdout and file
 func WriteResult(result Result) {
 	if options.noColor {
@@ -429,7 +427,7 @@ func WriteResult(result Result) {
 
 func test() {
 	log.Println("Investigo is activated for checking site validity.")
-	waitGroup.Add(len(siteData) * 2)
+	waitGroup.Add(len(siteData))
 	for site := range siteData {
 		guard <- 1
 		go func(site string) {
@@ -446,6 +444,7 @@ func test() {
 			<-guard
 		}(site)
 	}
+	waitGroup.Wait()
 	logger.Println("\nThese sites are not compatible with the Sherlock database.\n" +
 		"Please check https://github.com/tdh8316/Investigo/#to-fix-incompatible-sites")
 }
