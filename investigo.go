@@ -26,7 +26,21 @@ func parseArguments() []string {
 	var argIndex int
 
 	if help, _ := HasElement(args, "-h", "--help"); help || len(args) < 1 && !options.runTest {
-		// TODO: Add help
+		fmt.Print(
+			`
+usage: investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] USERNAME [USERNAMES...]
+test usage: investigo [--test]
+
+positional arguments:
+	USERNAMES             one or more usernames to investigate
+
+optional arguments:
+	-h, --help			  show this help message and exit
+	-v, --verbose         output sites which is username was not found
+	--no-color            disable colored stdout output
+	--update              update datebase from github.com/tdh8316/investigo/
+`,
+		)
 		os.Exit(0)
 	}
 
@@ -97,7 +111,7 @@ func main() {
 
 	for _, username := range usernames {
 		if options.noColor {
-			fmt.Printf("Investigating %s on:\n", username)
+			fmt.Printf("\nInvestigating %s on:\n", username)
 		} else {
 			fmt.Fprintf(color.Output, "Investigating %s on:\n", color.HiGreenString(username))
 		}
