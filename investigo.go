@@ -87,13 +87,13 @@ func main() {
 	// Loads site data from sherlock database and assign to a variable.
 	initializeSiteData(options.checkForUpdate)
 
-	// Loads extra site data
-	initializeExtraSiteData()
-
 	if options.runTest {
 		test()
 		os.Exit(0)
 	}
+
+	// Loads extra site data
+	initializeExtraSiteData()
 
 	for _, username := range usernames {
 		if options.noColor {
@@ -428,7 +428,7 @@ func WriteResult(result Result) {
 }
 
 func test() {
-	log.Println("ENTERED TEST")
+	log.Println("Investigo is activated for checking site validity.")
 	waitGroup.Add(len(siteData) * 2)
 	for site := range siteData {
 		guard <- 1
@@ -441,9 +441,11 @@ func test() {
 				// Works
 			} else {
 				// Not works
-				logger.Printf("[-] %s: NOT WORKING", site)
+				logger.Printf("[-] %s: %s", site, color.RedString("False positive"))
 			}
 			<-guard
 		}(site)
 	}
+	logger.Println("\nThese sites are not compatible with the Sherlock database.\n" +
+		"Please check https://github.com/tdh8316/Investigo/#to-fix-incompatible-sites")
 }
