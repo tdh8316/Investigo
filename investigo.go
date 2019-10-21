@@ -182,17 +182,15 @@ func initializeSiteData(forceUpdate bool) {
 	if err != nil || forceUpdate {
 		if options.noColor {
 			fmt.Printf(
-				"%s Update %s:%s",
-				("->"),
-				dataFileName,
+				"%s Update database: %s",
+				("[!]"),
 				("Downloading..."),
 			)
 		} else {
 			fmt.Fprintf(
 				color.Output,
-				"%s Update %s:%s",
-				color.HiRedString("->"),
-				dataFileName,
+				"%s Update database: %s",
+				color.HiBlueString("[!]"),
 				color.HiYellowString("Downloading..."),
 			)
 		}
