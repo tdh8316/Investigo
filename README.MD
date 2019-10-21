@@ -34,7 +34,15 @@ $ go run investigo.go -h
 
 # Usage
 ```cmd
-$ investigo USERNAMES [-v|--verbose] [--no-color]
+$ investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] USERNAME [USERNAMES...]
+positional arguments:
+	USERNAMES             one or more usernames to investigate
+
+optional arguments:
+	-h, --help			  show this help message and exit
+	-v, --verbose         output sites which is username was not found
+	--no-color            disable colored stdout output
+	--update              update datebase from github.com/tdh8316/investigo/
 ```
 
 # Why Investigo?
