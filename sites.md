@@ -1,4 +1,4 @@
-# 177 sites are supprted!
+# 176 sites are supprted!
  - [2Dimensions](https://2Dimensions.com/)
  - [500px](https://500px.com/)
  - [9GAG](https://9gag.com/)
@@ -79,7 +79,6 @@
  - [Kaggle](https://www.kaggle.com/)
  - [KanoWorld](https://world.kano.me/)
  - [Keybase](https://keybase.io/)
- - [Khan Academy](https://www.khanacademy.org/)
  - [Kik](http://kik.me/)
  - [Kongregate](https://www.kongregate.com/)
  - [Launchpad](https://launchpad.net/)
