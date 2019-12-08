@@ -21,6 +21,53 @@ const (
 	maxGoroutines int    = 64
 )
 
+// Result of Investigo function
+type Result struct {
+	Usernane string
+	Exist    bool
+	Proxied  bool
+	Site     string
+	URL      string
+	URLProbe string
+	Link     string
+	Err      bool
+	ErrMsg   string
+}
+
+var (
+	guard     = make(chan int, maxGoroutines)
+	waitGroup = &sync.WaitGroup{}
+	logger    = log.New(color.Output, "", 0)
+	siteData  = map[string]SiteData{}
+	options   struct {
+		noColor         bool
+		updateBeforeRun bool
+		withTor         bool
+		verbose         bool
+		checkForUpdate  bool
+		runTest         bool
+	}
+)
+
+// A SiteData struct for json datatype
+type SiteData struct {
+	ErrorType      string `json:"errorType"`
+	ErrorMsg       string `json:"errorMsg"`
+	URL            string `json:"url"`
+	URLMain        string `json:"urlMain"`
+	URLProbe       string `json:"urlProbe"`
+	URLError       string `json:"errorUrl"`
+	UsedUsername   string `json:"username_claimed"`
+	UnusedUsername string `json:"username_unclaimed"`
+	// RegexCheck string `json:"regexCheck"`
+	// Rank int`json:"rank"`
+}
+
+// RequestError interface
+type RequestError interface {
+	Error() string
+}
+
 func parseArguments() []string {
 	args := os.Args[1:]
 	var argIndex int
@@ -128,53 +175,6 @@ func main() {
 		waitGroup.Wait()
 	}
 	return
-}
-
-// Result of Investigo function
-type Result struct {
-	Usernane string
-	Exist    bool
-	Proxied  bool
-	Site     string
-	URL      string
-	URLProbe string
-	Link     string
-	Err      bool
-	ErrMsg   string
-}
-
-var (
-	guard     = make(chan int, maxGoroutines)
-	waitGroup = &sync.WaitGroup{}
-	logger    = log.New(color.Output, "", 0)
-	siteData  = map[string]SiteData{}
-	options   struct {
-		noColor         bool
-		updateBeforeRun bool
-		withTor         bool
-		verbose         bool
-		checkForUpdate  bool
-		runTest         bool
-	}
-)
-
-// A SiteData struct for json datatype
-type SiteData struct {
-	ErrorType      string `json:"errorType"`
-	ErrorMsg       string `json:"errorMsg"`
-	URL            string `json:"url"`
-	URLMain        string `json:"urlMain"`
-	URLProbe       string `json:"urlProbe"`
-	URLError       string `json:"errorUrl"`
-	UsedUsername   string `json:"username_claimed"`
-	UnusedUsername string `json:"username_unclaimed"`
-	// RegexCheck string `json:"regexCheck"`
-	// Rank int`json:"rank"`
-}
-
-// RequestError interface
-type RequestError interface {
-	Error() string
 }
 
 func initializeSiteData(forceUpdate bool) {
