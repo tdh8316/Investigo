@@ -1,6 +1,7 @@
 package main
 
 import (
+	"time"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -17,7 +18,7 @@ import (
 
 const (
 	dataFileName  string = "data.json"
-	userAgent     string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
+	userAgent     string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
 	maxGoroutines int    = 64
 )
 
@@ -250,7 +251,9 @@ func Request(target string) (*http.Response, RequestError) {
 	}
 	request.Header.Set("User-Agent", userAgent)
 
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 10 * time.Second,
+	}
 
 	if options.withTor {
 		tbProxyURL, err := url.Parse("socks5://127.0.0.1:9050")
