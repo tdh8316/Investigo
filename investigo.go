@@ -1,7 +1,6 @@
 package main
 
 import (
-	"time"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -11,6 +10,7 @@ import (
 	"os"
 	"strings"
 	"sync"
+	"time"
 
 	color "github.com/fatih/color"
 	"golang.org/x/net/proxy"
