@@ -1,6 +1,7 @@
 package main
 
 import (
+	"sync/atomic"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -440,8 +441,20 @@ func WriteResult(result Result) {
 	return
 }
 
+type counter struct {
+	n int32
+}
+func (c *counter) Add() {
+	atomic.AddInt32(&c.n, 1)
+}
+
+func (c *counter) Get() int {
+	return int(atomic.LoadInt32(&c.n))
+}
+
 func test() {
 	log.Println("Investigo is activated for checking site validity.")
+	tc := counter{}
 	waitGroup.Add(len(siteData))
 	for site := range siteData {
 		guard <- 1
@@ -454,12 +467,17 @@ func test() {
 				// Works
 			} else {
 				// Not works
-				logger.Printf("[-] %s: %s", site, color.RedString("False positive"))
+				if options.noColor {
+					logger.Printf("[-] %s: %s", site, ("False positive"))
+				} else {
+					logger.Printf("[-] %s: %s", site, color.RedString("False positive"))
+				}
+				tc.Add()
 			}
 			<-guard
 		}(site)
 	}
 	waitGroup.Wait()
-	logger.Println("\nThese sites are not compatible with the Sherlock database.\n" +
-		"Please check https://github.com/tdh8316/Investigo/#to-fix-incompatible-sites")
+	logger.Printf("\nThese %d sites are not compatible with the Sherlock database.\n" +
+		"Please check https://github.com/tdh8316/Investigo/#to-fix-incompatible-sites", tc.Get())
 }
