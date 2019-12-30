@@ -14,6 +14,7 @@ import (
 	"time"
 
 	color "github.com/fatih/color"
+	chrm "github.com/sensepost/gowitness/chrome"
 	"golang.org/x/net/proxy"
 )
 
@@ -475,6 +476,17 @@ func (c *counter) Add() {
 
 func (c *counter) Get() int {
 	return int(atomic.LoadInt32(&c.n))
+}
+
+func getScreenshot(resolution, targetURL, outputPath string) {
+	chrome := &chrm.Chrome{
+		Resolution:    resolution,
+		ChromeTimeout: 30,
+	}
+	chrome.Setup()
+
+	u, _ := url.ParseRequestURI(targetURL)
+	chrome.ScreenshotURL(u, outputPath)
 }
 
 func test() {
