@@ -1,7 +1,6 @@
 package main
 
 import (
-	"sync/atomic"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -11,6 +10,7 @@ import (
 	"os"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	color "github.com/fatih/color"
@@ -18,7 +18,6 @@ import (
 )
 
 const (
-	dataFileName  string = "data.json"
 	userAgent     string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
 	maxGoroutines int    = 64
 )
@@ -42,13 +41,14 @@ var (
 	logger    = log.New(color.Output, "", 0)
 	siteData  = map[string]SiteData{}
 	options   struct {
-		noColor         bool
-		updateBeforeRun bool
-		withTor         bool
-		verbose         bool
-		checkForUpdate  bool
-		runTest         bool
+		noColor        bool
+		withTor        bool
+		verbose        bool
+		checkForUpdate bool
+		runTest        bool
+		useCustomdata  bool
 	}
+	dataFileName = "data.json"
 )
 
 // A SiteData struct for json datatype
@@ -119,6 +119,12 @@ optional arguments:
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
+	options.useCustomdata, argIndex = HasElement(args, "--db")
+	if options.useCustomdata {
+		dataFileName = args[argIndex+1]
+		args = append(args[:argIndex], args[argIndex+2:]...)
+	}
+
 	return args
 }
 
@@ -182,6 +188,20 @@ func main() {
 func initializeSiteData(forceUpdate bool) {
 	jsonFile, err := os.Open(dataFileName)
 	if err != nil || forceUpdate {
+		if err != nil {
+			if options.noColor {
+				fmt.Printf(
+					"[!] Cannot open database \"%s\"\n",
+					dataFileName,
+				)
+			} else {
+				fmt.Fprintf(
+					color.Output,
+					"[%s] Cannot open database \"%s\"\n",
+					color.HiRedString("!"), color.HiBlueString(dataFileName),
+				)
+			}
+		}
 		if options.noColor {
 			fmt.Printf(
 				"%s Update database: %s",
@@ -444,6 +464,7 @@ func WriteResult(result Result) {
 type counter struct {
 	n int32
 }
+
 func (c *counter) Add() {
 	atomic.AddInt32(&c.n, 1)
 }
@@ -478,6 +499,6 @@ func test() {
 		}(site)
 	}
 	waitGroup.Wait()
-	logger.Printf("\nThese %d sites are not compatible with the Sherlock database.\n" +
+	logger.Printf("\nThese %d sites are not compatible with the Sherlock database.\n"+
 		"Please check https://github.com/tdh8316/Investigo/#to-fix-incompatible-sites", tc.Get())
 }
