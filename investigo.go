@@ -198,7 +198,7 @@ func initializeSiteData(forceUpdate bool) {
 				fmt.Fprintf(
 					color.Output,
 					"[%s] Cannot open database \"%s\"\n",
-					color.HiRedString("!"), color.HiBlueString(dataFileName),
+					color.HiRedString("!"), (dataFileName),
 				)
 			}
 		}
@@ -211,8 +211,8 @@ func initializeSiteData(forceUpdate bool) {
 		} else {
 			fmt.Fprintf(
 				color.Output,
-				"%s Update database: %s",
-				color.HiBlueString("[!]"),
+				"[%s] Update database: %s",
+				color.HiBlueString("!"),
 				color.HiYellowString("Downloading..."),
 			)
 		}
@@ -250,7 +250,11 @@ func initializeSiteData(forceUpdate bool) {
 		_updateFile.Close()
 		jsonFile, _ = os.Open(dataFileName)
 
-		fmt.Println(" [Done]")
+		if options.noColor {
+			fmt.Println(" [Done]")
+		} else {
+			fmt.Fprintf(color.Output, " [%s]\n", color.GreenString("Done"))
+		}
 	}
 
 	defer jsonFile.Close()
