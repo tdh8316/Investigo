@@ -484,7 +484,6 @@ func getScreenshot(resolution, targetURL, outputPath string) {
 		ChromeTimeout: 30,
 	}
 	chrome.Setup()
-
 	u, _ := url.ParseRequestURI(targetURL)
 	chrome.ScreenshotURL(u, outputPath)
 }
