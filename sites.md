@@ -1,4 +1,4 @@
-# 269 sites are supprted!
+# 273 sites are supprted!
  - [2Dimensions](https://2Dimensions.com/)
  - [500px](https://500px.com/)
  - [7Cups](https://www.7cups.com/)
@@ -227,6 +227,7 @@
  - [Zhihu](https://www.zhihu.com/)
  - [Zomato](https://www.zomato.com/)
  - [akniga](https://akniga.org/profile/blue/)
+ - [allmylinks](https://allmylinks.com/)
  - [authorSTREAM](http://www.authorstream.com/)
  - [babyRU](https://www.baby.ru/)
  - [babyblogRU](https://www.babyblog.ru/)
@@ -258,6 +259,7 @@
  - [mixer.com](https://mixer.com/)
  - [moikrug](https://moikrug.ru/)
  - [opennet](https://www.opennet.ru/)
+ - [opensource](https://opensource.com/)
  - [osu!](https://osu.ppy.sh/)
  - [pedsovet](http://pedsovet.su/)
  - [pikabu](https://pikabu.ru/)
@@ -267,4 +269,6 @@
  - [spletnik](https://spletnik.ru/)
  - [toster](https://www.toster.ru/)
  - [travellerspoint](https://www.travellerspoint.com)
+ - [uid](https://uid.me/)
  - [warriorforum](https://www.warriorforum.com/)
+ - [windy](https://windy.com/)
