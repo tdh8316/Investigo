@@ -77,8 +77,7 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 <summary><b>Example run investigo standalone with docker</b></summary>
 <p>
 	<code> 
-		$ make docker-build<br/>
-		$ docker run -v $(pwd)/screenshosts:/opt/investigo/data/screenshosts investigo:latest investigo -s tdh8316
+		$ docker run -v $(pwd)/screenshosts:/opt/investigo/data/screenshosts x0rzkov/investigo:latest investigo -s tdh8316
 	</code>
 </p>
 </details>
@@ -98,8 +97,7 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 <summary><b>Example run investigo standalone with docker</b></summary>
 <p>
 	<code> 
-		$ make docker-build<br/>
-		$ docker run -v $(pwd)/screenshosts:/opt/investigo/data/screenshosts investigo-chromium:latest -s tdh8316
+		$ docker run -v $(pwd)/screenshosts:/opt/investigo/data/screenshosts x0rzkov/investigo-chromium:latest -s tdh8316
 	</code>
 </p>
 </details>
