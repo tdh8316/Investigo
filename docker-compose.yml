@@ -1,0 +1,47 @@
+---
+version: '3.7'
+services:
+
+  investigo:
+    image: x0rzkov/investigo:latest
+    container_name: investigo-standalone
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+    - INVESTIGO_TOR_PORT=${INVESTIGO_TOR_PORT}
+    - INVESTIGO_TOR_HOST=${INVESTIGO_TOR_HOST}
+    depends_on:
+    - tor-privoxy
+    networks:
+    - internal
+    # command: ["-h"]
+
+  investigo-chromium:
+    image: x0rzkov/investigo-chromium:latest
+    container_name: investigo-crhomium
+    build:  
+      context: .
+      dockerfile: Dockerfile.chromium
+    volumes:
+    - ./data:/screenshots
+    environment:
+    - INVESTIGO_TOR_PORT=${INVESTIGO_TOR_PORT}
+    - INVESTIGO_TOR_HOST=${INVESTIGO_TOR_HOST}
+    - INVESTIGO_CHROMIUM_PATH=${INVESTIGO_CHROMIUM_PATH}
+    - INVESTIGO_SCREENSHOT_RESOLUTION=${INVESTIGO_SCREENSHOT_RESOLUTION}
+    depends_on:
+    - tor-privoxy
+    networks:
+    - internal
+
+  tor-privoxy:
+    container_name: investigo-torprivoxy
+    image: dockage/tor-privoxy:latest
+    ports:
+    - "9050:9050" # Tor proxy
+    - "9051:9051" # Tor control port
+    - "8118:8118" # Privoxy
+
+networks:
+  internal:

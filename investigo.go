@@ -8,18 +8,27 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
 
 	color "github.com/fatih/color"
+	chrm "github.com/tdh8316/Investigo/chrome"
 	"golang.org/x/net/proxy"
+	"github.com/corpix/uarand"
 )
 
 const (
-	userAgent     string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
-	maxGoroutines int    = 64
+	userAgent       string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
+	screenShotRes   string = "1024x768"
+	torProxyAddress string = "socks5://127.0.0.1:9050"
+)
+
+var (
+	maxGoroutines int = 8 // lower if taking screenshots, should be handled more dynamically
+ 	progname = filepath.Base(os.Args[0])
 )
 
 // Result of Investigo function
@@ -42,11 +51,12 @@ var (
 	siteData  = map[string]SiteData{}
 	options   struct {
 		noColor        bool
-		withTor        bool
 		verbose        bool
 		checkForUpdate bool
 		runTest        bool
 		useCustomdata  bool
+		withTor        bool
+		withScreenshot bool
 	}
 	dataFileName = "data.json"
 )
@@ -84,8 +94,10 @@ positional arguments:
 	USERNAMES             one or more usernames to investigate
 
 optional arguments:
-	-h, --help			  show this help message and exit
+	-h, --help            show this help message and exit
 	-v, --verbose         output sites which is username was not found
+	-s, --screenshot      take a screenshot of each matched urls
+	-t, --tor             use tor proxy (default: ` + torProxyAddress + `)
 	--no-color            disable colored stdout output
 	--update              update datebase from github.com/tdh8316/investigo/
 `,
@@ -101,6 +113,11 @@ optional arguments:
 
 	options.withTor, argIndex = HasElement(args, "-t", "--tor")
 	if options.withTor {
+		args = append(args[:argIndex], args[argIndex+1:]...)
+	}
+
+	options.withScreenshot, argIndex = HasElement(args, "-s", "--screenshot")
+	if options.withScreenshot {
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
@@ -182,6 +199,7 @@ func main() {
 		}
 		waitGroup.Wait()
 	}
+
 	return
 }
 
@@ -277,11 +295,11 @@ func Request(target string) (*http.Response, RequestError) {
 	request.Header.Set("User-Agent", userAgent)
 
 	client := &http.Client{
-		Timeout: 10 * time.Second,
+		Timeout: 120 * time.Second,
 	}
 
 	if options.withTor {
-		tbProxyURL, err := url.Parse("socks5://127.0.0.1:9050")
+		tbProxyURL, err := url.Parse(torProxyAddress)
 		if err != nil {
 			return nil, err
 		}
@@ -321,7 +339,7 @@ func HasElement(array []string, targets ...string) (bool, int) {
 
 // Investigo investigate if username exists on social media.
 func Investigo(username string, site string, data SiteData) Result {
-	var url, urlProbe string
+	var u, urlProbe string
 	result := Result{
 		Usernane: username,
 		URL:      data.URL,
@@ -334,12 +352,12 @@ func Investigo(username string, site string, data SiteData) Result {
 	}
 
 	// string to display
-	url = strings.Replace(data.URL, "{}", username, 1)
+	u = strings.Replace(data.URL, "{}", username, 1)
 
 	if data.URLProbe != "" {
 		urlProbe = strings.Replace(data.URLProbe, "{}", username, 1)
 	} else {
-		urlProbe = url
+		urlProbe = u
 	}
 
 	r, err := Request(urlProbe)
@@ -360,6 +378,16 @@ func Investigo(username string, site string, data SiteData) Result {
 		}
 	}
 
+	var outputPath, folderPath string
+	if options.withScreenshot {
+		urlParts, _ := url.Parse(urlProbe)
+		folderPath = filepath.Join("screenshots", username)
+		outputPath = filepath.Join(folderPath, urlParts.Host+".png")
+		if err := os.MkdirAll(folderPath, 0755); err != nil {
+			log.Fatal(err)
+		}
+	}
+
 	// check error types
 	switch data.ErrorType {
 	case "status_code":
@@ -370,8 +398,13 @@ func Investigo(username string, site string, data SiteData) Result {
 				URLProbe: data.URLProbe,
 				Proxied:  options.withTor,
 				Exist:    true,
-				Link:     url,
+				Link:     u,
 				Site:     site,
+			}
+			if options.withScreenshot {
+				if err := getScreenshot(screenShotRes, urlProbe, outputPath); err != nil {
+					log.Fatal(err)
+				}
 			}
 		} else {
 			result = Result{
@@ -387,8 +420,13 @@ func Investigo(username string, site string, data SiteData) Result {
 				URLProbe: data.URLProbe,
 				Proxied:  options.withTor,
 				Exist:    true,
-				Link:     url,
+				Link:     u,
 				Site:     site,
+			}
+			if options.withScreenshot {
+				if err := getScreenshot(screenShotRes, urlProbe, outputPath); err != nil {
+					log.Fatal(err)
+				}
 			}
 		} else {
 			// check if 404
@@ -403,15 +441,20 @@ func Investigo(username string, site string, data SiteData) Result {
 	case "response_url":
 		// In the original Sherlock implementation,
 		// the error type `response_url` works as `status_code`.
-		if (r.StatusCode <= 300 || r.StatusCode < 200) && r.Request.URL.String() == url {
+		if (r.StatusCode <= 300 || r.StatusCode < 200) && r.Request.URL.String() == u {
 			result = Result{
 				Usernane: username,
 				URL:      data.URL,
 				URLProbe: data.URLProbe,
 				Proxied:  options.withTor,
 				Exist:    true,
-				Link:     url,
+				Link:     u,
 				Site:     site,
+			}
+			if options.withScreenshot {
+				if err := getScreenshot(screenShotRes, urlProbe, outputPath); err != nil {
+					log.Fatal(err)
+				}
 			}
 		} else {
 			result = Result{
@@ -432,9 +475,7 @@ func Investigo(username string, site string, data SiteData) Result {
 			Site:     site,
 		}
 	}
-
 	r.Body.Close()
-
 	return result
 }
 
@@ -477,6 +518,24 @@ func (c *counter) Get() int {
 	return int(atomic.LoadInt32(&c.n))
 }
 
+func getScreenshot(resolution, targetURL, outputPath string) error {
+	chrome := &chrm.Chrome{
+		Resolution:    resolution,
+		ChromeTimeout: 60,
+		ChromeTimeBudget: 60,
+		UserAgent: uarand.GetRandom(),
+		// ScreenshotPath: "/opt/investigo/data",
+	}
+	// chrome.Logger(false)
+	chrome.Setup()
+	u, err := url.ParseRequestURI(targetURL)
+	if err != nil {
+		return err
+	}
+	chrome.ScreenshotURL(u, outputPath)
+	return nil
+}
+
 func test() {
 	log.Println("Investigo is activated for checking site validity.")
 	tc := counter{}
@@ -506,3 +565,4 @@ func test() {
 	logger.Printf("\nThese %d sites are not compatible with the Sherlock database.\n"+
 		"Please check https://github.com/tdh8316/Investigo/#to-fix-incompatible-sites", tc.Get())
 }
+

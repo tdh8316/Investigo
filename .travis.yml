@@ -1,0 +1,41 @@
+after_script:
+  - docker images
+
+sudo: required
+
+before_install:
+  - sudo rm -f /usr/local/bin/docker-slim
+  - sudo rm -f /usr/local/bin/docker-slim-sensor
+  - curl -L https://github.com/docker-slim/docker-slim/releases/download/1.26.1/dist_linux.tar.gz --output docker-slim.tar.gz
+  - tar xvf docker-slim.tar.gz
+  - chmod +x dist_linux/docker-slim
+  - chmod +x dist_linux/docker-slim-sensor
+  - sudo mv dist_linux/docker-slim /usr/local/bin
+  - sudo mv dist_linux/docker-slim-sensor /usr/local/bin
+  - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
+  - sudo service docker restart
+  - docker-compose --version
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/1.25.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose --version
+  - docker ps
+
+before_script:
+  - IMAGE="x0rzkov/investigo:${VERSION/\//-}"
+
+env:
+  - VERSION=latest/alpine
+
+language: bash
+
+script:
+  - make docker-all
+  - docker-compose up -d
+  - docker images
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push x0rzkov/investigo:latest
+  - docker push x0rzkov/investigo-chromium:latest
+
+services: docker
