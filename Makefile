@@ -27,17 +27,23 @@ build: deps
 deps:
 	@go mod tidy
 
+## docker-all		:	build all docker images.
+.PHONY: docker-all
+docker-all: docker-image docker-chromium
+
 ## docker-image		:	build the standalone image and tag to latest.
 .PHONY: docker-image
 docker-image:
-	@docker build --build-arg BUILD_DATE=$(BUILD_DATE) --build-arg VCS_REF=$(VCS_REF) -t "$(IMAGE):$(TAG)-$(VCS_REF)" -f Dockerfile .
-	@docker tag $(IMAGE):$(TAG)-$(VCS_REF) $(IMAGE):$(TAG)-latest
+	@docker build --build-arg BUILD_DATE=$(BUILD_DATE) --build-arg VCS_REF=$(VCS_REF) -t "$(IMAGE)-$(TAG):$(VCS_REF)" -f Dockerfile .
+	@docker tag $(IMAGE)-$(TAG):$(VCS_REF) $(IMAGE)-$(TAG):latest
+	@docker push $(IMAGE)-$(TAG):latest
 
 ## docker-chromium	:	build image with chromium and tag to latest.
 .PHONY: docker-chromium
 docker-chromium:
-	@docker build --build-arg BUILD_DATE=$(BUILD_DATE) --build-arg VCS_REF=$(VCS_REF) -t "$(IMAGE):$(TAG_CHROMIUM)-$(VCS_REF)" -f Dockerfile.chromium .
-	@docker tag $(IMAGE):$(TAG_CHROMIUM)-$(VCS_REF) $(IMAGE):$(TAG_CHROMIUM)-latest
+	@docker build --build-arg BUILD_DATE=$(BUILD_DATE) --build-arg VCS_REF=$(VCS_REF) -t "$(IMAGE)-$(TAG_CHROMIUM):$(VCS_REF)" -f Dockerfile.chromium .
+	@docker tag $(IMAGE)-$(TAG_CHROMIUM):$(VCS_REF) $(IMAGE)-$(TAG_CHROMIUM):latest
+	@docker push $(IMAGE)-$(TAG_CHROMIUM):latest
 
 # docker-run : run investigo container (by default, it displays help commans)
 .PHONY: docker-run

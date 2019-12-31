@@ -71,10 +71,10 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 </p>
 </details>
 
-### Investigo (standalone mode)
+### Investigo (standalone mode, no screenshots)
 
 <details>
-<summary><b>Example run investigo standalone with docker</b></summary>
+<summary><b>Example with docker</b></summary>
 <p>
 	<code> 
 		$ docker run x0rzkov/investigo:latest investigo -s tdh8316
@@ -83,7 +83,7 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 </details>
 
 <details>
-<summary><b>Example run investigo standalone with docker-compose</b></summary>
+<summary><b>Example with docker-compose</b></summary>
 <p>
 	<code> 
 		$ docker-compose run investigo investigo -h
@@ -91,10 +91,10 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 </p>
 </details>
 
-### Investigo (headless chromium mode)
+### Investigo (headless chromium mode, with screenshots)
 
 <details>
-<summary><b>Example run investigo standalone with docker</b></summary>
+<summary><b>Example run with docker</b></summary>
 <p>
 	<code> 
 		$ docker run -v $(pwd)/data:/screenshots x0rzkov/investigo-chromium:latest -s tdh8316
@@ -103,7 +103,7 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 </details>
 
 <details>
-<summary><b>Example run investigo chromium with docker-compose</b></summary>
+<summary><b>Example run with docker-compose</b></summary>
 <p>
 	<code> 
 		$ docker-compose run investigo-chromium -s tdh8316
