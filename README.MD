@@ -77,10 +77,11 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 <summary><b>Example run investigo standalone with docker</b></summary>
 <p>
 	<code> 
-		$ make docker-build
+		$ make docker-build<br/>
 		$ docker run -v $(pwd)/screenshosts:/opt/investigo/data/screenshosts investigo:latest investigo -s tdh8316
 	</code>
 </p>
+</details>
 
 <details>
 <summary><b>Example run investigo standalone with docker-compose</b></summary>
@@ -89,6 +90,7 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 		$ docker-compose run investigo investigo -h
 	</code>
 </p>
+</details>
 
 ### Investigo (headless chromium mode)
 
@@ -96,18 +98,20 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 <summary><b>Example run investigo standalone with docker</b></summary>
 <p>
 	<code> 
-		$ make docker-build
-		$ docker run -v $(pwd)/screenshosts:/opt/investigo/data/screenshosts investigo-chromium:latest investigo -s tdh8316
+		$ make docker-build<br/>
+		$ docker run -v $(pwd)/screenshosts:/opt/investigo/data/screenshosts investigo-chromium:latest -s tdh8316
 	</code>
 </p>
+</details>
 
 <details>
 <summary><b>Example run investigo chromium with docker-compose</b></summary>
 <p>
 	<code> 
-		$ docker-compose run investigo-chromium investigo -s tdh8316
+		$ docker-compose run investigo-chromium -s tdh8316
 	</code>
 </p>
+</details>
 
 # Usage
 ```cmd
