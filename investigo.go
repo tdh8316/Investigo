@@ -520,7 +520,7 @@ func getScreenshot(resolution, targetURL, outputPath string) error {
 		Resolution:    resolution,
 		ChromeTimeout: 30,
 	}
-	chrome.Logger(false)
+	// chrome.Logger(false)
 	chrome.Setup()
 	u, err := url.ParseRequestURI(targetURL)
 	if err != nil {
