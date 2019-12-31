@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: Dockerfile.chromium
     volumes:
-    - ./screenshots:/opt/investigo/data/screenshots
+    - ./data:/screenshots
     environment:
     - INVESTIGO_TOR_PORT=${INVESTIGO_TOR_PORT}
     - INVESTIGO_TOR_HOST=${INVESTIGO_TOR_HOST}
