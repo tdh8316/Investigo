@@ -1,12 +1,12 @@
 # Overview
 
 <p align="center">
-![Commits](https://img.shields.io/github/commit-activity/m/tdh8316/Investigo.svg?label=Commits&style=popout)
-![Go](https://img.shields.io/badge/Go-%3E%3D1.8-blue.svg)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/tdh8316/Investigo.svg?style=social)](https://github.com/tdh8316/Investigo/stargazers)
-<a href="https://travis-ci.com/tdh8316/Investigo"><img src="https://img.shields.io/travis/tdh8316/Investigo.svg" /></a>
-[![Twitter](https://img.shields.io/twitter/url/https/github.com/tdh8316/Investigo.svg?style=social)](https://twitter.com/intent/tweet?text=WoW:&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2FInvestigo)
+	    <a href="https://github.com/tdh8316/Investigo" alt="Commits"><img src="https://img.shields.io/github/commit-activity/m/tdh8316/Investigo.svg?label=Commits&style=popout" /></a>
+	    <a href="https://github.com/tdh8316/Investigo" alt="Go"><img src="https://img.shields.io/badge/Go-%3E%3D1.8-blue.svg" /></a>
+	    <a href="https://opensource.org/licenses/MIT" alt="License: MIT"><img src="https://img.shields.io/badge/License-MIT-green.svg" /></a>
+	    <a href="https://github.com/tdh8316/Investigo/stargazers" alt="GitHub stars"><img src="https://img.shields.io/github/stars/tdh8316/Investigo.svg?style=social" /></a>
+		<a href="https://travis-ci.com/tdh8316/Investigo" alt="Travis-CI"><img src="https://img.shields.io/travis/tdh8316/Investigo.svg" /></a>
+		<a href="https://twitter.com/intent/tweet?text=WoW:&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2FInvestigo" alt="Twitter"><img src="https://img.shields.io/twitter/url/https/github.com/tdh8316/Investigo.svg?style=social" /></a>
 </p>
 
 <p align="center">
