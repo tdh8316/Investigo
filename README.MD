@@ -4,7 +4,7 @@
 ![Go](https://img.shields.io/badge/Go-%3E%3D1.8-blue.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/tdh8316/Investigo.svg?style=social)](https://github.com/tdh8316/Investigo/stargazers)
-
+<a href="https://travis-ci.com/tdh8316/Investigo"><img src="https://img.shields.io/travis/tdh8316/Investigo.svg" /></a>
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/tdh8316/Investigo.svg?style=social)](https://twitter.com/intent/tweet?text=WoW:&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2FInvestigo)
 
 + [English](./README.MD) 
@@ -31,6 +31,9 @@ $ cd investigo
 $ go get github.com/fatih/color
 $ go run investigo.go -h
 ```
+
+## Build with docker
+
 
 # Usage
 ```cmd

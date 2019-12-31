@@ -32,7 +32,7 @@ ADD https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-musl
 RUN apk --no-cache --no-progress add ca-certificates \
     && chmod +x /usr/local/sbin/tini && mkdir -p /opt \
     && adduser -D investigo -h /opt/investigo -s /bin/sh \
-    && su investigo -c 'cd /opt/investigo; mkdir -p bin config data screenshots'
+    && su investigo -c 'cd /opt/investigo; mkdir -p bin config data'
 
 # Installs latest Chromium package.
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
