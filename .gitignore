@@ -37,3 +37,7 @@ config
 /data/
 # screenshots
 Investigo
+
+Dockerfile.chromium-v2
+Dockerfile.chromium
+Dockerfile.robot

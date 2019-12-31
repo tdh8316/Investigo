@@ -6,8 +6,8 @@ WORKDIR /go/src/github.com/tdh8316/Investigo
 
 # Build executable
 RUN cd /go/src/github.com/tdh8316/Investigo \
- 	&& go build -v \
- 	&& ls -l
+ 	&& go install \
+ 	&& ls -l /go/bin
 
 FROM alpine:3.11 AS runtime
 
@@ -29,7 +29,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 ADD https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-muslc-amd64 /usr/local/sbin/tini
 
 # Install runtime dependencies & create runtime user
-RUN apk --no-cache --no-progress add ca-certificates \
+RUN apk --no-cache --no-progress add ca-certificates bash nano \
  && chmod +x /usr/local/sbin/tini && mkdir -p /opt \
  && adduser -D investigo -h /opt/investigo -s /bin/sh \
  && su investigo -c 'cd /opt/investigo; mkdir -p bin config data'
@@ -39,13 +39,13 @@ USER investigo
 WORKDIR /opt/investigo
 
 # Copy investigo binary to /opt/investigo/bin
-COPY --from=builder /go/src/github.com/tdh8316/Investigo/Investigo /opt/investigo/bin/investigo
+COPY --from=builder /go/bin/Investigo /opt/investigo/bin/investigo
 COPY config.example.yaml /opt/investigo/config/config.yaml
 COPY data.json /opt/investigo/bin/data.json
 ENV PATH $PATH:/opt/investigo/bin
 
 # Container configuration
-# EXPOSE 4242
-VOLUME ["/opt/investigo/data"]
+RUN echo ${PATH}
+VOLUME ["/opt/investigo/data", "/opt/investigo/data/screenshots"]
 ENTRYPOINT ["tini", "-g", "--"]
 CMD ["/opt/investigo/bin/investigo"]

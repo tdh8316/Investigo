@@ -149,10 +149,11 @@ func (chrome *Chrome) ScreenshotURL(targetURL *url.URL, destination string) {
 	// Start with the basic headless arguments
 	var chromeArguments = []string{
 		"--headless", "--disable-gpu", "--hide-scrollbars",
-		"--disable-crash-reporter",
+		"--disable-crash-reporter", "--no-sandbox",
+		// "--disable-software-rasterizer", "--disable-dev-shm-usage",
 		"--user-agent=" + chrome.UserAgent,
 		"--window-size=" + chrome.Resolution, "--screenshot=" + destination,
-		"--virtual-time-budget=" + strconv.Itoa(chrome.ChromeTimeBudget*1000),
+		"--virtual-time-budget=" + strconv.Itoa(chrome.ChromeTimeBudget*6000),
 	}
 
 	// Append extra arguments
@@ -167,7 +168,6 @@ func (chrome *Chrome) ScreenshotURL(targetURL *url.URL, destination string) {
 	// When we are running as root, chromiun will flag the 'cant
 	// run as root' thing. Handle that case.
 	if os.Geteuid() == 0 {
-
 		log.WithField("euid", os.Geteuid()).Debug("Running as root, adding --no-sandbox")
 		chromeArguments = append(chromeArguments, "--no-sandbox")
 	}

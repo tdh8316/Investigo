@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/fatih/color v1.7.0
 	github.com/k0kubun/pp v3.0.1+incompatible // indirect
+	github.com/karrick/godirwalk v1.13.4 // indirect
 	github.com/mattn/go-colorable v0.1.4 // indirect
 	github.com/mattn/go-isatty v0.0.11 // indirect
 	github.com/mcuadros/go-version v0.0.0-20171003094716-88e56e02bea1

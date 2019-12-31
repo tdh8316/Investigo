@@ -50,6 +50,11 @@ docker-push:
 	@docker push $(IMAGE):$(VCS_REF)
 	@docker push $(IMAGE):latest
 
+## compose-build		:	build with docker-compose.
+.PHONY: compose-build
+compose-build:
+	@docker-compose build --build-arg BUILD_DATE=$(BUILD_DATE) --build-arg VCS_REF=$(VCS_REF)
+
 ## help			:	Print commands help.
 .PHONY: help
 help : Makefile

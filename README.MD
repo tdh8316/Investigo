@@ -71,6 +71,44 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 </p>
 </details>
 
+### Investigo (standalone mode)
+
+<details>
+<summary><b>Example run investigo standalone with docker</b></summary>
+<p>
+	<code> 
+		$ make docker-build
+		$ docker run -v $(pwd)/screenshosts:/opt/investigo/data/screenshosts investigo:latest investigo -s tdh8316
+	</code>
+</p>
+
+<details>
+<summary><b>Example run investigo standalone with docker-compose</b></summary>
+<p>
+	<code> 
+		$ docker-compose run investigo investigo -h
+	</code>
+</p>
+
+### Investigo (headless chromium mode)
+
+<details>
+<summary><b>Example run investigo standalone with docker</b></summary>
+<p>
+	<code> 
+		$ make docker-build
+		$ docker run -v $(pwd)/screenshosts:/opt/investigo/data/screenshosts investigo-chromium:latest investigo -s tdh8316
+	</code>
+</p>
+
+<details>
+<summary><b>Example run investigo chromium with docker-compose</b></summary>
+<p>
+	<code> 
+		$ docker-compose run investigo-chromium investigo -s tdh8316
+	</code>
+</p>
+
 # Usage
 ```cmd
 $ investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] USERNAME [USERNAMES...]

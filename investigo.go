@@ -17,6 +17,8 @@ import (
 	color "github.com/fatih/color"
 	chrm "github.com/tdh8316/Investigo/chrome"
 	"golang.org/x/net/proxy"
+	"github.com/corpix/uarand"
+	"github.com/karrick/godirwalk"
 )
 
 const (
@@ -26,7 +28,8 @@ const (
 )
 
 var (
-	maxGoroutines int = 4 // lower if taking screenshots, should be handled more dynamically
+	maxGoroutines int = 8 // lower if taking screenshots, should be handled more dynamically
+ 	progname = filepath.Base(os.Args[0])
 )
 
 // Result of Investigo function
@@ -197,6 +200,15 @@ func main() {
 		}
 		waitGroup.Wait()
 	}
+	/*
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(dir)
+	checkScreenshotSize("./screenshots")
+	walkDir("./screenshots")
+	*/
 	return
 }
 
@@ -292,7 +304,7 @@ func Request(target string) (*http.Response, RequestError) {
 	request.Header.Set("User-Agent", userAgent)
 
 	client := &http.Client{
-		Timeout: 10 * time.Second,
+		Timeout: 120 * time.Second,
 	}
 
 	if options.withTor {
@@ -518,7 +530,10 @@ func (c *counter) Get() int {
 func getScreenshot(resolution, targetURL, outputPath string) error {
 	chrome := &chrm.Chrome{
 		Resolution:    resolution,
-		ChromeTimeout: 30,
+		ChromeTimeout: 60,
+		ChromeTimeBudget: 60,
+		UserAgent: uarand.GetRandom(),
+		// ScreenshotPath: "/opt/investigo/data",
 	}
 	// chrome.Logger(false)
 	chrome.Setup()
@@ -558,4 +573,99 @@ func test() {
 	waitGroup.Wait()
 	logger.Printf("\nThese %d sites are not compatible with the Sherlock database.\n"+
 		"Please check https://github.com/tdh8316/Investigo/#to-fix-incompatible-sites", tc.Get())
+}
+
+func walkDir(dirname string) error {
+	err := godirwalk.Walk(dirname, &godirwalk.Options{
+		Callback: func(osPathname string, de *godirwalk.Dirent) error {
+			fmt.Printf("%s %s\n", de.ModeType(), osPathname)
+			return nil
+		},
+		ErrorCallback: func(osPathname string, err error) godirwalk.ErrorAction {
+			fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
+			// For the purposes of this example, a simple SkipNode will suffice,
+			// although in reality perhaps additional logic might be called for.
+			return godirwalk.SkipNode
+		},
+		Unsorted: true, // set true for faster yet non-deterministic enumeration (see godoc)
+	})
+	return err
+}
+
+func checkScreenshotSize(dir ...string) {
+	for _, arg := range dir {
+		if err := sizes(arg); err != nil {
+			fmt.Fprintf(os.Stderr, "%s: %s\n", progname, err)
+		}
+	}
+}
+
+func sizes(osDirname string) error {
+	sizes := newSizesStack()
+
+	return godirwalk.Walk(osDirname, &godirwalk.Options{
+		Callback: func(osPathname string, de *godirwalk.Dirent) error {
+			if de.IsDir() {
+				sizes.EnterDirectory()
+				return nil
+			}
+
+			st, err := os.Stat(osPathname)
+			if err != nil {
+				return err
+			}
+
+			size := st.Size()
+			sizes.Accumulate(size)
+
+			_, err = fmt.Printf("%s % 12d %s\n", st.Mode(), size, osPathname)
+			return err
+		},
+		ErrorCallback: func(osPathname string, err error) godirwalk.ErrorAction {
+			fmt.Fprintf(os.Stderr, "%s: %s\n", progname, err)
+			return godirwalk.SkipNode
+		},
+		PostChildrenCallback: func(osPathname string, de *godirwalk.Dirent) error {
+			size := sizes.LeaveDirectory()
+			sizes.Accumulate(size) // add this directory's size to parent directory.
+
+			st, err := os.Stat(osPathname)
+
+			switch err {
+			case nil:
+				_, err = fmt.Printf("%s % 12d %s\n", st.Mode(), size, osPathname)
+			default:
+				// ignore the error and just show the mode type
+				_, err = fmt.Printf("%s % 12d %s\n", de.ModeType(), size, osPathname)
+			}
+			return err
+		},
+	})
+}
+
+// sizesStack encapsulates operations on stack of directory sizes, with similar
+// but slightly modified LIFO semantics to push and pop on a regular stack.
+type sizesStack struct {
+	sizes []int64 // stack of sizes
+	top   int     // index of top of stack
+}
+
+func newSizesStack() *sizesStack {
+	// Initialize with dummy value at top of stack to eliminate special cases.
+	return &sizesStack{sizes: make([]int64, 1, 32)}
+}
+
+func (s *sizesStack) EnterDirectory() {
+	s.sizes = append(s.sizes, 0)
+	s.top++
+}
+
+func (s *sizesStack) LeaveDirectory() (i int64) {
+	i, s.sizes = s.sizes[s.top], s.sizes[:s.top]
+	s.top--
+	return i
+}
+
+func (s *sizesStack) Accumulate(i int64) {
+	s.sizes[s.top] += i
 }
