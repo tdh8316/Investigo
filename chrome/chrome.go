@@ -60,6 +60,7 @@ func (chrome *Chrome) chromeLocator() {
 		"/usr/bin/chromium-browser",
 		"/usr/bin/google-chrome-stable",
 		"/usr/bin/google-chrome",
+		"/usr/bin/chromium-browser",
 		"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
 		"/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary",
 		"/Applications/Chromium.app/Contents/MacOS/Chromium",

@@ -1,0 +1,25 @@
+---
+version: '3.7'
+services:
+
+  investigo:
+    image: x0rzkov/investigo:standalone1.0-alpine3.11
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+    - INVESTIGO_TOR_PORT=${INVESTIGO_TOR_PORT}
+    - INVESTIGO_TOR_HOST=${INVESTIGO_TOR_HOST}
+    # command: ["-h"]
+
+  investigo-crhomium:
+    image: x0rzkov/investigo:chromium1.0-alpine3.11
+    build:  
+      context: .
+      dockerfile: Dockerfile.chromium
+    environment:
+    - INVESTIGO_TOR_PORT=${INVESTIGO_TOR_PORT}
+    - INVESTIGO_TOR_HOST=${INVESTIGO_TOR_HOST}
+    - INVESTIGO_CHROMIUM_PATH=${INVESTIGO_CHROMIUM_PATH}
+    - INVESTIGO_SCREENSHOT_RESOLUTION=${INVESTIGO_SCREENSHOT_RESOLUTION}
+    # command: ["-h"]

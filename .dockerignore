@@ -1,0 +1,16 @@
+.git
+.git/**
+.github/
+.github/**
+.gitignore
+.dockerignore
+*.yml
+*.md
+Dockerfile*
+data
+data/**
+screenshots
+screenshots/
+screenshots/*
+screenshots/**
+Investigo
