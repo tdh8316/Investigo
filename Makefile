@@ -1,6 +1,6 @@
 # docker variables
 IMAGE 			:= x0rzkov/investigo
-TAG 			:= standalone
+TAG 			:= 
 TAG_CHROMIUM 	:= chromium
 
 # build variables
@@ -34,9 +34,9 @@ docker-all: docker-image docker-chromium
 ## docker-image		:	build the standalone image and tag to latest.
 .PHONY: docker-image
 docker-image:
-	@docker build --build-arg BUILD_DATE=$(BUILD_DATE) --build-arg VCS_REF=$(VCS_REF) -t "$(IMAGE)-$(TAG):$(VCS_REF)" -f Dockerfile .
-	@docker tag $(IMAGE)-$(TAG):$(VCS_REF) $(IMAGE)-$(TAG):latest
-	@docker push $(IMAGE)-$(TAG):latest
+	@docker build --build-arg BUILD_DATE=$(BUILD_DATE) --build-arg VCS_REF=$(VCS_REF) -t "$(IMAGE):$(VCS_REF)" -f Dockerfile .
+	@docker tag $(IMAGE):$(VCS_REF) $(IMAGE):latest
+	@docker push $(IMAGE):latest
 
 ## docker-chromium	:	build image with chromium and tag to latest.
 .PHONY: docker-chromium

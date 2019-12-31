@@ -77,7 +77,7 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 <summary><b>Example with docker</b></summary>
 <p>
 	<code> 
-		$ docker run x0rzkov/investigo:latest investigo -s tdh8316
+		$ docker run x0rzkov/investigo:latest investigo tdh8316
 	</code>
 </p>
 </details>
@@ -86,7 +86,7 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 <summary><b>Example with docker-compose</b></summary>
 <p>
 	<code> 
-		$ docker-compose run investigo investigo -h
+		$ docker-compose run investigo investigo tdh8316
 	</code>
 </p>
 </details>

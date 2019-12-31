@@ -14,3 +14,4 @@ screenshots/
 screenshots/*
 screenshots/**
 Investigo
+Makefile
