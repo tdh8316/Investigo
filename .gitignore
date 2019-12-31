@@ -35,4 +35,5 @@ config
 .vscode/*
 .DS_Store
 /data/
-screenshots
+# screenshots
+Investigo

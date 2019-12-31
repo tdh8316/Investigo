@@ -26,7 +26,7 @@ const (
 )
 
 var (
-	maxGoroutines int = 12 // lower if taking screenshots, should be handled more dynamically
+	maxGoroutines int = 4 // lower if taking screenshots, should be handled more dynamically
 )
 
 // Result of Investigo function
