@@ -7,6 +7,25 @@
 <a href="https://travis-ci.com/tdh8316/Investigo"><img src="https://img.shields.io/travis/tdh8316/Investigo.svg" /></a>
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/tdh8316/Investigo.svg?style=social)](https://twitter.com/intent/tweet?text=WoW:&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2FInvestigo)
 
+<p align="center">
+    <a href="https://github.com/tdh8316/Investigo" alt="github all releases"><img src="https://img.shields.io/github/downloads/tdh8316/Investigo/total.svg" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github latest release"><img src="https://img.shields.io/github/downloads/tdh8316/Investigo/latest/total.svg" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github tag"><img src="https://img.shields.io/github/tag/tdh8316/Investigo.svg" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github release"><img src="https://img.shields.io/github/release/tdh8316/Investigo.svg" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github pre release"><img src="https://img.shields.io/github/release/tdh8316/Investigo/all.svg" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github fork"><img src="https://img.shields.io/github/forks/tdh8316/Investigo.svg?style=social&label=Fork" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github stars"><img src="https://img.shields.io/github/stars/tdh8316/Investigo.svg?style=social&label=Star" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github watchers"><img src="https://img.shields.io/github/watchers/tdh8316/Investigo.svg?style=social&label=Watch" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github open issues"><img src="https://img.shields.io/github/issues/tdh8316/Investigo.svg" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github closed issues"><img src="https://img.shields.io/github/issues-closed/tdh8316/Investigo.svg" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github open pr"><img src="https://img.shields.io/github/issues-pr/tdh8316/Investigo.svg" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github closed pr"><img src="https://img.shields.io/github/issues-pr-closed/tdh8316/Investigo.svg" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github contributors"><img src="https://img.shields.io/github/contributors/tdh8316/Investigo.svg" /></a>
+    <a href="https://github.com/tdh8316/Investigo" alt="github license"><img src="https://img.shields.io/github/license/tdh8316/Investigo.svg" /></a>
+    <a href="https://gitter.im/tdh8316/Investigo" alt="gitter chat room"><img src="https://badges.gitter.im/tdh8316/Investigo.svg" /></a>
+    <a href="https://travis-ci.com/tdh8316/Investigo" alt="travis badge"><img src="https://img.shields.io/travis/tdh8316/Investigo.svg" /></a>
+</p>
+
 + [English](./README.MD) 
   
   ~~[한국어](./README-ko_kr.MD)~~
@@ -33,7 +52,22 @@ $ go run investigo.go -h
 ```
 
 ## Build with docker
+If you don't have Docker/Docker-Compose check **Setup Docker** section
 
+<details>
+<summary><b>Setup Docker</b></summary>
+<p>
+
+## Docker
+macOS: <a href="https://docs.docker.com/docker-for-mac/install/"> https://docs.docker.com/docker-for-mac/install/ </a>
+
+linux: <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/"> https://docs.docker.com/install/linux/docker-ce/ubuntu/ </a>
+
+## Docker Compose
+
+linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.com/compose/install/ </a>
+</p>
+</details>
 
 # Usage
 ```cmd
