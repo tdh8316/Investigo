@@ -31,14 +31,11 @@ env:
 language: bash
 
 script:
-  - docker-slim version
-  - docker build --squash -t "$IMAGE" .
-  - sudo docker-slim build "$IMAGE"
-  - sudo docker run -ti "$IMAGE" investigo -h
-  - docker network create nw-twint
+  - make docker-all
   - docker-compose up -d
   - docker images
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push "$IMAGE"
+  - docker push x0rzkov/investigo:latest
+  - docker push x0rzkov/investigo-chromium:latest
 
 services: docker

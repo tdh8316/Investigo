@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   investigo:
-    image: x0rzkov/investigo-standalone:latest-alpine3.11
+    image: x0rzkov/investigo:latest
     container_name: investigo-standalone
     build:
       context: .
@@ -18,7 +18,7 @@ services:
     # command: ["-h"]
 
   investigo-chromium:
-    image: x0rzkov/investigo-chromium:latest-alpine3.11
+    image: x0rzkov/investigo-chromium:latest
     container_name: investigo-crhomium
     build:  
       context: .
