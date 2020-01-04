@@ -1,0 +1,25 @@
+FROM golang:1.13-alpine AS builder
+
+# Copy source code
+COPY .  /go/src/github.com/tdh8316/Investigo
+WORKDIR /go/src/github.com/tdh8316/Investigo
+
+# Build executable
+RUN cd /go/src/github.com/tdh8316/Investigo \
+  && go build -v \
+  && ls -l
+
+FROM zenika/alpine-chrome:latest as RUNTIME
+
+# Copy investigo binary to /opt/investigo/bin
+COPY --from=builder /go/src/github.com/tdh8316/Investigo/Investigo /investigo
+COPY config.example.yaml /config.yaml
+COPY data.json /data.json
+ENV PATH $PATH:/
+
+VOLUME ["/screenshots"]
+WORKDIR /screenshots
+
+# https://github.com/Zenika/alpine-chrome#-with---no-sandbox
+# , "--chrome-arg=\"-no-sandbox\"
+ENTRYPOINT ["/investigo"]
