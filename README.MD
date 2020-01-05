@@ -2,7 +2,7 @@
 
 <p align="center">
 	    <a href="https://github.com/tdh8316/Investigo" alt="Commits"><img src="https://img.shields.io/github/commit-activity/m/tdh8316/Investigo.svg?label=Commits&style=popout" /></a>
-	    <a href="https://github.com/tdh8316/Investigo" alt="Go"><img src="https://img.shields.io/badge/Go-%3E%3D1.8-blue.svg" /></a>
+	    <a href="https://github.com/tdh8316/Investigo" alt="Go"><img src="https://img.shields.io/badge/Go-%3E%3D1.12-blue.svg" /></a>
 	    <a href="https://opensource.org/licenses/MIT" alt="License: MIT"><img src="https://img.shields.io/badge/License-MIT-green.svg" /></a>
 	    <a href="https://github.com/tdh8316/Investigo/stargazers" alt="GitHub stars"><img src="https://img.shields.io/github/stars/tdh8316/Investigo.svg?style=social" /></a>
 		<a href="https://travis-ci.com/tdh8316/Investigo" alt="Travis-CI"><img src="https://img.shields.io/travis/tdh8316/Investigo.svg" /></a>
@@ -44,7 +44,7 @@ You can download the binary for Windows.
 `$ investigo.exe -h`
 
 ## Build from source
-To compile investigo, Go 1.8 or higher is required.
+To compile investigo, Go 1.12 or higher is required.
 
 ```cmd
 $ git clone https://github.com/tdh8316/Investigo.git
