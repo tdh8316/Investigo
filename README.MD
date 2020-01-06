@@ -155,4 +155,4 @@ Make an issue [here](https://github.com/sherlock-project/sherlock/issues) to let
 # License
 Licensed under the MIT License
 
-Copyright 2019 Donghyeok Tak
+Copyright 2020 `Donghyeok Tak`
