@@ -3,7 +3,7 @@ module github.com/tdh8316/Investigo
 go 1.13
 
 require (
-	github.com/corpix/uarand v0.1.1 // indirect
+	github.com/corpix/uarand v0.1.1
 	github.com/fatih/color v1.7.0
 	github.com/k0kubun/pp v3.0.1+incompatible // indirect
 	github.com/karrick/godirwalk v1.13.4 // indirect

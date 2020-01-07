@@ -14,10 +14,10 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/corpix/uarand"
 	color "github.com/fatih/color"
 	chrm "github.com/tdh8316/Investigo/chrome"
 	"golang.org/x/net/proxy"
-	"github.com/corpix/uarand"
 )
 
 const (
@@ -28,7 +28,7 @@ const (
 
 var (
 	maxGoroutines int = 8 // lower if taking screenshots, should be handled more dynamically
- 	progname = filepath.Base(os.Args[0])
+	progname          = filepath.Base(os.Args[0])
 )
 
 // Result of Investigo function
@@ -520,10 +520,10 @@ func (c *counter) Get() int {
 
 func getScreenshot(resolution, targetURL, outputPath string) error {
 	chrome := &chrm.Chrome{
-		Resolution:    resolution,
-		ChromeTimeout: 60,
+		Resolution:       resolution,
+		ChromeTimeout:    60,
 		ChromeTimeBudget: 60,
-		UserAgent: uarand.GetRandom(),
+		UserAgent:        uarand.GetRandom(),
 		// ScreenshotPath: "/opt/investigo/data",
 	}
 	// chrome.Logger(false)
@@ -565,4 +565,3 @@ func test() {
 	logger.Printf("\nThese %d sites are not compatible with the Sherlock database.\n"+
 		"Please check https://github.com/tdh8316/Investigo/#to-fix-incompatible-sites", tc.Get())
 }
-
