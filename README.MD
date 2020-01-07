@@ -143,6 +143,13 @@ If you want to add prohibited sites for Sherlock, make an issue or a Pull Reques
 ## To fix incompatible sites...
 Make an issue [here](https://github.com/sherlock-project/sherlock/issues) to let Sherlock developers know.
 
+# Contributors
+Thanks to all contributors!
+ - [x0rzkov](https://github.com/x0rzkov)
+ - [lucmski](https://github.com/lucmski)
+
+Contributions are more than welcome!
+
 # License
 Licensed under the MIT License
 
