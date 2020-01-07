@@ -49,8 +49,7 @@ To compile investigo, Go 1.12 or higher is required.
 ```cmd
 $ git clone https://github.com/tdh8316/Investigo.git
 $ cd investigo
-$ go get github.com/fatih/color
-$ go run investigo.go -h
+$ go build
 ```
 
 ## Build with docker
@@ -77,7 +76,7 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 <summary><b>Example with docker</b></summary>
 <p>
 	<code> 
-		$ docker run x0rzkov/investigo:latest investigo tdh8316
+		$ docker run x0rzkov/investigo:latest investigo USERNAME
 	</code>
 </p>
 </details>
@@ -86,7 +85,7 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 <summary><b>Example with docker-compose</b></summary>
 <p>
 	<code> 
-		$ docker-compose run investigo investigo tdh8316
+		$ docker-compose run investigo investigo USERNAME
 	</code>
 </p>
 </details>
@@ -97,7 +96,7 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 <summary><b>Example run with docker</b></summary>
 <p>
 	<code> 
-		$ docker run -v $(pwd)/data:/screenshots x0rzkov/investigo-chromium:latest -s tdh8316
+		$ docker run -v $(pwd)/data:/screenshots x0rzkov/investigo-chromium:latest -s USERNAME
 	</code>
 </p>
 </details>
@@ -106,7 +105,7 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 <summary><b>Example run with docker-compose</b></summary>
 <p>
 	<code> 
-		$ docker-compose run investigo-chromium -s tdh8316
+		$ docker-compose run investigo-chromium -s USERNAME
 	</code>
 </p>
 </details>
@@ -121,7 +120,7 @@ optional arguments:
 	-h, --help			  show this help message and exit
 	-v, --verbose         output sites which is username was not found
 	--no-color            disable colored stdout output
-	--update              update datebase from github.com/tdh8316/investigo/
+	--update              update datebase from Sherlock repository
 ```
 
 # Why Investigo?
@@ -130,24 +129,16 @@ This is because even though Sherlock project contains a vast database, adult sit
 
 Furthermore, Investigo is more than twice as fast as the original implementation!
 
-# TODO
-## Manifesto
-Investigo is another implementation of Sherlock. Accordingly, I would like not to make a competition with Sherlock.
-
- - [ ] Avoid deep packet inspection
- - [x] Support Tor
- - [ ] Implement regex check
- - [x] Command-line arguments
- - [x] Add tests
-
-## Become a stargazer
+# Become a stargazer
 ★
 
 # Addding/Fixing site
 Investigo uses Sherlock's database.
 
 ## To add sites...
-If you want to add sites to Investigo, make a Pull Request to [Sherlock project](https://github.com/sherlock-project/sherlock). Or if you want to add prohibited sites for Sherlock, make an issue or a Pull Request to this repository!
+To add sites to Investigo, make a Pull Request to [Sherlock project](https://github.com/sherlock-project/sherlock). Whenever the Sherlock repository updates, the Investigo database will update automatically!
+
+If you want to add prohibited sites for Sherlock, make an issue or a Pull Request to this repository!
 
 ## To fix incompatible sites...
 Make an issue [here](https://github.com/sherlock-project/sherlock/issues) to let Sherlock developers know.
