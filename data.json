@@ -107,6 +107,14 @@
     "username_claimed": "blue",
     "username_unclaimed": "noonewould"
   },
+  "Asciinema": {
+    "errorType": "status_code",
+    "rank": 88514,
+    "url": "https://asciinema.org/~{}",
+    "urlMain": "https://asciinema.org",
+    "username_claimed": "red",
+    "username_unclaimed": "noonewouldeverusethis7"
+  },
   "Ask Fedora": {
     "errorType": "status_code",
     "rank": 28458,
@@ -338,6 +346,15 @@
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
   },
+  "Lichess": {
+    "errorType": "message",
+    "errorMsg": "Page not found!",
+    "rank": 2591,
+    "url": "https://lichess.org/@/{}",
+    "urlMain": "https://lichess.org",
+    "username_claimed": "blue",
+    "username_unclaimed": "noonewouldeverusethis7"
+  },
   "Cloob": {
     "errorType": "status_code",
     "rank": 7498,
@@ -353,6 +370,14 @@
     "urlMain": "https://community.cloudflare.com/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis"
+  },
+  "Clozemaster": {
+    "errorType": "status_code",
+    "rank": 105275 ,
+    "url": "https://www.clozemaster.com/players/{}",
+    "urlMain": "https://www.clozemaster.com",
+    "username_claimed": "green",
+    "username_unclaimed": "noonewouldeverusethis7"
   },
   "Codecademy": {
     "errorType": "status_code",
@@ -1734,6 +1759,15 @@
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
   },
+  "Typeracer": {
+    "errorType": "message",
+    "errorMsg": "Profile Not Found",
+    "rank": 12798,
+    "url": "https://data.typeracer.com/pit/profile?user={}",
+    "urlMain": "https://typeracer.com",
+    "username_claimed": "blue",
+    "username_unclaimed": "noonewouldeverusethis7"
+  },
   "Ultimate-Guitar": {
     "errorType": "status_code",
     "rank": 650,
@@ -2287,6 +2321,15 @@
     "url": "https://moikrug.ru/{}",
     "urlMain": "https://moikrug.ru/",
     "username_claimed": "blue",
+    "username_unclaimed": "noonewouldeverusethis7"
+  },
+  "notabug.org": {
+    "errorType": "status_code",
+    "rank": 167801,
+    "url": "https://notabug.org/{}",
+    "urlMain": "https://notabug.org/",
+    "urlProbe": "https://notabug.org/{}/followers",
+    "username_claimed": "red",
     "username_unclaimed": "noonewouldeverusethis7"
   },
   "nnRU": {
