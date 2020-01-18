@@ -28,7 +28,6 @@ const (
 
 var (
 	maxGoroutines int = 8 // lower if taking screenshots, should be handled more dynamically
-	progname          = filepath.Base(os.Args[0])
 )
 
 // Result of Investigo function
@@ -351,7 +350,7 @@ func Investigo(username string, site string, data SiteData) Result {
 		ErrMsg:   "No return value",
 	}
 
-	// string to display
+	// URL to be displayed
 	u = strings.Replace(data.URL, "{}", username, 1)
 
 	if data.URLProbe != "" {
@@ -408,8 +407,12 @@ func Investigo(username string, site string, data SiteData) Result {
 			}
 		} else {
 			result = Result{
-				Site:     site,
 				Usernane: username,
+				URL:      data.URL,
+				Proxied:  options.withTor,
+				Site:     site,
+				Exist:    false,
+				Err:      false,
 			}
 		}
 	case "message":
@@ -429,13 +432,13 @@ func Investigo(username string, site string, data SiteData) Result {
 				}
 			}
 		} else {
-			// check if 404
 			result = Result{
-				URL:      data.URL,
-				URLProbe: data.URLProbe,
-				Proxied:  options.withTor,
 				Usernane: username,
+				URL:      data.URL,
+				Proxied:  options.withTor,
 				Site:     site,
+				Exist:    false,
+				Err:      false,
 			}
 		}
 	case "response_url":
@@ -460,9 +463,10 @@ func Investigo(username string, site string, data SiteData) Result {
 			result = Result{
 				Usernane: username,
 				URL:      data.URL,
-				URLProbe: data.URLProbe,
 				Proxied:  options.withTor,
 				Site:     site,
+				Exist:    false,
+				Err:      false,
 			}
 		}
 	default:
