@@ -542,6 +542,12 @@ func getScreenshot(resolution, targetURL, outputPath string) error {
 
 func test() {
 	log.Println("Investigo is activated for checking site validity.")
+
+	if options.withScreenshot {
+		log.Println("Taking screenshot is not available in this sequence. Aborted.")
+		return
+	}
+
 	tc := counter{}
 	waitGroup.Add(len(siteData))
 	for site := range siteData {
