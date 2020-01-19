@@ -112,15 +112,23 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 
 # Usage
 ```cmd
-$ investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] USERNAME [USERNAMES...]
+$ investigo -h
+Investigo - Investigate User Across Social Networks.
+
+usage: investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] [--db FILENAME] USERNAME [USERNAMES...]
+perform test: investigo [--test]
+
 positional arguments:
-	USERNAMES             one or more usernames to investigate
+        USERNAMES             one or more usernames to investigate
 
 optional arguments:
-	-h, --help			  show this help message and exit
-	-v, --verbose         output sites which is username was not found
-	--no-color            disable colored stdout output
-	--update              update datebase from Sherlock repository
+        -h, --help            show this help message and exit
+        -v, --verbose         output sites which is username was not found
+        -s, --screenshot      take a screenshot of each matched urls
+        -t, --tor             use tor proxy (default: socks5://127.0.0.1:9050)
+        --no-color            disable colored stdout output
+        --update              update datebase from Sherlock repository
+        --db                  use custom database
 ```
 
 # Why Investigo?

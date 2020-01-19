@@ -86,8 +86,8 @@ func parseArguments() []string {
 	if help, _ := HasElement(args, "-h", "--help"); help || len(args) < 1 && !options.runTest {
 		fmt.Print(
 			`
-usage: investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] USERNAME [USERNAMES...]
-test usage: investigo [--test]
+usage: investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] [--db FILENAME] USERNAME [USERNAMES...]
+perform test: investigo [--test]
 
 positional arguments:
 	USERNAMES             one or more usernames to investigate
@@ -98,7 +98,8 @@ optional arguments:
 	-s, --screenshot      take a screenshot of each matched urls
 	-t, --tor             use tor proxy (default: ` + torProxyAddress + `)
 	--no-color            disable colored stdout output
-	--update              update datebase from github.com/tdh8316/investigo/
+	--update              update datebase from Sherlock repository
+	--db                  use custom database
 `,
 		)
 		os.Exit(0)
@@ -138,6 +139,11 @@ optional arguments:
 	options.useCustomdata, argIndex = HasElement(args, "--db")
 	if options.useCustomdata {
 		dataFileName = args[argIndex+1]
+		dataFile, err := os.Open(dataFileName)
+		defer dataFile.Close()
+		if (err != nil) {
+			panic("Failed to read \"" + dataFileName + "\" Aborted.")
+		}
 		args = append(args[:argIndex], args[argIndex+2:]...)
 	}
 
