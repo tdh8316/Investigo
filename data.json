@@ -459,7 +459,7 @@
     "errorType": "response_url",
     "errorUrl": "https://www.creativemarket.com/",
     "rank": 1763,
-    "url": "https://creativemarket.com/{}",
+    "url": "https://creativemarket.com/users/{}",
     "urlMain": "https://creativemarket.com/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
@@ -2552,6 +2552,15 @@
     "rank": 9682,
     "url": "https://www.alltrails.com/members/{}",
     "urlMain": "https://www.alltrails.com/",
+    "username_claimed": "blue",
+    "username_unclaimed": "noonewouldeverusethis7"
+  },
+  "dis.cool": {
+    "errorMsg": "No search results",
+    "errorType": "message",
+    "rank": 0,
+    "url": "https://dis.cool/users/1/{}",
+    "urlMain": "https://dis.cool/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
   }
