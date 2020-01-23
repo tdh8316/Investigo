@@ -251,7 +251,7 @@ func initializeSiteData(forceUpdate bool) {
 			} else {
 				fmt.Fprintf(color.Output, " [%s]\n", color.HiRedString("Failed"))
 			}
-			panic("Failed to connect to Investigo repository.")
+			panic("Failed to update database.\n" + err.Error())
 		} else {
 			defer r.Body.Close()
 		}
