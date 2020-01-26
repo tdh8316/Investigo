@@ -141,7 +141,7 @@ optional arguments:
 		dataFileName = args[argIndex+1]
 		dataFile, err := os.Open(dataFileName)
 		defer dataFile.Close()
-		if (err != nil) {
+		if err != nil {
 			panic("Failed to read \"" + dataFileName + "\" Aborted.")
 		}
 		args = append(args[:argIndex], args[argIndex+2:]...)
@@ -563,21 +563,49 @@ func test() {
 			var _currentContext = siteData[site]
 			_usedUsername := _currentContext.UsedUsername
 			_unusedUsername := _currentContext.UnusedUsername
-			if Investigo(_usedUsername, site, siteData[site]).Exist && !Investigo(_unusedUsername, site, siteData[site]).Exist {
+
+			_resUsed := Investigo(_usedUsername, site, siteData[site])
+			_resUnused := Investigo(_unusedUsername, site, siteData[site])
+
+			if _resUsed.Exist && !_resUnused.Exist {
 				// Works
 			} else {
 				// Not works
-				if options.noColor {
-					logger.Printf("[-] %s: %s", site, ("False positive"))
-				} else {
-					logger.Printf("[-] %s: %s", site, color.RedString("False positive"))
+				var _errMsg string = ""
+				if _resUsed.Err {
+					_errMsg += fmt.Sprintf("[%s]", _resUsed.ErrMsg)
 				}
+				if _resUnused.Err {
+					_errMsg += fmt.Sprintf("[%s]", _resUnused.ErrMsg)
+				}
+
+				if _errMsg != "" {
+					if options.noColor {
+						logger.Printf("[-] %s: %s %s", site, ("Failed with error"), _errMsg)
+					} else {
+						logger.Printf("[-] %s: %s %s", site, color.RedString("Failed with error"), _errMsg)
+					}
+				} else {
+					if options.noColor {
+						logger.Printf("[-] %s: %s", site, ("Failed"))
+					} else {
+						logger.Printf("[-] %s: %s", site, color.RedString("Failed"))
+					}
+				}
+
 				tc.Add()
 			}
 			<-guard
 		}(site)
 	}
 	waitGroup.Wait()
+
+	if options.noColor {
+		fmt.Println("[Done]")
+	} else {
+		fmt.Fprintf(color.Output, "[%s]\n", color.GreenString("Done"))
+	}
+
 	logger.Printf("\nThese %d sites are not compatible with the Sherlock database.\n"+
 		"Please check https://github.com/tdh8316/Investigo/#to-fix-incompatible-sites", tc.Get())
 }
