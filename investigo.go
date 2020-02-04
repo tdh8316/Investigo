@@ -79,6 +79,18 @@ type RequestError interface {
 	Error() string
 }
 
+type counter struct {
+	n int32
+}
+
+func (c *counter) Add() {
+	atomic.AddInt32(&c.n, 1)
+}
+
+func (c *counter) Get() int {
+	return int(atomic.LoadInt32(&c.n))
+}
+
 func parseArguments() []string {
 	args := os.Args[1:]
 	var argIndex int
@@ -345,16 +357,7 @@ func HasElement(array []string, targets ...string) (bool, int) {
 // Investigo investigate if username exists on social media.
 func Investigo(username string, site string, data SiteData) Result {
 	var u, urlProbe string
-	result := Result{
-		Usernane: username,
-		URL:      data.URL,
-		URLProbe: data.URLProbe,
-		Proxied:  options.withTor,
-		Exist:    false,
-		Site:     site,
-		Err:      true,
-		ErrMsg:   "No return value",
-	}
+	var result Result
 
 	// URL to be displayed
 	u = strings.Replace(data.URL, "{}", username, 1)
@@ -383,16 +386,6 @@ func Investigo(username string, site string, data SiteData) Result {
 		}
 	}
 
-	var outputPath, folderPath string
-	if options.withScreenshot {
-		urlParts, _ := url.Parse(urlProbe)
-		folderPath = filepath.Join("screenshots", username)
-		outputPath = filepath.Join(folderPath, urlParts.Host+".png")
-		if err := os.MkdirAll(folderPath, 0755); err != nil {
-			log.Fatal(err)
-		}
-	}
-
 	// check error types
 	switch data.ErrorType {
 	case "status_code":
@@ -405,11 +398,6 @@ func Investigo(username string, site string, data SiteData) Result {
 				Exist:    true,
 				Link:     u,
 				Site:     site,
-			}
-			if options.withScreenshot {
-				if err := getScreenshot(screenShotRes, urlProbe, outputPath); err != nil {
-					log.Fatal(err)
-				}
 			}
 		} else {
 			result = Result{
@@ -431,11 +419,6 @@ func Investigo(username string, site string, data SiteData) Result {
 				Exist:    true,
 				Link:     u,
 				Site:     site,
-			}
-			if options.withScreenshot {
-				if err := getScreenshot(screenShotRes, urlProbe, outputPath); err != nil {
-					log.Fatal(err)
-				}
 			}
 		} else {
 			result = Result{
@@ -460,11 +443,6 @@ func Investigo(username string, site string, data SiteData) Result {
 				Link:     u,
 				Site:     site,
 			}
-			if options.withScreenshot {
-				if err := getScreenshot(screenShotRes, urlProbe, outputPath); err != nil {
-					log.Fatal(err)
-				}
-			}
 		} else {
 			result = Result{
 				Usernane: username,
@@ -485,7 +463,21 @@ func Investigo(username string, site string, data SiteData) Result {
 			Site:     site,
 		}
 	}
+
 	r.Body.Close()
+
+	if options.withScreenshot && result.Exist {
+		urlParts, _ := url.Parse(urlProbe)
+		folderPath := filepath.Join("screenshots", username)
+		outputPath := filepath.Join(folderPath, urlParts.Host+".png")
+		if err := os.MkdirAll(folderPath, 0755); err != nil {
+			log.Fatal(err)
+		}
+		if err := getScreenshot(screenShotRes, urlProbe, outputPath); err != nil {
+			log.Fatal(err)
+		}
+	}
+
 	return result
 }
 
@@ -516,18 +508,6 @@ func WriteResult(result Result) {
 	return
 }
 
-type counter struct {
-	n int32
-}
-
-func (c *counter) Add() {
-	atomic.AddInt32(&c.n, 1)
-}
-
-func (c *counter) Get() int {
-	return int(atomic.LoadInt32(&c.n))
-}
-
 func getScreenshot(resolution, targetURL, outputPath string) error {
 	chrome := &chrm.Chrome{
 		Resolution:       resolution,
@@ -536,7 +516,7 @@ func getScreenshot(resolution, targetURL, outputPath string) error {
 		UserAgent:        uarand.GetRandom(),
 		// ScreenshotPath: "/opt/investigo/data",
 	}
-	// chrome.Logger(false)
+	// chrome.setLoggerStatus(false)
 	chrome.Setup()
 	u, err := url.ParseRequestURI(targetURL)
 	if err != nil {

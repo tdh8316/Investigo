@@ -28,7 +28,8 @@ type Chrome struct {
 	ScreenshotPath   string
 }
 
-func (chrome *Chrome) Logger(status bool) {
+// setLoggerStatus sets the logger status
+func (chrome *Chrome) setLoggerStatus(status bool) {
 	if !status {
 		log.SetOutput(ioutil.Discard)
 	}
