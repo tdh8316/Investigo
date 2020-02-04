@@ -137,9 +137,6 @@ This is because even though Sherlock project contains a vast database, adult sit
 
 Furthermore, Investigo is more than twice as fast as the original implementation!
 
-# Become a stargazer
-★
-
 # Addding/Fixing site
 Investigo uses Sherlock's database.
 
