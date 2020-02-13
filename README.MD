@@ -8,7 +8,7 @@
 		<a href="https://travis-ci.com/tdh8316/Investigo" alt="Travis-CI"><img src="https://img.shields.io/travis/tdh8316/Investigo.svg" /></a>
 		<a href="https://twitter.com/intent/tweet?text=WoW:&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2FInvestigo" alt="Twitter"><img src="https://img.shields.io/twitter/url/https/github.com/tdh8316/Investigo.svg?style=social" /></a>
 </p>
-
+<!--
 <p align="center">
     <a href="https://github.com/tdh8316/Investigo" alt="github all releases"><img src="https://img.shields.io/github/downloads/tdh8316/Investigo/total.svg" /></a>
     <a href="https://github.com/tdh8316/Investigo" alt="github latest release"><img src="https://img.shields.io/github/downloads/tdh8316/Investigo/latest/total.svg" /></a>
@@ -27,6 +27,7 @@
     <a href="https://gitter.im/tdh8316/Investigo" alt="gitter chat room"><img src="https://badges.gitter.im/tdh8316/Investigo.svg" /></a>
     <a href="https://travis-ci.com/tdh8316/Investigo" alt="travis badge"><img src="https://img.shields.io/travis/tdh8316/Investigo.svg" /></a>
 </p>
+-->
 
 + [English](./README.MD) 
   
