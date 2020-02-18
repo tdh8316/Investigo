@@ -305,3 +305,5 @@
  - [uid](https://uid.me/)
  - [warriorforum](https://www.warriorforum.com/)
  - [windy](https://windy.com/)
+# Removed sites
+Please refer [here](https://github.com/sherlock-project/sherlock/blob/master/removed_sites.md)
