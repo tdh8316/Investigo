@@ -1,4 +1,4 @@
-# 306 sites are supprted!
+# 305 sites are supprted!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -255,7 +255,6 @@
  - [fl](https://www.fl.ru/)
  - [forum_guns](https://forum.guns.ru/)
  - [forumhouseRU](https://www.forumhouse.ru/)
- - [furaffinity](https://www.furaffinity.net)
  - [geocaching](https://www.geocaching.com/)
  - [gfycat](https://gfycat.com/)
  - [gpodder.net](https://gpodder.net/)
