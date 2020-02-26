@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -95,7 +96,7 @@ func parseArguments() []string {
 	args := os.Args[1:]
 	var argIndex int
 
-	if help, _ := HasElement(args, "-h", "--help"); help || len(args) < 1 && !options.runTest {
+	if help, _ := HasElement(args, "-h", "--help"); help  && !options.runTest {
 		fmt.Print(
 			`
 usage: investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] [--db FILENAME] USERNAME [USERNAMES...]
@@ -115,6 +116,16 @@ optional arguments:
 `,
 		)
 		os.Exit(0)
+	}
+
+	if len(args) < 1 {
+		fmt.Println("WARNING: You executed Investigo without arguments. Use `-h` flag if you need help.")
+		var _usernames string
+		scanner := bufio.NewScanner(os.Stdin)
+		fmt.Printf("Input username to investigate:")
+		scanner.Scan()
+		_usernames = scanner.Text()
+		return _usernames
 	}
 
 	options.noColor, argIndex = HasElement(args, "--no-color")
