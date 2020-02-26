@@ -125,7 +125,7 @@ optional arguments:
 		fmt.Printf("Input username to investigate:")
 		scanner.Scan()
 		_usernames = scanner.Text()
-		return _usernames
+		return strings.Split(_usernames, " ")
 	}
 
 	options.noColor, argIndex = HasElement(args, "--no-color")
