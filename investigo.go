@@ -96,7 +96,7 @@ func parseArguments() []string {
 	args := os.Args[1:]
 	var argIndex int
 
-	if help, _ := HasElement(args, "-h", "--help"); help  && !options.runTest {
+	if help, _ := HasElement(args, "-h", "--help"); help && !options.runTest {
 		fmt.Print(
 			`
 usage: investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] [--db FILENAME] USERNAME [USERNAMES...]
