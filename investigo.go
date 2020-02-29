@@ -15,7 +15,6 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/corpix/uarand"
 	color "github.com/fatih/color"
 	chrm "github.com/tdh8316/Investigo/chrome"
 	"golang.org/x/net/proxy"
@@ -524,7 +523,7 @@ func getScreenshot(resolution, targetURL, outputPath string) error {
 		Resolution:       resolution,
 		ChromeTimeout:    60,
 		ChromeTimeBudget: 60,
-		UserAgent:        uarand.GetRandom(),
+		UserAgent:        userAgent,
 		// ScreenshotPath: "/opt/investigo/data",
 	}
 	// chrome.setLoggerStatus(false)
