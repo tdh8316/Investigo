@@ -3,7 +3,6 @@ module github.com/tdh8316/Investigo
 go 1.13
 
 require (
-	github.com/corpix/uarand v0.1.1
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/color v1.7.0
 	github.com/kr/pretty v0.1.0 // indirect
