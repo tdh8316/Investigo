@@ -29,11 +29,7 @@
 </p>
 -->
 
-+ [English](./README.MD) 
-  
-  ~~[한국어](./README-ko_kr.MD)~~
-
-*Investigo* is a command-line tool written in `Go` for searching usernames on [social media](./sites.md).
+*Investigo* is a command-line tool written in `Go` to investigate usernames on [social media](./sites.md).
 
 ![screenshot](./docs/GIF.gif)
 
