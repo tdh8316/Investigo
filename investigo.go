@@ -53,7 +53,7 @@ var (
 		verbose        bool
 		updateBeforeRun bool
 		runTest        bool
-		useCustomdata  bool
+		useCustomData  bool
 		withTor        bool
 		withScreenshot bool
 	}
@@ -158,8 +158,8 @@ optional arguments:
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
-	options.useCustomdata, argIndex = HasElement(args, "--db")
-	if options.useCustomdata {
+	options.useCustomData, argIndex = HasElement(args, "--db")
+	if options.useCustomData {
 		dataFileName = args[argIndex+1]
 		dataFile, err := os.Open(dataFileName)
 		defer dataFile.Close()
