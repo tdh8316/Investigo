@@ -1,4 +1,4 @@
-# 301 sites are supprted!
+# 302 sites are supprted!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -276,6 +276,7 @@
  - [mixer.com](https://mixer.com/)
  - [moikrug](https://moikrug.ru/)
  - [mstdn.io](https://mstdn.io/)
+ - [nightbot](https://nightbot.tv/)
  - [nnRU](https://https://www.nn.ru/)
  - [notabug.org](https://notabug.org/)
  - [note](https://note.com/)
