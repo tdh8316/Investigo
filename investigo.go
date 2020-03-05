@@ -161,11 +161,6 @@ optional arguments:
 	options.useCustomData, argIndex = HasElement(args, "--db")
 	if options.useCustomData {
 		dataFileName = args[argIndex+1]
-		dataFile, err := os.Open(dataFileName)
-		defer dataFile.Close()
-		if err != nil {
-			panic("Failed to read \"" + dataFileName + "\" Aborted.")
-		}
 		args = append(args[:argIndex], args[argIndex+2:]...)
 	}
 
