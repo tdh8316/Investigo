@@ -51,7 +51,7 @@ var (
 	options   struct {
 		noColor        bool
 		verbose        bool
-		checkForUpdate bool
+		updateBeforeRun bool
 		runTest        bool
 		useCustomdata  bool
 		withTor        bool
@@ -153,8 +153,8 @@ optional arguments:
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
-	options.checkForUpdate, argIndex = HasElement(args, "--update")
-	if options.checkForUpdate {
+	options.updateBeforeRun, argIndex = HasElement(args, "--update")
+	if options.updateBeforeRun {
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
@@ -198,7 +198,7 @@ func main() {
 	usernames := parseArguments()
 
 	// Loads site data from sherlock database and assign to a variable.
-	initializeSiteData(options.checkForUpdate)
+	initializeSiteData(options.updateBeforeRun)
 
 	if options.runTest {
 		test()
