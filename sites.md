@@ -1,4 +1,4 @@
-# 302 sites are supprted!
+# 304 sites are supprted!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -19,6 +19,7 @@
  - [Audiojungle](https://audiojungle.net/)
  - [Avizo](https://www.avizo.cz/)
  - [BLIP.fm](https://blip.fm/)
+ - [BOOTH](https://booth.pm/)
  - [Badoo](https://badoo.com/)
  - [Bandcamp](https://www.bandcamp.com/)
  - [Bazar.cz](https://www.bazar.cz/)
@@ -100,6 +101,7 @@
  - [IFTTT](https://www.ifttt.com/)
  - [ImageShack](https://imageshack.us/)
  - [ImgUp.cz](https://imgup.cz/)
+ - [Insanejournal](insanejournal.com)
  - [Instagram](https://www.instagram.com/)
  - [Instructables](https://www.instructables.com/)
  - [Investing.com](https://www.investing.com/)
