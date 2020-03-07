@@ -132,8 +132,6 @@ optional arguments:
 Investigo is trying to build our own database while keeping compatibility with Sherlock.
 This is because even though Sherlock project contains a vast database, adult sites are forbidden.
 
-Furthermore, Investigo is more than twice as fast as the original implementation!
-
 # Addding/Fixing site
 Investigo uses Sherlock's database.
 
