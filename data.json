@@ -167,6 +167,15 @@
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
   },
+  "BOOTH": {
+    "errorType": "response_url",
+    "errorUrl": "https://booth.pm/",
+    "rank": 7305,
+    "url": "https://{}.booth.pm/",
+    "urlMain": "https://booth.pm/",
+    "username_claimed": "blue",
+    "username_unclaimed": "noonewouldeverusethis7"
+  },
   "Badoo": {
     "errorType": "status_code",
     "rank": 1700,
@@ -860,6 +869,14 @@
     "urlMain": "https://imgup.cz/",
     "username_claimed": "adam",
     "username_unclaimed": "noonewouldeverusethis"
+  },
+  "Insanejournal": {
+    "errorType": "status_code",
+    "rank": 29889,
+    "url": "http://{}.insanejournal.com/profile",
+    "urlMain": "insanejournal.com",
+    "username_claimed": "blue",
+    "username_unclaimed": "dlyr6cd"
   },
   "Instagram": {
     "errorMsg": "The link you followed may be broken",
@@ -1634,13 +1651,13 @@
     "username_unclaimed": "noonewouldeverusethis7"
   },
   "Telegram": {
-    "errorMsg": "<meta property=\"twitter:title\" content=\"Telegram: Contact",
-    "errorType": "message",
-    "rank": 353,
+    "errorType": "response_url",
+    "errorUrl": "https://telegram.org",
+    "rank": 385,
     "url": "https://t.me/{}",
     "urlMain": "https://t.me/",
     "username_claimed": "saman",
-    "username_unclaimed": "noonewouldeverusethis7"
+    "username_unclaimed": "i_do_not_believe_this_account_exists_at_all"
   },
   "Tellonym.me": {
     "errorType": "status_code",
@@ -1740,10 +1757,12 @@
     "username_unclaimed": "noonewouldeverusethis7"
   },
   "Twitter": {
-    "errorMsg": "page doesn\u2019t exist",
-    "errorType": "message",
-    "rank": 49,
-    "url": "https://www.twitter.com/{}?lang=en",
+    "errorType": "status_code",
+    "headers": {
+      "User-Agent": ""
+    },
+    "rank": 42,
+    "url": "https://www.twitter.com/{}",
     "urlMain": "https://www.twitter.com/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
