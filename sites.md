@@ -1,4 +1,4 @@
-# 304 sites are supprted!
+# 305 sites are supprted!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -140,6 +140,7 @@
  - [Oracle Community](https://community.oracle.com)
  - [Otzovik](https://otzovik.com/)
  - [OurDJTalk](https://ourdjtalk.com/)
+ - [PCGamer](https://pcgamer.com)
  - [PCPartPicker](https://pcpartpicker.com)
  - [PSNProfiles.com](https://psnprofiles.com/)
  - [Packagist](https://packagist.org/)
