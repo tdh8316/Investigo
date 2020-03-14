@@ -556,7 +556,7 @@ func test() {
 				// Works
 			} else {
 				// Not works
-				var _errMsg string = ""
+				var _errMsg string
 				if _resUsed.Err {
 					_errMsg += fmt.Sprintf("[%s]", _resUsed.ErrMsg)
 				}
