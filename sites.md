@@ -1,4 +1,4 @@
-# 305 sites are supprted!
+# 306 sites are supprted!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -295,6 +295,7 @@
  - [satsisRU](https://satsis.info/)
  - [segmentfault](https://segmentfault.com/)
  - [social.tchncs.de](https://social.tchncs.de/)
+ - [soylentnews](https://soylentnews.org)
  - [sparkpeople](https://www.sparkpeople.com)
  - [spletnik](https://spletnik.ru/)
  - [svidbook](https://www.svidbook.ru/)
