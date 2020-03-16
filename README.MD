@@ -1,3 +1,5 @@
+![Works on my machine](https://img.shields.io/badge/works-on%20my%20machine-green)
+
 # Overview
 
 <p align="center">
