@@ -1,7 +1,6 @@
 package main
 
 import (
-	"regexp"
 	"bufio"
 	"encoding/json"
 	"fmt"
@@ -11,6 +10,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -50,13 +50,13 @@ var (
 	logger    = log.New(color.Output, "", 0)
 	siteData  = map[string]SiteData{}
 	options   struct {
-		noColor        bool
-		verbose        bool
+		noColor         bool
+		verbose         bool
 		updateBeforeRun bool
-		runTest        bool
-		useCustomData  bool
-		withTor        bool
-		withScreenshot bool
+		runTest         bool
+		useCustomData   bool
+		withTor         bool
+		withScreenshot  bool
 	}
 	dataFileName = "data.json"
 )
@@ -71,7 +71,7 @@ type SiteData struct {
 	URLError       string `json:"errorUrl"`
 	UsedUsername   string `json:"username_claimed"`
 	UnusedUsername string `json:"username_unclaimed"`
-	RegexCheck string `json:"regexCheck"`
+	RegexCheck     string `json:"regexCheck"`
 	// Rank int`json:"rank"`
 }
 
@@ -378,13 +378,13 @@ func Investigo(username string, site string, data SiteData) Result {
 		if match, _ := regexp.MatchString(data.RegexCheck, username); !match {
 			return Result{
 				Usernane: username,
-			URL:      data.URL,
-			URLProbe: data.URLProbe,
-			Proxied:  options.withTor,
-			Exist:    false,
-			Site:     site,
-			Err:      true,
-			ErrMsg:   "Username " + username + " is illegal format for " + site,
+				URL:      data.URL,
+				URLProbe: data.URLProbe,
+				Proxied:  options.withTor,
+				Exist:    false,
+				Site:     site,
+				Err:      true,
+				ErrMsg:   "Username " + username + " is illegal format for " + site,
 			}
 		}
 	}
