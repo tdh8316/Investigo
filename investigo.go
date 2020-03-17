@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/dlclark/regexp2"
 	"bufio"
 	"encoding/json"
 	"fmt"
@@ -10,7 +11,6 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -381,7 +381,8 @@ func Investigo(username string, site string, data SiteData) Result {
 	}
 
 	if data.RegexCheck != "" {
-		if match, _ := regexp.MatchString(data.RegexCheck, username); !match {
+		re := regexp2.MustCompile(data.RegexCheck, 0)
+		if match, _ := re.MatchString(username); !match {
 			return Result{
 				Usernane: username,
 				URL:      data.URL,
