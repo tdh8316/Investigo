@@ -28,7 +28,8 @@ const (
 )
 
 var (
-	maxGoroutines int = 8 // lower if taking screenshots, should be handled more dynamically
+	maxGoroutines int
+	guard         chan int
 )
 
 // Result of Investigo function
@@ -45,7 +46,6 @@ type Result struct {
 }
 
 var (
-	guard     = make(chan int, maxGoroutines)
 	waitGroup = &sync.WaitGroup{}
 	logger    = log.New(color.Output, "", 0)
 	siteData  = map[string]SiteData{}
@@ -142,6 +142,9 @@ optional arguments:
 	options.withScreenshot, argIndex = HasElement(args, "-s", "--screenshot")
 	if options.withScreenshot {
 		args = append(args[:argIndex], args[argIndex+1:]...)
+		maxGoroutines = 8
+	} else {
+		maxGoroutines = 64
 	}
 
 	options.runTest, argIndex = HasElement(args, "--test")
@@ -195,6 +198,9 @@ func main() {
 
 	// Loads site data from sherlock database and assign to a variable.
 	initializeSiteData(options.updateBeforeRun)
+
+	// Make the guard before goroutines run
+	guard = make(chan int, maxGoroutines)
 
 	if options.runTest {
 		test()
