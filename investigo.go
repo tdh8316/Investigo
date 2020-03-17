@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/dlclark/regexp2"
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"github.com/dlclark/regexp2"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -144,7 +144,7 @@ optional arguments:
 		args = append(args[:argIndex], args[argIndex+1:]...)
 		maxGoroutines = 8
 	} else {
-		maxGoroutines = 64
+		maxGoroutines = 32
 	}
 
 	options.runTest, argIndex = HasElement(args, "--test")
