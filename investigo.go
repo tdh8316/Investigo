@@ -144,6 +144,10 @@ optional arguments:
 		args = append(args[:argIndex], args[argIndex+1:]...)
 		maxGoroutines = 8
 	} else {
+		// It should be handled case by case, more dynamically
+		// because the limit value of the file descriptor is different by the user.
+		// In my case, limit is 256.
+		// See more: https://stackoverflow.com/a/12958088
 		maxGoroutines = 32
 	}
 
