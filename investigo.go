@@ -1,6 +1,7 @@
 package main
 
 import (
+	"regexp"
 	"bufio"
 	"encoding/json"
 	"fmt"
@@ -70,7 +71,7 @@ type SiteData struct {
 	URLError       string `json:"errorUrl"`
 	UsedUsername   string `json:"username_claimed"`
 	UnusedUsername string `json:"username_unclaimed"`
-	// RegexCheck string `json:"regexCheck"`
+	RegexCheck string `json:"regexCheck"`
 	// Rank int`json:"rank"`
 }
 
@@ -371,6 +372,21 @@ func Investigo(username string, site string, data SiteData) Result {
 		urlProbe = strings.Replace(data.URLProbe, "{}", username, 1)
 	} else {
 		urlProbe = u
+	}
+
+	if data.RegexCheck != "" {
+		if match, _ := regexp.MatchString(data.RegexCheck, username); !match {
+			return Result{
+				Usernane: username,
+			URL:      data.URL,
+			URLProbe: data.URLProbe,
+			Proxied:  options.withTor,
+			Exist:    false,
+			Site:     site,
+			Err:      true,
+			ErrMsg:   "Username " + username + " is illegal format for " + site,
+			}
+		}
 	}
 
 	r, err := Request(urlProbe)
