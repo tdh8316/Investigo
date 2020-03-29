@@ -38,7 +38,7 @@
 # Installation
 ## Download Windows Binary
 You can download the binary for Windows.
- - [Download latest release](https://github.com/tdh8316/Investigo/releases)
+ - [Download latest release](https://github.com/tdh8316/Investigo/releases/latest)
 
 `$ investigo.exe -h`
 
