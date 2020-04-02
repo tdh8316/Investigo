@@ -46,10 +46,12 @@ type Result struct {
 }
 
 var (
-	waitGroup = &sync.WaitGroup{}
-	logger    = log.New(color.Output, "", 0)
-	siteData  = map[string]SiteData{}
-	options   struct {
+	waitGroup      = &sync.WaitGroup{}
+	logger         = log.New(color.Output, "", 0)
+	siteData       = map[string]SiteData{}
+	dataFileName   = "data.json"
+	specifiedSites string
+	options        struct {
 		noColor         bool
 		verbose         bool
 		updateBeforeRun bool
@@ -57,8 +59,8 @@ var (
 		useCustomData   bool
 		withTor         bool
 		withScreenshot  bool
+		specifySite     bool
 	}
-	dataFileName = "data.json"
 )
 
 // A SiteData struct for json datatype
@@ -172,6 +174,12 @@ optional arguments:
 		args = append(args[:argIndex], args[argIndex+2:]...)
 	}
 
+	options.specifySite, argIndex = HasElement(args, "--site")
+	if options.specifySite {
+		specifiedSites = args[argIndex+1]
+		args = append(args[:argIndex], args[argIndex+2:]...)
+	}
+
 	return args
 }
 
@@ -214,23 +222,40 @@ func main() {
 	// Loads extra site data
 	initializeExtraSiteData()
 
-	for _, username := range usernames {
-		if options.noColor {
-			fmt.Printf("\nInvestigating %s on:\n", username)
-		} else {
-			fmt.Fprintf(color.Output, "Investigating %s on:\n", color.HiGreenString(username))
-		}
-		waitGroup.Add(len(siteData))
-		for site := range siteData {
-			guard <- 1
-			go func(site string) {
-				defer waitGroup.Done()
-				res := Investigo(username, site, siteData[site])
+	if options.specifySite {
+		for _, username := range usernames {
+			if options.noColor {
+				fmt.Printf("\nInvestigating %s on:\n", username)
+			} else {
+				fmt.Fprintf(color.Output, "Investigating %s on:\n", color.HiGreenString(username))
+			}
+			site := specifiedSites
+			if val, ok := siteData[site]; ok {
+				res := Investigo(username, site, val)
 				WriteResult(res)
-				<-guard
-			}(site)
+			} else {
+				log.Printf("[!] %s is not a valid site.", site)
+			}
 		}
-		waitGroup.Wait()
+	} else {
+		for _, username := range usernames {
+			if options.noColor {
+				fmt.Printf("\nInvestigating %s on:\n", username)
+			} else {
+				fmt.Fprintf(color.Output, "Investigating %s on:\n", color.HiGreenString(username))
+			}
+			waitGroup.Add(len(siteData))
+			for site := range siteData {
+				guard <- 1
+				go func(site string) {
+					defer waitGroup.Done()
+					res := Investigo(username, site, siteData[site])
+					WriteResult(res)
+					<-guard
+				}(site)
+			}
+			waitGroup.Wait()
+		}
 	}
 
 	return
