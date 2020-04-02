@@ -45,7 +45,7 @@ You can download the binary for Windows.
 ## Build from source
 To compile investigo, Go 1.12 or higher is required.
 
-```cmd
+```
 $ git clone https://github.com/tdh8316/Investigo.git
 $ cd investigo
 $ go build
@@ -110,7 +110,7 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 </details>
 
 # Usage
-```cmd
+```
 $ investigo -h
 Investigo - Investigate User Across Social Networks.
 
