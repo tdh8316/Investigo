@@ -705,12 +705,12 @@
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis"
   },
-  "GPSies": {
-    "errorMsg": "<title>GPSies",
+  "AllTrails": {
+    "errorMsg": "User could not be found.",
     "errorType": "message",
     "rank": 118891,
-    "url": "https://www.gpsies.com/mapUser.do?username={}",
-    "urlMain": "https://www.gpsies.com/",
+    "url": "https://www.alltrails.com/members/{}",
+    "urlMain": "https://www.alltrails.com/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis"
   },
@@ -896,17 +896,8 @@
     "username_claimed": "adam",
     "username_unclaimed": "noonewouldeverusethis"
   },
-  "Insanejournal": {
-    "errorType": "status_code",
-    "rank": 29889,
-    "url": "http://{}.insanejournal.com/profile",
-    "urlMain": "insanejournal.com",
-    "username_claimed": "blue",
-    "username_unclaimed": "dlyr6cd"
-  },
   "Instagram": {
-    "errorMsg": "The link you followed may be broken",
-    "errorType": "message",
+    "errorType": "status_code",
     "rank": 32,
     "url": "https://www.instagram.com/{}",
     "urlMain": "https://www.instagram.com/",
@@ -1644,16 +1635,6 @@
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
   },
-  "SportsTracker": {
-    "errorMsg": "\"code\":\"404\"",
-    "errorType": "message",
-    "rank": 93950,
-    "url": "https://www.sports-tracker.com/view_profile/{}",
-    "urlMain": "https://www.sports-tracker.com/",
-    "urlProbe": "https://www.sports-tracker.com/apiserver/v1/user/name/{}",
-    "username_claimed": "blue",
-    "username_unclaimed": "noonewouldeveruse"
-  },
   "Spotify": {
     "errorType": "status_code",
     "rank": 73,
@@ -1729,15 +1710,6 @@
     "urlMain": "https://taringa.net/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
-  },
-  "Telegram": {
-    "errorType": "response_url",
-    "errorUrl": "https://telegram.org",
-    "rank": 385,
-    "url": "https://t.me/{}",
-    "urlMain": "https://t.me/",
-    "username_claimed": "saman",
-    "username_unclaimed": "i_do_not_believe_this_account_exists_at_all"
   },
   "Tellonym.me": {
     "errorType": "status_code",
@@ -1817,14 +1789,6 @@
     "url": "https://trello.com/{}",
     "urlMain": "https://trello.com/",
     "urlProbe": "https://trello.com/1/Members/{}",
-    "username_claimed": "blue",
-    "username_unclaimed": "noonewouldeverusethis7"
-  },
-  "Trip": {
-    "errorType": "status_code",
-    "rank": 2847,
-    "url": "https://www.trip.skyscanner.com/user/{}",
-    "urlMain": "https://www.trip.skyscanner.com/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
   },
@@ -1994,7 +1958,7 @@
     "username_unclaimed": "noonewouldeverusethis7"
   },
   "Wikipedia": {
-    "errorMsg": "If a page was recently created here, it may not be visible yet because of a delay in updating the database",
+    "errorMsg": "is not registered.",
     "errorType": "message",
     "rank": 10,
     "url": "https://www.wikipedia.org/wiki/User:{}",
@@ -2125,14 +2089,6 @@
     "urlMain": "https://www.babyblog.ru/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis"
-  },
-  "boingboing.net": {
-    "errorType": "status_code",
-    "rank": 5821,
-    "url": "https://bbs.boingboing.net/u/{}",
-    "urlMain": "https://boingboing.net/",
-    "username_claimed": "admin",
-    "username_unclaimed": "noonewouldeverusethis7"
   },
   "chaos.social": {
     "errorType": "status_code",
