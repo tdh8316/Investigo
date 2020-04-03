@@ -353,7 +353,7 @@ func Request(target string) (*http.Response, RequestError) {
 	request.Header.Set("User-Agent", userAgent)
 
 	client := &http.Client{
-		Timeout: 120 * time.Second,
+		Timeout: 60 * time.Second,
 	}
 
 	if options.withTor {
