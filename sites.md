@@ -1,4 +1,4 @@
-# 308 sites are supprted!
+# 306 sites are supprted!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -250,7 +250,6 @@
  - [eGPU](https://egpu.io/)
  - [easyen](https://easyen.ru/)
  - [eintracht](https://eintracht.de)
- - [elwoRU](https://elwo.ru/)
  - [fixya](https://www.fixya.com)
  - [fl](https://www.fl.ru/)
  - [forum_guns](https://forum.guns.ru/)
@@ -263,7 +262,6 @@
  - [hunting](https://www.hunting.ru/forum/)
  - [iMGSRC.RU](https://imgsrc.ru/)
  - [igromania](http://forum.igromania.ru/)
- - [ingvarr.net.ru](http://ingvarr.net.ru/)
  - [interpals](https://www.interpals.net/)
  - [irecommend](https://irecommend.ru/)
  - [jeuxvideo](http://www.jeuxvideo.com)
