@@ -22,9 +22,9 @@
 ### VisualStudioCode ###
 .vscode/*
 .DS_Store
-/data/
-# screenshots
-Investigo
+
+# Screenshots
+/Investigo/
 
 Dockerfile.chromium-v2
 Dockerfile.chromium
