@@ -101,7 +101,7 @@ func parseArguments() []string {
 	if help, _ := HasElement(args, "-h", "--help"); help && !options.runTest {
 		fmt.Print(
 			`
-usage: investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] [--db FILENAME] USERNAME [USERNAMES...]
+usage: investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] [--db FILENAME] [--site SITENAME] USERNAME [USERNAMES...]
 perform test: investigo [--test]
 
 positional arguments:
@@ -115,6 +115,7 @@ optional arguments:
 	--no-color            disable colored stdout output
 	--update              update datebase from Sherlock repository
 	--db                  use custom database
+	--site                specific site to search
 `,
 		)
 		os.Exit(0)
