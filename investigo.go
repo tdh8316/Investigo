@@ -224,13 +224,21 @@ func main() {
 
 	if options.specifySite {
 		for _, username := range usernames {
+			// No case sensitive
+			var _siteData map[string]SiteData = map[string]SiteData{}
+
+			for siteName, v := range siteData {
+				_siteData[strings.ToLower(siteName)] = v
+			}
+
 			if options.noColor {
 				fmt.Printf("\nInvestigating %s on:\n", username)
 			} else {
 				fmt.Fprintf(color.Output, "Investigating %s on:\n", color.HiGreenString(username))
 			}
 			site := specifiedSites
-			if val, ok := siteData[site]; ok {
+
+			if val, ok := _siteData[site]; ok {
 				res := Investigo(username, site, val)
 				WriteResult(res)
 			} else {
