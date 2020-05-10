@@ -306,7 +306,7 @@ func initializeSiteData(forceUpdate bool) {
 			jsonFile.Close()
 		}
 
-		r, err := Request("https://raw.githubusercontent.com/sherlock-project/sherlock/master/data.json")
+		r, err := Request("https://raw.githubusercontent.com/sherlock-project/sherlock/master/sherlock/resources/data.json")
 		if err != nil || r.StatusCode != 200 {
 			if options.noColor {
 				fmt.Printf(" [%s]\n", ("Failed"))
