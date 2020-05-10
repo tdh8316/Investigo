@@ -307,13 +307,18 @@ func initializeSiteData(forceUpdate bool) {
 		}
 
 		r, err := Request("https://raw.githubusercontent.com/sherlock-project/sherlock/master/sherlock/resources/data.json")
+		
 		if err != nil || r.StatusCode != 200 {
 			if options.noColor {
 				fmt.Printf(" [%s]\n", ("Failed"))
 			} else {
 				fmt.Fprintf(color.Output, " [%s]\n", color.HiRedString("Failed"))
 			}
-			panic("Failed to update database.\n" + err.Error())
+			if err != nil {
+				panic("Failed to update database.\n" + err.Error())
+			} else {
+				panic("Failed to update database: " + r.Status)
+			}
 		} else {
 			defer r.Body.Close()
 		}
