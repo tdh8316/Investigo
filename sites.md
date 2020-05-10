@@ -1,4 +1,4 @@
-# 306 sites are supprted!
+# 305 sites are supprted!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -7,7 +7,6 @@
  - [9GAG](https://9gag.com/)
  - [About.me](https://about.me/)
  - [Academia.edu](https://www.academia.edu/)
- - [AdobeForums](https://forums.adobe.com/)
  - [Alik.cz](https://www.alik.cz/)
  - [AllTrails](https://www.alltrails.com/)
  - [Anobii](https://www.anobii.com/)
