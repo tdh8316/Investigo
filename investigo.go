@@ -226,7 +226,7 @@ func main() {
 	if options.specifySite {
 		for _, username := range usernames {
 			// No case sensitive
-			var _siteData map[string]SiteData = map[string]SiteData{}
+			_siteData := map[string]SiteData{}
 
 			for siteName, v := range siteData {
 				_siteData[strings.ToLower(siteName)] = v
