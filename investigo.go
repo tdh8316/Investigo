@@ -72,6 +72,7 @@ type SiteData struct {
 	URLMain        string `json:"urlMain"`
 	URLProbe       string `json:"urlProbe"`
 	URLError       string `json:"errorUrl"`
+	// TODO: Add headers
 	UsedUsername   string `json:"username_claimed"`
 	UnusedUsername string `json:"username_unclaimed"`
 	RegexCheck     string `json:"regexCheck"`
@@ -365,6 +366,7 @@ func Request(target string) (*http.Response, RequestError) {
 	if err != nil {
 		return nil, err
 	}
+	// TODO: Check whether or not user agent required
 	request.Header.Set("User-Agent", userAgent)
 
 	client := &http.Client{
@@ -418,6 +420,8 @@ func Investigo(username string, site string, data SiteData) Result {
 	// URL to be displayed
 	u = strings.Replace(data.URL, "{}", username, 1)
 
+	// URL used to check if user exists.
+	// Mostly same as variable `u`
 	if data.URLProbe != "" {
 		urlProbe = strings.Replace(data.URLProbe, "{}", username, 1)
 	} else {
@@ -461,7 +465,7 @@ func Investigo(username string, site string, data SiteData) Result {
 	// check error types
 	switch data.ErrorType {
 	case "status_code":
-		if r.StatusCode <= 300 || r.StatusCode < 200 {
+		if r.StatusCode == http.StatusOK {
 			result = Result{
 				Usernane: username,
 				URL:      data.URL,
