@@ -11,6 +11,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -307,7 +308,7 @@ func initializeSiteData(forceUpdate bool) {
 		}
 
 		r, err := Request("https://raw.githubusercontent.com/sherlock-project/sherlock/master/sherlock/resources/data.json")
-		
+
 		if err != nil || r.StatusCode != 200 {
 			if options.noColor {
 				fmt.Printf(" [%s]\n", ("Failed"))
@@ -638,9 +639,17 @@ func test() {
 					}
 				} else {
 					if options.noColor {
-						logger.Printf("[-] %s: %s", site, ("Failed"))
+						logger.Printf("[-] %s: %s (%s: expected true, but %s, %s: expected false, but %s)",
+							site, ("Not working"),
+							_usedUsername, strconv.FormatBool(_resUsed.Exist),
+							_unusedUsername, strconv.FormatBool(_resUnused.Exist),
+						)
 					} else {
-						logger.Printf("[-] %s: %s", site, color.RedString("Failed"))
+						logger.Printf("[-] %s: %s (%s: expected true, but %s, %s: expected false, but %s)",
+							site, color.RedString("Not working"),
+							_usedUsername, strconv.FormatBool(_resUsed.Exist),
+							_unusedUsername, strconv.FormatBool(_resUnused.Exist),
+						)
 					}
 				}
 
