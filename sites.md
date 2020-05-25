@@ -1,4 +1,4 @@
-# 305 sites are supprted!
+# 304 sites are supprted!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -45,7 +45,6 @@
  - [Codechef](https://www.codechef.com/)
  - [Coderwall](https://coderwall.com/)
  - [Codewars](https://www.codewars.com)
- - [ColourLovers](https://www.colourlovers.com/)
  - [Contently](https://contently.com/)
  - [Coroflot](https://coroflot.com/)
  - [Cracked](https://www.cracked.com/)
