@@ -131,6 +131,7 @@ optional arguments:
 		scanner.Scan()
 		_usernames = scanner.Text()
 		return strings.Split(_usernames, " ")
+		// FIXME: Why `fatal error: all goroutines are asleep - deadlock!` is occurred?
 	}
 
 	options.noColor, argIndex = HasElement(args, "--no-color")
