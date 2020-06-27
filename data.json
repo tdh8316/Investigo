@@ -2557,5 +2557,29 @@
     "urlMain": "https://windy.com/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
+  },
+  "mercadolivre": {
+    "errorType": "status_code",
+    "rank": 27839,
+    "url": "https://www.mercadolivre.com.br/perfil/{}",
+    "urlMain": "https://www.mercadolivre.com.br",
+    "username_claimed": "blue",
+    "username_unclaimed": "noonewouldeverusethis77777"
+  },
+  "kofi": {
+    "errorType": "status_code",
+    "rank": 89891,
+    "url": "https://ko-fi.com/{}",
+    "urlMain": "https://ko-fi.com",
+    "username_claimed": "yeahkenny",
+    "username_unclaimed": "noonewouldeverusethis77777"
+  },
+  "aminoapp": {
+    "errorType": "status_code",
+    "rank": 9125,
+    "url": "https://aminoapps.com/u/{}",
+    "urlMain": "https://aminoapps.com/",
+    "username_claimed": "blue",
+    "username_unclaimed": "noonewouldeverusethis77777"
   }
 }

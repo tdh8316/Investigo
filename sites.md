@@ -1,4 +1,4 @@
-# 300 sites are supported!
+# 303 sites are supported!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -232,6 +232,7 @@
  - [Zomato](https://www.zomato.com/)
  - [akniga](https://akniga.org/profile/blue/)
  - [allmylinks](https://allmylinks.com/)
+ - [aminoapp](https://aminoapps.com/)
  - [authorSTREAM](http://www.authorstream.com/)
  - [babyRU](https://www.baby.ru/)
  - [babyblogRU](https://www.babyblog.ru/)
@@ -259,6 +260,7 @@
  - [interpals](https://www.interpals.net/)
  - [irecommend](https://irecommend.ru/)
  - [jeuxvideo](http://www.jeuxvideo.com)
+ - [kofi](https://ko-fi.com)
  - [kwork](https://www.kwork.ru/)
  - [labpentestit](https://lab.pentestit.ru/)
  - [last.fm](https://last.fm/)
@@ -268,6 +270,7 @@
  - [mastodon.social](https://chaos.social/)
  - [mastodon.technology](https://mastodon.xyz/)
  - [mastodon.xyz](https://mastodon.xyz/)
+ - [mercadolivre](https://www.mercadolivre.com.br)
  - [metacritic](https://www.metacritic.com/)
  - [mixer.com](https://mixer.com/)
  - [moikrug](https://moikrug.ru/)
