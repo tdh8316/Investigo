@@ -50,6 +50,7 @@
     "errorMsg": "Oops! This page doesn\u2019t exist.",
     "errorType": "message",
     "rank": 3453,
+    "regexCheck":"^[a-z0-9_]$",
     "url": "https://500px.com/{}",
     "urlMain": "https://500px.com/",
     "username_claimed": "blue",
@@ -60,6 +61,14 @@
     "rank": 51294,
     "url": "https://www.7cups.com/@{}",
     "urlMain": "https://www.7cups.com/",
+    "username_claimed": "blue",
+    "username_unclaimed": "noonewouldeverusethis7"
+  },
+  "9GAG": {
+    "errorType": "status_code",
+    "rank": 389,
+    "url": "https://www.9gag.com/u/{}",
+    "urlMain": "https://www.9gag.com/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
   },
@@ -281,6 +290,16 @@
     "urlMain": "https://www.cnet.com/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis"
+  },
+  "CapFriendly": {
+    "errorMsg": "<div class=\"err show p5\">No results found</div>",
+    "errorType": "message",
+    "rank": 64100,
+    "regexCheck": "^[a-zA-z][a-zA-Z0-9_]{2,79}$",
+    "url": "https://www.capfriendly.com/users/{}",
+    "urlMain": "https://www.capfriendly.com/",
+    "username_claimed": "thisactuallyexists",
+    "username_unclaimed": "noonewouldeverusethis7"
   },
   "Carbonmade": {
     "errorType": "response_url",
@@ -1264,6 +1283,18 @@
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
   },
+  "PayPal": {
+    "errorMsg": "<meta name=\"twitter:title\" content=\"Get your very own PayPal.Me link\" />",
+    "errorType": "message",
+    "headers": {
+      "User-Agent": ""
+    },
+    "rank": 18441,
+    "url": "https://www.paypal.com/paypalme/{}",
+    "urlMain": "https://www.paypal.me/",
+    "username_claimed": "blue",
+    "username_unclaimed": "noneownsthisusername7"
+  },
   "Periscope": {
     "errorType": "status_code",
     "rank": 27375,
@@ -1648,6 +1679,16 @@
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
   },
+  "Telegram": {
+    "errorMsg":"<meta property=\"og:description\" content=\"\">",
+    "errorType": "message",
+    "regexCheck": "^[a-zA-Z0-9_]{5,32}$",
+    "rank": 385,
+    "url": "https://t.me/{}",
+    "urlMain": "https://t.me/",
+    "username_claimed": "roopeshvs",
+    "username_unclaimed": "noonewouldeverusethis7"
+ },
   "Tellonym.me": {
     "errorType": "status_code",
     "rank": 26963,
@@ -1657,7 +1698,7 @@
     "username_unclaimed": "noonewouldeverusethis7"
   },
   "Tinder": {
-    "errorMsg": "Looking for Someone?",
+    "errorMsg": "<title data-react-helmet=\"true\">Tinder | Match. Chat. Date.</title>",
     "errorType": "message",
     "rank": 1149,
     "url": "https://www.gotinder.com/@{}",
@@ -1876,7 +1917,7 @@
     "username_unclaimed": "noonewouldeverusethis7"
   },
   "Wikipedia": {
-    "errorMsg": "is not registered.",
+    "errorMsg": "<b>Wikipedia does not have a <a href=\"/wiki/Wikipedia:User_pages\" title=\"Wikipedia:User pages\">user page</a> with this exact name.</b>",
     "errorType": "message",
     "rank": 10,
     "url": "https://www.wikipedia.org/wiki/User:{}",
