@@ -15,9 +15,10 @@
   },
   "polarsteps": {
     "errorType": "status_code",
-    "url": "https://www.polarsteps.com/{}",
+    "url": "https://polarsteps.com/{}",
     "urlMain": "https://polarsteps.com/",
-    "username_claimed": "vidheeshnacode",
+    "urlProbe": "https://api.polarsteps.com/users/byusername/{}",
+    "username_claimed": "james",
     "username_unclaimed": "noonewouldeverusethis7"
   },
   "2Dimensions": {
@@ -2031,8 +2032,9 @@
     "username_unclaimed": "noonewouldeverusethis"
   },
   "babyblogRU": {
-    "errorType": "status_code",
-    "rank": 15174,
+    "errorType": "message",
+    "errorMsg": "<title>BabyBlog — крупнейшее сообщество родителей</title>",
+    "rank": 14711,
     "url": "https://www.babyblog.ru/user/info/{}",
     "urlMain": "https://www.babyblog.ru/",
     "username_claimed": "blue",
