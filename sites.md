@@ -1,4 +1,4 @@
-# 303 sites are supported!
+# 306 sites are supported!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -127,7 +127,9 @@
  - [MeetMe](https://www.meetme.com/)
  - [Memrise](https://www.memrise.com/)
  - [MixCloud](https://www.mixcloud.com/)
+ - [Munzee](https://www.munzee.com/)
  - [MyAnimeList](https://myanimelist.net/)
+ - [MyMiniFactory](https://www.myminifactory.com/)
  - [Myspace](https://myspace.com/)
  - [NICommunityForum](https://www.native-instruments.com/forum/)
  - [NPM](https://www.npmjs.com/)
@@ -183,6 +185,7 @@
  - [ShitpostBot5000](https://www.shitpostbot.com/)
  - [Signal](https://community.signalusers.org)
  - [Slack](https://slack.com)
+ - [Slashdot](https://slashdot.org)
  - [SlideShare](https://slideshare.net/)
  - [Smashcast](https://www.smashcast.tv/)
  - [Smule](https://www.smule.com/)
