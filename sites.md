@@ -1,4 +1,4 @@
-# 306 sites are supported!
+# 308 sites are supported!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -38,7 +38,7 @@
  - [Cent](https://cent.co/)
  - [Championat](https://www.championat.com/)
  - [Chatujme.cz](https://chatujme.cz/)
- - [Chess](https://www.chess.com/ru/)
+ - [Chess](https://www.chess.com/)
  - [Cloob](https://www.cloob.com/)
  - [CloudflareCommunity](https://community.cloudflare.com/)
  - [Clozemaster](https://www.clozemaster.com)
@@ -137,6 +137,7 @@
  - [NameMC (Minecraft.net skins)](https://namemc.com/)
  - [NationStates Nation](https://nationstates.net)
  - [NationStates Region](https://nationstates.net)
+ - [Naver](https://naver.com)
  - [Newgrounds](https://newgrounds.com)
  - [Nightbot](https://nightbot.tv/)
  - [NotABug.org](https://notabug.org/)
@@ -216,6 +217,7 @@
  - [Travellerspoint](https://www.travellerspoint.com)
  - [Trello](https://trello.com/)
  - [TripAdvisor](https://tripadvisor.com/)
+ - [TryHackMe](https://tryhackme.com/)
  - [Twitch](https://www.twitch.tv/)
  - [Twitter](https://mobile.twitter.com/)
  - [Typeracer](https://typeracer.com)
