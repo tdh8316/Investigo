@@ -207,7 +207,6 @@ func main() {
 
 	// Parse command-line arguments
 	usernames := parseArguments()
-	fmt.Println(usernames)
 
 	// Loads site data from sherlock database and assign to a variable.
 	initializeSiteData(options.updateBeforeRun)
