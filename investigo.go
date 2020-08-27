@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"github.com/dlclark/regexp2"
@@ -29,7 +28,7 @@ const (
 )
 
 var (
-	maxGoroutines int
+	maxGoroutines int = 32
 	guard         chan int
 )
 
@@ -66,12 +65,12 @@ var (
 
 // A SiteData struct for json datatype
 type SiteData struct {
-	ErrorType      string `json:"errorType"`
-	ErrorMsg       string `json:"errorMsg"`
-	URL            string `json:"url"`
-	URLMain        string `json:"urlMain"`
-	URLProbe       string `json:"urlProbe"`
-	URLError       string `json:"errorUrl"`
+	ErrorType string `json:"errorType"`
+	ErrorMsg  string `json:"errorMsg"`
+	URL       string `json:"url"`
+	URLMain   string `json:"urlMain"`
+	URLProbe  string `json:"urlProbe"`
+	URLError  string `json:"errorUrl"`
 	// TODO: Add headers
 	UsedUsername   string `json:"username_claimed"`
 	UnusedUsername string `json:"username_unclaimed"`
@@ -126,12 +125,9 @@ optional arguments:
 	if len(args) < 1 {
 		fmt.Println("WARNING: You executed Investigo without arguments. Use `-h` flag if you need help.")
 		var _usernames string
-		scanner := bufio.NewScanner(os.Stdin)
 		fmt.Printf("Input username to investigate:")
-		scanner.Scan()
-		_usernames = scanner.Text()
+		fmt.Scanln(&_usernames)
 		return strings.Split(_usernames, " ")
-		// FIXME: Why `fatal error: all goroutines are asleep - deadlock!` is occurred?
 	}
 
 	options.noColor, argIndex = HasElement(args, "--no-color")
@@ -211,6 +207,7 @@ func main() {
 
 	// Parse command-line arguments
 	usernames := parseArguments()
+	fmt.Println(usernames)
 
 	// Loads site data from sherlock database and assign to a variable.
 	initializeSiteData(options.updateBeforeRun)
