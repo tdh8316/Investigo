@@ -1,7 +1,6 @@
-# 299 sites are supported!
+# 298 sites are supported!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
- - [4pda](https://4pda.ru/)
  - [7Cups](https://www.7cups.com/)
  - [9GAG](https://www.9gag.com/)
  - [About.me](https://about.me/)
