@@ -1,6 +1,7 @@
-# 298 sites are supported!
+# 299 sites are supported!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
+ - [4pda](https://4pda.ru/)
  - [7Cups](https://www.7cups.com/)
  - [9GAG](https://www.9gag.com/)
  - [About.me](https://about.me/)
@@ -114,12 +115,12 @@
  - [LeetCode](https://leetcode.com/)
  - [Letterboxd](https://letterboxd.com/)
  - [Lichess](https://lichess.org)
+ - [Linkedin](https://www.linkedin.com/)
  - [LiveJournal](https://www.livejournal.com/)
  - [LiveLeak](https://www.liveleak.com/)
  - [Lobsters](https://lobste.rs/)
  - [Lolchess](https://lolchess.gg/)
  - [Medium](https://medium.com/)
- - [MeetMe](https://www.meetme.com/)
  - [Memrise](https://www.memrise.com/)
  - [MixCloud](https://www.mixcloud.com/)
  - [Munzee](https://www.munzee.com/)
