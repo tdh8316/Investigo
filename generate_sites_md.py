@@ -1,9 +1,7 @@
-from typing import Dict, AnyStr
+from typing import Dict
 import json
 
-site_dict: Dict[AnyStr, AnyStr] = json.loads(
-    open("data.json", "r", encoding="utf-8").read()
-)
+site_dict: Dict[str, str] = json.loads(open("data.json", "r", encoding="utf-8").read())
 
 with open("sites.md", "w", encoding="utf-8") as file:
     file.write(f"# {len(site_dict)} sites are supported!\n")
