@@ -1,4 +1,4 @@
-# 299 sites are supported!
+# 300 sites are supported!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -162,6 +162,7 @@
  - [Polygon](https://www.polygon.com/)
  - [ProductHunt](https://www.producthunt.com/)
  - [PromoDJ](http://promodj.com/)
+ - [PyPi](https://pypi.org)
  - [Quora](https://www.quora.com/)
  - [Rajce.net](https://www.rajce.idnes.cz/)
  - [Rate Your Music](https://rateyourmusic.com/)
