@@ -1,4 +1,4 @@
-# 300 sites are supported!
+# 298 sites are supported!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [4pda](https://4pda.ru/)
@@ -115,7 +115,6 @@
  - [LeetCode](https://leetcode.com/)
  - [Letterboxd](https://letterboxd.com/)
  - [Lichess](https://lichess.org)
- - [Linkedin](https://www.linkedin.com/)
  - [LiveJournal](https://www.livejournal.com/)
  - [LiveLeak](https://www.liveleak.com/)
  - [Lobsters](https://lobste.rs/)
@@ -199,9 +198,9 @@
  - [Steamid](https://steamid.uk/)
  - [Strava](https://www.strava.com/)
  - [SublimeForum](https://forum.sublimetext.com/)
- - [Taringa](https://taringa.net/)
  - [Telegram](https://t.me/)
  - [Tellonym.me](https://tellonym.me/)
+ - [TikTok](https://tiktok.com/)
  - [Tinder](https://tinder.com/)
  - [TrackmaniaLadder](http://en.tm-ladder.com/index.php)
  - [TradingView](https://www.tradingview.com/)
@@ -297,7 +296,6 @@
  - [spletnik](https://spletnik.ru/)
  - [svidbook](https://www.svidbook.ru/)
  - [toster](https://www.toster.ru/)
- - [tracr.co](https://tracr.co/)
  - [uid](https://uid.me/)
 # Removed sites
 Please refer [here](https://github.com/sherlock-project/sherlock/blob/master/removed_sites.md)
