@@ -34,7 +34,7 @@ var (
 
 // Result of Investigo function
 type Result struct {
-	Usernane string
+	Username string
 	Exist    bool
 	Proxied  bool
 	Site     string
@@ -429,7 +429,7 @@ func Investigo(username string, site string, data SiteData) Result {
 		re := regexp2.MustCompile(data.RegexCheck, 0)
 		if match, _ := re.MatchString(username); !match {
 			return Result{
-				Usernane: username,
+				Username: username,
 				URL:      data.URL,
 				URLProbe: data.URLProbe,
 				Proxied:  options.withTor,
@@ -448,7 +448,7 @@ func Investigo(username string, site string, data SiteData) Result {
 			r.Body.Close()
 		}
 		return Result{
-			Usernane: username,
+			Username: username,
 			URL:      data.URL,
 			URLProbe: data.URLProbe,
 			Proxied:  options.withTor,
@@ -464,7 +464,7 @@ func Investigo(username string, site string, data SiteData) Result {
 	case "status_code":
 		if r.StatusCode == http.StatusOK {
 			result = Result{
-				Usernane: username,
+				Username: username,
 				URL:      data.URL,
 				URLProbe: data.URLProbe,
 				Proxied:  options.withTor,
@@ -474,7 +474,7 @@ func Investigo(username string, site string, data SiteData) Result {
 			}
 		} else {
 			result = Result{
-				Usernane: username,
+				Username: username,
 				URL:      data.URL,
 				Proxied:  options.withTor,
 				Site:     site,
@@ -485,7 +485,7 @@ func Investigo(username string, site string, data SiteData) Result {
 	case "message":
 		if !strings.Contains(ReadResponseBody(r), data.ErrorMsg) {
 			result = Result{
-				Usernane: username,
+				Username: username,
 				URL:      data.URL,
 				URLProbe: data.URLProbe,
 				Proxied:  options.withTor,
@@ -495,7 +495,7 @@ func Investigo(username string, site string, data SiteData) Result {
 			}
 		} else {
 			result = Result{
-				Usernane: username,
+				Username: username,
 				URL:      data.URL,
 				Proxied:  options.withTor,
 				Site:     site,
@@ -508,7 +508,7 @@ func Investigo(username string, site string, data SiteData) Result {
 		// the error type `response_url` works as `status_code`.
 		if (r.StatusCode <= 300 || r.StatusCode < 200) && r.Request.URL.String() == u {
 			result = Result{
-				Usernane: username,
+				Username: username,
 				URL:      data.URL,
 				URLProbe: data.URLProbe,
 				Proxied:  options.withTor,
@@ -518,7 +518,7 @@ func Investigo(username string, site string, data SiteData) Result {
 			}
 		} else {
 			result = Result{
-				Usernane: username,
+				Username: username,
 				URL:      data.URL,
 				Proxied:  options.withTor,
 				Site:     site,
@@ -528,7 +528,7 @@ func Investigo(username string, site string, data SiteData) Result {
 		}
 	default:
 		result = Result{
-			Usernane: username,
+			Username: username,
 			Proxied:  options.withTor,
 			Exist:    false,
 			Err:      true,
