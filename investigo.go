@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/dlclark/regexp2"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -16,8 +15,11 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/dlclark/regexp2"
+
 	color "github.com/fatih/color"
 	chrm "github.com/tdh8316/Investigo/chrome"
+	downloader "github.com/tdh8316/Investigo/downloader"
 	"golang.org/x/net/proxy"
 )
 
@@ -60,6 +62,7 @@ var (
 		withTor         bool
 		withScreenshot  bool
 		specifySite     bool
+		download        bool
 	}
 )
 
@@ -176,8 +179,13 @@ optional arguments:
 
 	options.specifySite, argIndex = HasElement(args, "--site")
 	if options.specifySite {
-		specifiedSites = args[argIndex+1]
+		specifiedSites = strings.ToLower(args[argIndex+1])
 		args = append(args[:argIndex], args[argIndex+2:]...)
+	}
+
+	options.download, argIndex = HasElement(args, "-d", "--download")
+	if options.download {
+		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
 	return args
@@ -442,6 +450,7 @@ func Investigo(username string, site string, data SiteData) Result {
 	}
 
 	r, err := Request(urlProbe)
+	defer r.Body.Close()
 
 	if err != nil {
 		if r != nil {
@@ -537,8 +546,6 @@ func Investigo(username string, site string, data SiteData) Result {
 		}
 	}
 
-	r.Body.Close()
-
 	if options.withScreenshot && result.Exist {
 		urlParts, _ := url.Parse(urlProbe)
 		folderPath := filepath.Join("screenshots", username)
@@ -548,6 +555,13 @@ func Investigo(username string, site string, data SiteData) Result {
 		}
 		if err := getScreenshot(screenShotRes, urlProbe, outputPath); err != nil {
 			log.Fatal(err)
+		}
+	}
+
+	if options.download && result.Exist {
+		// Check if the downloader for this site exists
+		if downloadFunc, ok := downloader.Impl[strings.ToLower(site)]; ok {
+			downloadFunc.(func(string, *log.Logger))(urlProbe, logger)
 		}
 	}
 
