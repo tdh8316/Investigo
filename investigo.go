@@ -450,7 +450,6 @@ func Investigo(username string, site string, data SiteData) Result {
 	}
 
 	r, err := Request(urlProbe)
-	defer r.Body.Close()
 
 	if err != nil {
 		if r != nil {
@@ -564,6 +563,8 @@ func Investigo(username string, site string, data SiteData) Result {
 			downloadFunc.(func(string, *log.Logger))(urlProbe, logger)
 		}
 	}
+
+	r.Body.Close()
 
 	return result
 }
