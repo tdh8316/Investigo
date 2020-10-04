@@ -49,7 +49,11 @@ func downloadInstagram(url string, logger *log.Logger) {
 				log.Fatal(e)
 			}
 
-			file, err := os.Create(username + "/instagram_" + strconv.Itoa(i) + ".jpg")
+			isVideo := edge.Get("node").Get("is_video").Bool()
+			if isVideo {
+				r, _ = http.Get(edge.Get("video_url").String())
+			}
+			file, err := os.Create(username + "/instagram_" + strconv.Itoa(i) + map[bool]string{true: ".mp4", false: ".jpg"}[isVideo])
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -61,6 +65,36 @@ func downloadInstagram(url string, logger *log.Logger) {
 
 			r.Body.Close()
 			file.Close()
+
+			for j, child := range edge.Get("node.edge_sidecar_to_children.edges").Array() {
+				if j == 0 {
+					continue
+				}
+				uri := child.Get("node").Get("display_url").String()
+				r, e := http.Get(uri)
+				if e != nil {
+					log.Fatal(e)
+				}
+				isVideo := child.Get("node").Get("is_video").Bool()
+				if isVideo {
+					r, e = http.Get(child.Get("node").Get("video_url").String())
+					if e != nil {
+						log.Fatal(e)
+					}
+				}
+				file, err := os.Create(username + "/instagram_" + strconv.Itoa(i) + "_" + strconv.Itoa(j) + map[bool]string{true: ".mp4", false: ".jpg"}[isVideo])
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				_, err = io.Copy(file, r.Body)
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				r.Body.Close()
+				file.Close()
+			}
 		}(edge, i)
 	}
 	wg.Wait()
