@@ -575,20 +575,24 @@ func WriteResult(result Result) {
 		if result.Exist {
 			logger.Printf("[%s] %s: %s\n", ("+"), result.Site, result.Link)
 		} else {
-			if result.Err {
-				logger.Printf("[%s] %s: ERROR: %s", ("!"), result.Site, (result.ErrMsg))
-			} else if options.verbose {
-				logger.Printf("[%s] %s: %s", ("-"), result.Site, ("Not Found!"))
+			if options.verbose {
+				if result.Err {
+					logger.Printf("[%s] %s: %s: %s", ("!"), result.Site, ("ERROR"), (result.ErrMsg))
+				} else {
+					logger.Printf("[%s] %s: %s", ("-"), result.Site, ("Not Found!"))
+				}
 			}
 		}
 	} else {
 		if result.Exist {
 			logger.Printf("[%s] %s: %s\n", color.HiGreenString("+"), color.HiWhiteString(result.Site), result.Link)
 		} else {
-			if result.Err {
-				logger.Printf("[%s] %s: %s: %s", color.HiRedString("!"), result.Site, color.HiMagentaString("ERROR"), color.HiRedString(result.ErrMsg))
-			} else if options.verbose {
-				logger.Printf("[%s] %s: %s", color.HiRedString("-"), result.Site, color.HiYellowString("Not Found!"))
+			if options.verbose {
+				if result.Err {
+					logger.Printf("[%s] %s: %s: %s", color.HiRedString("!"), result.Site, color.HiMagentaString("ERROR"), color.HiRedString(result.ErrMsg))
+				} else {
+					logger.Printf("[%s] %s: %s", color.HiRedString("-"), result.Site, color.HiYellowString("Not Found!"))
+				}
 			}
 		}
 	}
