@@ -14,50 +14,66 @@ import (
 )
 
 func downloadInstagram(url string, logger *log.Logger) {
-	s := strings.Split(url, "/")
-	username := s[len(s)-1]
+	// Parse the given url and get Instagram ID
+	_splitURL := strings.Split(url, "/")
+	username := _splitURL[len(_splitURL)-1]
 	os.Mkdir(username, os.ModePerm)
 
-	r, _ := http.Get(url + "?__a=1")
+	var targetURIs []string
+	var wg sync.WaitGroup
+
+	// Read user metadata
+	r, err := http.Get(url + "?__a=1")
+	if err != nil {
+		log.Fatal(err)
+	}
 	bdB, _ := ioutil.ReadAll(r.Body)
 	r.Body.Close()
 
-	profilePicURLHd := gjson.GetBytes(bdB, "graphql.user.profile_pic_url_hd").String()
-	r, e := http.Get(profilePicURLHd)
-	if e != nil {
-		log.Fatal(e)
+	// Add profile picture to target uri
+	targetURIs = append(targetURIs, gjson.GetBytes(bdB, "graphql.user.profile_pic_url_hd").String())
+
+	addURIFromNode := func(node gjson.Result) {
+		var targetURI string
+		if node.Get("is_video").Bool() {
+			targetURI = node.Get("video_url").String()
+		} else {
+			targetURI = node.Get("display_url").String()
+		}
+		targetURIs = append(targetURIs, targetURI)
 	}
-	defer r.Body.Close()
-	file, err := os.Create(username + "/instagram_profile_pic_hd.jpg")
-	if err != nil {
-		log.Fatal(err)
-	}
-	_, err = io.Copy(file, r.Body)
-	if err != nil {
-		log.Fatal(err)
+	// Add posts to target uri
+	for _, edge := range gjson.GetBytes(bdB, "graphql.user.edge_owner_to_timeline_media.edges").Array() {
+		node := edge.Get("node")
+		addURIFromNode(node)
+		for i, subEdge := range node.Get("edge_sidecar_to_children.edges").Array() {
+			if i != 0 {
+				subNode := subEdge.Get("node")
+				addURIFromNode(subNode)
+			}
+		}
 	}
 
-	edges := gjson.GetBytes(bdB, "graphql.user.edge_owner_to_timeline_media.edges")
-	var wg sync.WaitGroup
-	for i, edge := range edges.Array() {
+	// Download all targets
+	for i, uri := range targetURIs {
 		wg.Add(1)
-		go func(edge gjson.Result, i int) {
+		go func(i int, uri string) {
 			defer wg.Done()
-			uri := edge.Get("node").Get("display_url").String()
-			r, e := http.Get(uri)
-			if e != nil {
-				log.Fatal(e)
-			}
+			_splitURL := strings.Split(strings.Split(uri, "?")[0], ".")
 
-			isVideo := edge.Get("node").Get("is_video").Bool()
-			if isVideo {
-				r, _ = http.Get(edge.Get("video_url").String())
-			}
-			file, err := os.Create(username + "/instagram_" + strconv.Itoa(i) + map[bool]string{true: ".mp4", false: ".jpg"}[isVideo])
+			// Create file
+			file, err := os.Create(username + "/instagram_" + strconv.Itoa(i) + "." + _splitURL[len(_splitURL)-1])
 			if err != nil {
 				log.Fatal(err)
 			}
 
+			// Read content
+			r, err := http.Get(uri)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// Write to file
 			_, err = io.Copy(file, r.Body)
 			if err != nil {
 				log.Fatal(err)
@@ -65,37 +81,7 @@ func downloadInstagram(url string, logger *log.Logger) {
 
 			r.Body.Close()
 			file.Close()
-
-			for j, child := range edge.Get("node.edge_sidecar_to_children.edges").Array() {
-				if j == 0 {
-					continue
-				}
-				uri := child.Get("node").Get("display_url").String()
-				r, e := http.Get(uri)
-				if e != nil {
-					log.Fatal(e)
-				}
-				isVideo := child.Get("node").Get("is_video").Bool()
-				if isVideo {
-					r, e = http.Get(child.Get("node").Get("video_url").String())
-					if e != nil {
-						log.Fatal(e)
-					}
-				}
-				file, err := os.Create(username + "/instagram_" + strconv.Itoa(i) + "_" + strconv.Itoa(j) + map[bool]string{true: ".mp4", false: ".jpg"}[isVideo])
-				if err != nil {
-					log.Fatal(err)
-				}
-
-				_, err = io.Copy(file, r.Body)
-				if err != nil {
-					log.Fatal(err)
-				}
-
-				r.Body.Close()
-				file.Close()
-			}
-		}(edge, i)
+		}(i, uri)
 	}
 	wg.Wait()
 }
