@@ -114,21 +114,24 @@ linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.c
 $ investigo -h
 Investigo - Investigate User Across Social Networks.
 
-usage: investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] [--db FILENAME] [--site SITENAME] USERNAME [USERNAMES...]
+usage: investigo USERNAME [USERNAMES...] flags options
 perform test: investigo [--test]
 
 positional arguments:
         USERNAMES             one or more usernames to investigate
 
-optional arguments:
+flags:
         -h, --help            show this help message and exit
-        -v, --verbose         output sites which is username was not found
-        -s, --screenshot      take a screenshot of each matched urls
-        -t, --tor             use tor proxy (default: socks5://127.0.0.1:9050)
         --no-color            disable colored stdout output
-        --update              update datebase from Sherlock repository
-        --db                  use custom database
-        --site                specific site to search
+        --update              update database before run from Sherlock repository
+        -t, --tor             use tor proxy
+        -s, --screenshot      take a screenshot of each matched urls
+        -v, --verbose         verbose output
+        -d, --download        download the contents of site if available
+
+options:
+        --database DATABASE   use custom database
+        --site SITE           specific site to investigate
 ```
 
 # Why Investigo?

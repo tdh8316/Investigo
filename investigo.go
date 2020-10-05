@@ -104,22 +104,26 @@ func parseArguments() []string {
 
 	if help, _ := HasElement(args, "-h", "--help"); help && !options.runTest {
 		fmt.Print(
-			`
-usage: investigo [-h] [--no-color] [-v|--verbose] [-t|--tor] [--update] [--db FILENAME] [--site SITENAME] USERNAME [USERNAMES...]
-perform test: investigo [--test]
+			`Investigo - Investigate User Across Social Networks.
+
+usage: investigo USERNAME [USERNAMES...] flags options
+perform test: investigo --test
 
 positional arguments:
-	USERNAMES             one or more usernames to investigate
+        USERNAMES             one or more usernames to investigate
 
-optional arguments:
-	-h, --help            show this help message and exit
-	-v, --verbose         output sites which is username was not found
-	-s, --screenshot      take a screenshot of each matched urls
-	-t, --tor             use tor proxy (default: ` + torProxyAddress + `)
-	--no-color            disable colored stdout output
-	--update              update datebase from Sherlock repository
-	--db                  use custom database
-	--site                specific site to search
+flags:
+        -h, --help            show this help message and exit
+        --no-color            disable colored stdout output
+        --update              update database before run from Sherlock repository
+        -t, --tor             use tor proxy
+        -s, --screenshot      take a screenshot of each matched urls
+        -v, --verbose         verbose output
+        -d, --download        download the contents of site if available
+
+options:
+        --database DATABASE   use custom database
+        --site SITE           specific site to investigate
 `,
 		)
 		os.Exit(0)
@@ -171,7 +175,7 @@ optional arguments:
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
-	options.useCustomData, argIndex = HasElement(args, "--db")
+	options.useCustomData, argIndex = HasElement(args, "--database")
 	if options.useCustomData {
 		dataFileName = args[argIndex+1]
 		args = append(args[:argIndex], args[argIndex+2:]...)
@@ -211,7 +215,7 @@ func initializeExtraSiteData() {
 }
 
 func main() {
-	fmt.Println("Investigo - Investigate User Across Social Networks.")
+	// fmt.Println("Investigo - Investigate User Across Social Networks.")
 
 	// Parse command-line arguments
 	usernames := parseArguments()
