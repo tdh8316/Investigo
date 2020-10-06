@@ -55,8 +55,8 @@ func downloadInstagram(url string, logger *log.Logger) {
 	}
 
 	// Download all targets
+	wg.Add(len(targetURIs))
 	for i, uri := range targetURIs {
-		wg.Add(1)
 		go func(i int, uri string) {
 			defer wg.Done()
 			_splitURL := strings.Split(strings.Split(uri, "?")[0], ".")
