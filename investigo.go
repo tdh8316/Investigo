@@ -131,8 +131,8 @@ options:
 
 	if len(args) < 1 {
 		fmt.Println("WARNING: You executed Investigo without arguments. Use `-h` flag if you need help.")
-		var _usernames string
 		fmt.Printf("Input username to investigate:")
+		var _usernames string
 		fmt.Scanln(&_usernames)
 		return strings.Split(_usernames, " ")
 	}
@@ -189,29 +189,17 @@ options:
 
 	options.download, argIndex = HasElement(args, "-d", "--download")
 	if options.download {
+		if len(args) <= 1 {
+			fmt.Println("List of sites that can download userdata")
+			for key := range downloader.Impls {
+				fmt.Fprintf(color.Output, "[%s] %s\n", color.HiGreenString("+"), color.HiWhiteString(key))
+			}
+			os.Exit(0)
+		}
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
 	return args
-}
-
-// Initialize sites not included in Sherlock
-func initializeExtraSiteData() {
-	siteData["Pornhub"] = SiteData{
-		ErrorType: "status_code",
-		URLMain:   "https://www.pornhub.com/",
-		URL:       "https://www.pornhub.com/users/{}",
-	}
-	siteData["NAVER"] = SiteData{
-		ErrorType: "status_code",
-		URLMain:   "https://www.naver.com/",
-		URL:       "https://blog.naver.com/{}",
-	}
-	siteData["xvideos"] = SiteData{
-		ErrorType: "status_code",
-		URLMain:   "https://xvideos.com/",
-		URL:       "https://xvideos.com/profiles/{}",
-	}
 }
 
 func main() {
@@ -230,9 +218,6 @@ func main() {
 		test()
 		os.Exit(0)
 	}
-
-	// Loads extra site data
-	initializeExtraSiteData()
 
 	if options.specifySite {
 		for _, username := range usernames {
@@ -563,7 +548,7 @@ func Investigo(username string, site string, data SiteData) Result {
 
 	if options.download && result.Exist {
 		// Check if the downloader for this site exists
-		if downloadFunc, ok := downloader.Impl[strings.ToLower(site)]; ok {
+		if downloadFunc, ok := downloader.Impls[strings.ToLower(site)]; ok {
 			downloadFunc.(func(string, *log.Logger))(urlProbe, logger)
 		}
 	}
