@@ -17,7 +17,8 @@ func downloadInstagram(url string, logger *log.Logger) {
 	// Parse the given url and get Instagram ID
 	_splitURL := strings.Split(url, "/")
 	username := _splitURL[len(_splitURL)-1]
-	os.Mkdir(username, os.ModePerm)
+	os.Mkdir("downloads", os.ModePerm)
+	os.Mkdir("downloads/" + username, os.ModePerm)
 
 	var targetURIs []string
 	var wg sync.WaitGroup
@@ -62,7 +63,7 @@ func downloadInstagram(url string, logger *log.Logger) {
 			_splitURL := strings.Split(strings.Split(uri, "?")[0], ".")
 
 			// Create file
-			file, err := os.Create(username + "/instagram_" + strconv.Itoa(i) + "." + _splitURL[len(_splitURL)-1])
+			file, err := os.Create("downloads/" + username + "/instagram_" + strconv.Itoa(i) + "." + _splitURL[len(_splitURL)-1])
 			if err != nil {
 				log.Fatal(err)
 			}
