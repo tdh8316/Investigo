@@ -7,7 +7,7 @@
 [![Go](https://img.shields.io/badge/Go-%3E%3D1.12-blue.svg)](https://github.com/tdh8316/Investigo)
 [![Tweet](https://img.shields.io/twitter/url/https/github.com/tdh8316/Investigo.svg?style=social)](https://twitter.com/intent/tweet?text=WoW:&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2FInvestigo)
 
-*Investigo* is a command-line tool written in `Go` to investigate usernames on [social media](./sites.md).
+*Investigo* is a command-line tool written in `Go` to investigate usernames and [download](https://github.com/tdh8316/Investigo/tree/master/downloader) their data on [social media](./sites.md).
 
 ![screenshot](./docs/GIF.gif)
 
