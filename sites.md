@@ -1,6 +1,7 @@
-# 300 sites are supported!
+# 303 sites are supported!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
+ - [500px](https://500px.com/)
  - [7Cups](https://www.7cups.com/)
  - [9GAG](https://www.9gag.com/)
  - [About.me](https://about.me/)
@@ -13,6 +14,7 @@
  - [Asciinema](https://asciinema.org)
  - [Ask Fedora](https://ask.fedoraproject.org/)
  - [AskFM](https://ask.fm/)
+ - [Atom Discussions](https://discuss.atom.io)
  - [Audiojungle](https://audiojungle.net/)
  - [Avizo](https://www.avizo.cz/)
  - [BLIP.fm](https://blip.fm/)
@@ -160,6 +162,7 @@
  - [ProductHunt](https://www.producthunt.com/)
  - [PromoDJ](http://promodj.com/)
  - [PyPi](https://pypi.org)
+ - [Quizlet](https://quizlet.com)
  - [Quora](https://www.quora.com/)
  - [Raidforums](https://raidforums.com/)
  - [Rajce.net](https://www.rajce.idnes.cz/)
