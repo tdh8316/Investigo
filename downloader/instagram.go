@@ -18,7 +18,7 @@ func downloadInstagram(url string, logger *log.Logger) {
 	_splitURL := strings.Split(url, "/")
 	username := _splitURL[len(_splitURL)-1]
 	os.Mkdir("downloads", os.ModePerm)
-	os.Mkdir("downloads/" + username, os.ModePerm)
+	os.Mkdir("downloads/"+username, os.ModePerm)
 
 	var targetURIs []string
 	var wg sync.WaitGroup
