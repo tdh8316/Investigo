@@ -1,4 +1,4 @@
-# 303 sites are supported!
+# 305 sites are supported!
  - [2Dimensions](https://2Dimensions.com/)
  - [3dnews](http://forum.3dnews.ru/)
  - [500px](https://500px.com/)
@@ -84,6 +84,7 @@
  - [GetMyUni](https://getmyuni.com/)
  - [Giphy](https://giphy.com/)
  - [GitHub](https://www.github.com/)
+ - [GitHub Support Community](https://github.community)
  - [GitLab](https://gitlab.com/)
  - [Gitee](https://gitee.com/)
  - [GoodReads](https://www.goodreads.com/)
@@ -200,6 +201,7 @@
  - [Steamid](https://steamid.uk/)
  - [Strava](https://www.strava.com/)
  - [SublimeForum](https://forum.sublimetext.com/)
+ - [TETR.IO](https://tetr.io)
  - [Telegram](https://t.me/)
  - [Tellonym.me](https://tellonym.me/)
  - [TikTok](https://tiktok.com/)
