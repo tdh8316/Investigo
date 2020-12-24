@@ -534,7 +534,7 @@ func Investigo(username string, site string, data SiteData) Result {
 		}
 	}
 
-	if options.withScreenshot && result.Exist {
+	if result.Exist && options.withScreenshot{
 		urlParts, _ := url.Parse(urlProbe)
 		folderPath := filepath.Join("screenshots", username)
 		outputPath := filepath.Join(folderPath, urlParts.Host+".png")
@@ -546,7 +546,7 @@ func Investigo(username string, site string, data SiteData) Result {
 		}
 	}
 
-	if options.download && result.Exist {
+	if result.Exist && options.download {
 		// Check if the downloader for this site exists
 		if downloadFunc, ok := downloader.Impls[strings.ToLower(site)]; ok {
 			downloadFunc.(func(string, *log.Logger))(urlProbe, logger)
