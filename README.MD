@@ -112,7 +112,7 @@ options:
 ```
 
 # Addding/Fixing site
-Investigo uses [Sherlock project](https://github.com/sherlock-project/sherlock)'s database.
+Investigo is compatible with [Sherlock database](https://github.com/sherlock-project/sherlock).
 
 ## To add sites...
 To add sites to Investigo, make a Pull Request to [Sherlock project](https://github.com/sherlock-project/sherlock). Whenever the Sherlock repository updates, the Investigo database will update automatically!
