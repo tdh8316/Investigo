@@ -428,12 +428,10 @@ func Investigo(username string, site string, data SiteData) Result {
 			return Result{
 				Username: username,
 				URL:      data.URL,
-				URLProbe: data.URLProbe,
 				Proxied:  options.withTor,
-				Exist:    false,
 				Site:     site,
-				Err:      true,
-				ErrMsg:   "Username " + username + " is illegal format for " + site,
+				Exist:    false,
+				Err:      false,
 			}
 		}
 	}
@@ -534,7 +532,7 @@ func Investigo(username string, site string, data SiteData) Result {
 		}
 	}
 
-	if result.Exist && options.withScreenshot{
+	if result.Exist && options.withScreenshot {
 		urlParts, _ := url.Parse(urlProbe)
 		folderPath := filepath.Join("screenshots", username)
 		outputPath := filepath.Join(folderPath, urlParts.Host+".png")
