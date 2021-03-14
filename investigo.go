@@ -184,6 +184,8 @@ options:
 	options.specifySite, argIndex = HasElement(args, "--site")
 	if options.specifySite {
 		specifiedSites = strings.ToLower(args[argIndex+1])
+		// Use verbose output
+		options.verbose = true
 		args = append(args[:argIndex], args[argIndex+2:]...)
 	}
 
