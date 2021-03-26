@@ -1,3 +1,7 @@
+# Warning
+
+_**This project will resume when I become a college student.**_
+
 ![Works on my machine](https://img.shields.io/badge/works-on%20my%20machine-green)
 
 # Overview
