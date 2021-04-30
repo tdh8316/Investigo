@@ -18,7 +18,7 @@ _**This project will resume when I become a college student.**_
 # Installation
 ## Download Windows Binary
 You can download the binary for Windows.
-> Note that the frequency of update of release is too slow.
+> Note that these binary releases are not the latest version.
  - [Download latest release](https://github.com/tdh8316/Investigo/releases/latest)
 
 `$ investigo.exe -h`
