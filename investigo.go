@@ -24,7 +24,7 @@ import (
 )
 
 const (
-	userAgent       string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36"
+	userAgent       string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36"
 	screenShotRes   string = "1024x768"
 	torProxyAddress string = "socks5://127.0.0.1:9050"
 )
@@ -264,8 +264,6 @@ func main() {
 			waitGroup.Wait()
 		}
 	}
-
-	return
 }
 
 func initializeSiteData(forceUpdate bool) {
@@ -330,7 +328,7 @@ func initializeSiteData(forceUpdate bool) {
 			if options.noColor {
 				fmt.Printf("Failed to update data.\n")
 			} else {
-				fmt.Fprintf(color.Output, color.RedString("Failed to update data.\n"))
+				fmt.Fprint(color.Output, color.RedString("Failed to update data.\n"))
 			}
 			panic(err)
 		}
@@ -353,7 +351,6 @@ func initializeSiteData(forceUpdate bool) {
 	} else {
 		json.Unmarshal([]byte(byteValue), &siteData)
 	}
-	return
 }
 
 // Request makes an HTTP request
@@ -585,8 +582,6 @@ func WriteResult(result Result) {
 			}
 		}
 	}
-
-	return
 }
 
 func getScreenshot(resolution, targetURL, outputPath string) error {
