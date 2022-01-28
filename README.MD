@@ -1,7 +1,3 @@
-# Warning
-
-_**This project will resume when I become a college student.**_
-
 ![Works on my machine](https://img.shields.io/badge/works-on%20my%20machine-green)
 
 # Overview
@@ -31,64 +27,6 @@ $ git clone https://github.com/tdh8316/Investigo.git
 $ cd investigo
 $ go build
 ```
-
-## Build with docker
-If you don't have Docker/Docker-Compose check **Setup Docker** section
-
-<details>
-<summary><b>Setup Docker</b></summary>
-<p>
-
-## Docker
-macOS: <a href="https://docs.docker.com/docker-for-mac/install/"> https://docs.docker.com/docker-for-mac/install/ </a>
-
-linux: <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/"> https://docs.docker.com/install/linux/docker-ce/ubuntu/ </a>
-
-## Docker Compose
-
-linux: <a href="https://docs.docker.com/compose/install/"> https://docs.docker.com/compose/install/ </a>
-</p>
-</details>
-
-### Investigo (standalone mode, no screenshots)
-
-<details>
-<summary><b>Example with docker</b></summary>
-<p>
-	<code> 
-		$ docker run x0rzkov/investigo:latest investigo USERNAME
-	</code>
-</p>
-</details>
-
-<details>
-<summary><b>Example with docker-compose</b></summary>
-<p>
-	<code> 
-		$ docker-compose run investigo investigo USERNAME
-	</code>
-</p>
-</details>
-
-### Investigo (headless chromium mode, with screenshots)
-
-<details>
-<summary><b>Example run with docker</b></summary>
-<p>
-	<code> 
-		$ docker run -v $(pwd)/data:/screenshots x0rzkov/investigo-chromium:latest -s USERNAME
-	</code>
-</p>
-</details>
-
-<details>
-<summary><b>Example run with docker-compose</b></summary>
-<p>
-	<code> 
-		$ docker-compose run investigo-chromium -s USERNAME
-	</code>
-</p>
-</details>
 
 # Usage
 ```
