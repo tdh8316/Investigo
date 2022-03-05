@@ -30,7 +30,7 @@ const (
 )
 
 var (
-	maxGoroutines int = 32
+	maxGoroutines = 32
 	guard         chan int
 )
 
