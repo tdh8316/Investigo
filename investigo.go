@@ -643,13 +643,13 @@ func test() {
 					}
 				} else {
 					if options.noColor {
-						logger.Printf("[-] %s: %s (%s: expected true, but %s, %s: expected false, but %s)",
+						logger.Printf("[-] %s: %s (%s: expected true, result is %s | %s: expected false, result is %s)",
 							site, ("Not working"),
 							_usedUsername, strconv.FormatBool(_resUsed.Exist),
 							_unusedUsername, strconv.FormatBool(_resUnused.Exist),
 						)
 					} else {
-						logger.Printf("[-] %s: %s (%s: expected true, but %s, %s: expected false, but %s)",
+						logger.Printf("[-] %s: %s (%s: expected true, result is %s | %s: expected false, result is %s)",
 							site, color.RedString("Not working"),
 							_usedUsername, strconv.FormatBool(_resUsed.Exist),
 							_unusedUsername, strconv.FormatBool(_resUnused.Exist),
