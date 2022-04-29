@@ -193,7 +193,7 @@ options:
 	if options.download {
 		if len(args) <= 1 {
 			fmt.Println("List of sites that can download userdata")
-			for key := range downloader.Impls {
+			for key := range downloader.Downloaders {
 				fmt.Fprintf(color.Output, "[%s] %s\n", color.HiGreenString("+"), color.HiWhiteString(key))
 			}
 			os.Exit(0)
@@ -532,21 +532,21 @@ func Investigo(username string, site string, data SiteData) Result {
 	}
 
 	if result.Exist && options.withScreenshot {
-		urlParts, _ := url.Parse(urlProbe)
+		urlParts, _ := url.Parse(u)
 		folderPath := filepath.Join("screenshots", username)
 		outputPath := filepath.Join(folderPath, urlParts.Host+".png")
 		if err := os.MkdirAll(folderPath, 0755); err != nil {
 			log.Fatal(err)
 		}
-		if err := getScreenshot(screenShotRes, urlProbe, outputPath); err != nil {
+		if err := getScreenshot(screenShotRes, u, outputPath); err != nil {
 			log.Fatal(err)
 		}
 	}
 
 	if result.Exist && options.download {
-		// Check if the downloader for this site exists
-		if downloadFunc, ok := downloader.Impls[strings.ToLower(site)]; ok {
-			downloadFunc.(func(string, *log.Logger))(urlProbe, logger)
+		// Check whether the downloader for this site exists and run it
+		if downloadFunc, ok := downloader.Downloaders[strings.ToLower(site)]; ok {
+			downloadFunc.(func(string, *log.Logger))(u, logger)
 		}
 	}
 
