@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"path/filepath"
 	"strconv"
 	"strings"
 	"sync"
@@ -18,20 +17,14 @@ import (
 	"github.com/dlclark/regexp2"
 
 	color "github.com/fatih/color"
-	chrm "github.com/tdh8316/Investigo/chrome"
-	downloader "github.com/tdh8316/Investigo/downloader"
+	downloaders "github.com/tdh8316/Investigo/downloaders"
 	"golang.org/x/net/proxy"
 )
 
 const (
 	userAgent       string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36"
-	screenShotRes   string = "1024x768"
 	torProxyAddress string = "socks5://127.0.0.1:9050"
-)
-
-var (
-	maxGoroutines = 32
-	guard         chan int
+	maxGoroutines   uint   = 32
 )
 
 // Result of Investigo function
@@ -48,8 +41,11 @@ type Result struct {
 }
 
 var (
+	guard          chan int
 	waitGroup      = &sync.WaitGroup{}
+	outStream      = new(strings.Builder)
 	logger         = log.New(color.Output, "", 0)
+	streamLogger   = log.New(outStream, "", 0)
 	siteData       = map[string]SiteData{}
 	dataFileName   = "data.json"
 	specifiedSites string
@@ -60,7 +56,6 @@ var (
 		runTest         bool
 		useCustomData   bool
 		withTor         bool
-		withScreenshot  bool
 		specifySite     bool
 		download        bool
 	}
@@ -148,18 +143,6 @@ options:
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
-	options.withScreenshot, argIndex = HasElement(args, "-s", "--screenshot")
-	if options.withScreenshot {
-		args = append(args[:argIndex], args[argIndex+1:]...)
-		maxGoroutines = 8
-	} else {
-		// It should be handled case by case, more dynamically
-		// because the limit value of the file descriptor is different by the user.
-		// In my case, limit is 256.
-		// See more: https://stackoverflow.com/a/12958088
-		maxGoroutines = 32
-	}
-
 	options.runTest, argIndex = HasElement(args, "--test")
 	if options.runTest {
 		args = append(args[:argIndex], args[argIndex+1:]...)
@@ -193,7 +176,7 @@ options:
 	if options.download {
 		if len(args) <= 1 {
 			fmt.Println("List of sites that can download userdata")
-			for key := range downloader.Downloaders {
+			for key := range downloaders.Downloaders {
 				fmt.Fprintf(color.Output, "[%s] %s\n", color.HiGreenString("+"), color.HiWhiteString(key))
 			}
 			os.Exit(0)
@@ -251,6 +234,9 @@ func main() {
 			} else {
 				fmt.Fprintf(color.Output, "Investigating %s on:\n", color.HiGreenString(username))
 			}
+
+			os.MkdirAll("results/"+username, os.ModePerm)
+
 			waitGroup.Add(len(siteData))
 			for site := range siteData {
 				guard <- 1
@@ -262,6 +248,13 @@ func main() {
 				}(site)
 			}
 			waitGroup.Wait()
+
+			f, err := os.Create("results/" + username + "/out.txt")
+			if err != nil {
+				panic(err)
+			}
+			f.WriteString(outStream.String())
+			f.Close()
 		}
 	}
 }
@@ -359,7 +352,7 @@ func Request(target string) (*http.Response, RequestError) {
 	if err != nil {
 		return nil, err
 	}
-	// TODO: Check whether or not user agent required
+	
 	request.Header.Set("User-Agent", userAgent)
 
 	client := &http.Client{
@@ -531,21 +524,9 @@ func Investigo(username string, site string, data SiteData) Result {
 		}
 	}
 
-	if result.Exist && options.withScreenshot {
-		urlParts, _ := url.Parse(u)
-		folderPath := filepath.Join("screenshots", username)
-		outputPath := filepath.Join(folderPath, urlParts.Host+".png")
-		if err := os.MkdirAll(folderPath, 0755); err != nil {
-			log.Fatal(err)
-		}
-		if err := getScreenshot(screenShotRes, u, outputPath); err != nil {
-			log.Fatal(err)
-		}
-	}
-
 	if result.Exist && options.download {
 		// Check whether the downloader for this site exists and run it
-		if downloadFunc, ok := downloader.Downloaders[strings.ToLower(site)]; ok {
+		if downloadFunc, ok := downloaders.Downloaders[strings.ToLower(site)]; ok {
 			downloadFunc.(func(string, *log.Logger))(u, logger)
 		}
 	}
@@ -557,6 +538,18 @@ func Investigo(username string, site string, data SiteData) Result {
 
 // WriteResult writes investigation result to stdout and file
 func WriteResult(result Result) {
+	if result.Exist {
+		streamLogger.Printf("[%s] %s: %s\n", ("+"), result.Site, result.Link)
+	} else {
+		if options.verbose {
+			if result.Err {
+				streamLogger.Printf("[%s] %s: %s: %s", ("!"), result.Site, ("ERROR"), (result.ErrMsg))
+			} else {
+				streamLogger.Printf("[%s] %s: %s", ("-"), result.Site, ("Not Found!"))
+			}
+		}
+	}
+
 	if options.noColor {
 		if result.Exist {
 			logger.Printf("[%s] %s: %s\n", ("+"), result.Site, result.Link)
@@ -584,31 +577,8 @@ func WriteResult(result Result) {
 	}
 }
 
-func getScreenshot(resolution, targetURL, outputPath string) error {
-	chrome := &chrm.Chrome{
-		Resolution:       resolution,
-		ChromeTimeout:    60,
-		ChromeTimeBudget: 60,
-		UserAgent:        userAgent,
-		// ScreenshotPath: "/opt/investigo/data",
-	}
-	// chrome.setLoggerStatus(false)
-	chrome.Setup()
-	u, err := url.ParseRequestURI(targetURL)
-	if err != nil {
-		return err
-	}
-	chrome.ScreenshotURL(u, outputPath)
-	return nil
-}
-
 func test() {
-	log.Println("Investigo is activated for checking site validity.")
-
-	if options.withScreenshot {
-		log.Println("Taking screenshot is not available in this sequence. Aborted.")
-		return
-	}
+	log.Println("[i]Checking site validity...")
 
 	tc := counter{}
 	waitGroup.Add(len(siteData))
@@ -639,7 +609,7 @@ func test() {
 					if options.noColor {
 						logger.Printf("[-] %s: %s %s", site, ("Failed with error"), _errMsg)
 					} else {
-						logger.Printf("[-] %s: %s %s", site, color.RedString("Failed with error"), _errMsg)
+						logger.Printf("[-] %s: %s %s", site, color.YellowString("Failed with error"), _errMsg)
 					}
 				} else {
 					if options.noColor {

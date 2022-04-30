@@ -23,12 +23,5 @@
 .vscode/*
 .DS_Store
 
-# Screenshots
-/Investigo/
-
-# Downloads
-/Downloads/
-
-Dockerfile.chromium-v2
-Dockerfile.chromium
-Dockerfile.robot
+# Results
+results/
