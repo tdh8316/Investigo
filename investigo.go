@@ -48,7 +48,7 @@ var (
 	streamLogger   = log.New(outStream, "", 0)
 	siteData       = map[string]SiteData{}
 	dataFileName   = "data.json"
-	specifiedSites string
+	specifiedSites []string
 	options        struct {
 		noColor         bool
 		verbose         bool
@@ -112,13 +112,12 @@ flags:
         --no-color            disable colored stdout output
         --update              update database before run from Sherlock repository
         -t, --tor             use tor proxy
-        -s, --screenshot      take a screenshot of each matched urls
         -v, --verbose         verbose output
         -d, --download        download the contents of site if available
 
 options:
         --database DATABASE   use custom database
-        --site SITE           specific site to investigate
+        --sites SITES         specific sites to investigate (Separated by comma)
 `,
 		)
 		os.Exit(0)
@@ -166,7 +165,7 @@ options:
 
 	options.specifySite, argIndex = HasElement(args, "--site")
 	if options.specifySite {
-		specifiedSites = strings.ToLower(args[argIndex+1])
+		specifiedSites = strings.Split(strings.ToLower(args[argIndex+1]), ",")
 		// Use verbose output
 		options.verbose = true
 		args = append(args[:argIndex], args[argIndex+2:]...)
@@ -205,58 +204,50 @@ func main() {
 	}
 
 	if options.specifySite {
-		for _, username := range usernames {
-			// No case sensitive
-			_siteData := map[string]SiteData{}
+		// No case sensitive
+		_siteData := map[string]SiteData{}
+		for k, v := range siteData {
+			_siteData[strings.ToLower(k)] = v
+		}
 
-			for siteName, v := range siteData {
-				_siteData[strings.ToLower(siteName)] = v
-			}
-
-			if options.noColor {
-				fmt.Printf("\nInvestigating %s on:\n", username)
-			} else {
-				fmt.Fprintf(color.Output, "Investigating %s on:\n", color.HiGreenString(username))
-			}
-			site := specifiedSites
-
-			if val, ok := _siteData[site]; ok {
-				res := Investigo(username, site, val)
-				WriteResult(res)
-			} else {
-				log.Printf("[!] %s is not a valid site.", site)
+		for _, siteName := range specifiedSites {
+			if val, ok := _siteData[strings.ToLower(siteName)]; ok {
+				siteData = map[string]SiteData{}
+				siteData[siteName] = val
 			}
 		}
-	} else {
-		for _, username := range usernames {
-			if options.noColor {
-				fmt.Printf("\nInvestigating %s on:\n", username)
-			} else {
-				fmt.Fprintf(color.Output, "Investigating %s on:\n", color.HiGreenString(username))
-			}
 
-			os.MkdirAll("results/"+username, os.ModePerm)
-
-			waitGroup.Add(len(siteData))
-			for site := range siteData {
-				guard <- 1
-				go func(site string) {
-					defer waitGroup.Done()
-					res := Investigo(username, site, siteData[site])
-					WriteResult(res)
-					<-guard
-				}(site)
-			}
-			waitGroup.Wait()
-
-			f, err := os.Create("results/" + username + "/out.txt")
-			if err != nil {
-				panic(err)
-			}
-			f.WriteString(outStream.String())
-			f.Close()
-		}
 	}
+
+	for _, username := range usernames {
+		if options.noColor {
+			fmt.Printf("\nInvestigating %s on:\n", username)
+		} else {
+			fmt.Fprintf(color.Output, "Investigating %s on:\n", color.HiGreenString(username))
+		}
+
+		os.MkdirAll("results/"+username, os.ModePerm)
+
+		waitGroup.Add(len(siteData))
+		for site := range siteData {
+			guard <- 1
+			go func(site string) {
+				defer waitGroup.Done()
+				res := Investigo(username, site, siteData[site])
+				WriteResult(res)
+				<-guard
+			}(site)
+		}
+		waitGroup.Wait()
+
+		f, err := os.Create("results/" + username + "/out.txt")
+		if err != nil {
+			panic(err)
+		}
+		f.WriteString(outStream.String())
+		f.Close()
+	}
+
 }
 
 func initializeSiteData(forceUpdate bool) {
@@ -352,7 +343,7 @@ func Request(target string) (*http.Response, RequestError) {
 	if err != nil {
 		return nil, err
 	}
-	
+
 	request.Header.Set("User-Agent", userAgent)
 
 	client := &http.Client{
