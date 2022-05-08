@@ -39,7 +39,7 @@ $ investigo -h
 Investigo - Investigate User Across Social Networks.
 
 usage: investigo USERNAME [USERNAMES...] flags options
-perform test: investigo [--test]
+perform test: investigo --test
 
 positional arguments:
         USERNAMES             one or more usernames to investigate
@@ -49,13 +49,12 @@ flags:
         --no-color            disable colored stdout output
         --update              update database before run from Sherlock repository
         -t, --tor             use tor proxy
-        -s, --screenshot      take a screenshot of each matched urls
         -v, --verbose         verbose output
         -d, --download        download the contents of site if available
 
 options:
         --database DATABASE   use custom database
-        --site SITE           specific site to investigate
+        --sites SITES         specific sites to investigate (Separated by comma)
 ```
 
 # Addding/Fixing site
