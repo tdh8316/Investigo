@@ -22,7 +22,7 @@ import (
 )
 
 const (
-	userAgent       string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36"
+	userAgent       string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36"
 	torProxyAddress string = "socks5://127.0.0.1:9050"
 	maxGoroutines   uint   = 32
 )
