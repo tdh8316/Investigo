@@ -28,7 +28,7 @@ To compile investigo, Go 1.12 or higher is required.
 
 ```text
 git clone https://github.com/tdh8316/Investigo.git
-cd investigo
+cd Investigo
 go build
 ```
 
