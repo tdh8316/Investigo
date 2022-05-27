@@ -55,6 +55,7 @@ flags:
 options:
         --database DATABASE   use custom database
         --sites SITES         specific sites to investigate (Separated by comma)
+        --timeout SECONDS     specific http requeset timeout
 ```
 
 # Addding/Fixing site

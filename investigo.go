@@ -48,6 +48,7 @@ var (
 	streamLogger   = log.New(outStream, "", 0)
 	siteData       = map[string]SiteData{}
 	dataFileName   = "data.json"
+	timeoutSecs    = 60
 	specifiedSites []string
 	options        struct {
 		noColor         bool
@@ -118,6 +119,7 @@ flags:
 options:
         --database DATABASE   use custom database
         --sites SITES         specific sites to investigate (Separated by comma)
+		--timeout SECONDS     specific http requeset timeout
 `,
 		)
 		os.Exit(0)
@@ -181,6 +183,16 @@ options:
 			os.Exit(0)
 		}
 		args = append(args[:argIndex], args[argIndex+1:]...)
+	}
+
+	options.useCustomData, argIndex = HasElement(args, "--timeout")
+	if options.useCustomData {
+		_timeoutSecs, err := strconv.Atoi(args[argIndex+1])
+		timeoutSecs = _timeoutSecs
+		if err != nil {
+			panic(err)
+		}
+		args = append(args[:argIndex], args[argIndex+2:]...)
 	}
 
 	return args
@@ -347,7 +359,7 @@ func Request(target string) (*http.Response, RequestError) {
 	request.Header.Set("User-Agent", userAgent)
 
 	client := &http.Client{
-		Timeout: 60 * time.Second,
+		Timeout: time.Duration(timeoutSecs) * time.Second,
 	}
 
 	if options.withTor {
