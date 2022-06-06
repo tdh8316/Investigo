@@ -16,7 +16,7 @@ import (
 
 	"github.com/dlclark/regexp2"
 
-	color "github.com/fatih/color"
+	"github.com/fatih/color"
 	downloaders "github.com/tdh8316/Investigo/downloaders"
 	"golang.org/x/net/proxy"
 )
@@ -119,7 +119,7 @@ flags:
 options:
         --database DATABASE   use custom database
         --sites SITES         specific sites to investigate (Separated by comma)
-		--timeout SECONDS     specific http requeset timeout
+		--timeout SECONDS     specific http request timeout
 `,
 		)
 		os.Exit(0)
@@ -275,15 +275,15 @@ func initializeSiteData(forceUpdate bool) {
 				fmt.Fprintf(
 					color.Output,
 					"[%s] Cannot open database \"%s\"\n",
-					color.HiRedString("!"), (dataFileName),
+					color.HiRedString("!"), dataFileName,
 				)
 			}
 		}
 		if options.noColor {
 			fmt.Printf(
 				"%s Update database: %s",
-				("[!]"),
-				("Downloading..."),
+				"[!]",
+				"Downloading...",
 			)
 		} else {
 			fmt.Fprintf(
@@ -302,7 +302,7 @@ func initializeSiteData(forceUpdate bool) {
 
 		if err != nil || r.StatusCode != 200 {
 			if options.noColor {
-				fmt.Printf(" [%s]\n", ("Failed"))
+				fmt.Printf(" [%s]\n", "Failed")
 			} else {
 				fmt.Fprintf(color.Output, " [%s]\n", color.HiRedString("Failed"))
 			}
@@ -343,9 +343,12 @@ func initializeSiteData(forceUpdate bool) {
 
 	byteValue, err := ioutil.ReadAll(jsonFile)
 	if err != nil {
-		panic("Error while read " + dataFileName)
+		panic("Failed to read file:" + dataFileName)
 	} else {
-		json.Unmarshal([]byte(byteValue), &siteData)
+		err := json.Unmarshal(byteValue, &siteData)
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 }
 
@@ -542,26 +545,26 @@ func Investigo(username string, site string, data SiteData) Result {
 // WriteResult writes investigation result to stdout and file
 func WriteResult(result Result) {
 	if result.Exist {
-		streamLogger.Printf("[%s] %s: %s\n", ("+"), result.Site, result.Link)
+		streamLogger.Printf("[%s] %s: %s\n", "+", result.Site, result.Link)
 	} else {
 		if options.verbose {
 			if result.Err {
-				streamLogger.Printf("[%s] %s: %s: %s", ("!"), result.Site, ("ERROR"), (result.ErrMsg))
+				streamLogger.Printf("[%s] %s: %s: %s", "!", result.Site, "ERROR", result.ErrMsg)
 			} else {
-				streamLogger.Printf("[%s] %s: %s", ("-"), result.Site, ("Not Found!"))
+				streamLogger.Printf("[%s] %s: %s", "-", result.Site, "Not Found!")
 			}
 		}
 	}
 
 	if options.noColor {
 		if result.Exist {
-			logger.Printf("[%s] %s: %s\n", ("+"), result.Site, result.Link)
+			logger.Printf("[%s] %s: %s\n", "+", result.Site, result.Link)
 		} else {
 			if options.verbose {
 				if result.Err {
-					logger.Printf("[%s] %s: %s: %s", ("!"), result.Site, ("ERROR"), (result.ErrMsg))
+					logger.Printf("[%s] %s: %s: %s", "!", result.Site, "ERROR", result.ErrMsg)
 				} else {
-					logger.Printf("[%s] %s: %s", ("-"), result.Site, ("Not Found!"))
+					logger.Printf("[%s] %s: %s", "-", result.Site, "Not Found!")
 				}
 			}
 		}
@@ -610,14 +613,14 @@ func test() {
 
 				if _errMsg != "" {
 					if options.noColor {
-						logger.Printf("[-] %s: %s %s", site, ("Failed with error"), _errMsg)
+						logger.Printf("[-] %s: %s %s", site, "Failed with error", _errMsg)
 					} else {
 						logger.Printf("[-] %s: %s %s", site, color.YellowString("Failed with error"), _errMsg)
 					}
 				} else {
 					if options.noColor {
 						logger.Printf("[-] %s: %s (%s: expected true, result is %s | %s: expected false, result is %s)",
-							site, ("Not working"),
+							site, "Not working",
 							_usedUsername, strconv.FormatBool(_resUsed.Exist),
 							_unusedUsername, strconv.FormatBool(_resUnused.Exist),
 						)

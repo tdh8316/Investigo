@@ -18,7 +18,7 @@
 You can download the binary for Windows.
 > Note that these binary releases are not the latest version.
 
-- [Download latest release](https://github.com/tdh8316/Investigo/releases/latest)
+- [Download the latest release](https://github.com/tdh8316/Investigo/releases/latest)
 
 `$ investigo.exe -h`
 
@@ -55,10 +55,10 @@ flags:
 options:
         --database DATABASE   use custom database
         --sites SITES         specific sites to investigate (Separated by comma)
-        --timeout SECONDS     specific http requeset timeout
+        --timeout SECONDS     specific http request timeout
 ```
 
-# Addding/Fixing site
+# Adding/Fixing site
 
 Investigo is compatible with [Sherlock database](https://github.com/sherlock-project/sherlock).
 
