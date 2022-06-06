@@ -23,5 +23,8 @@
 .vscode/*
 .DS_Store
 
+### IntelliJ ###
+.idea
+
 # Results
 results/
