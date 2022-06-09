@@ -64,12 +64,12 @@ var (
 
 // A SiteData struct for json datatype
 type SiteData struct {
-	ErrorType string `json:"errorType"`
-	ErrorMsg  string `json:"errorMsg"`
-	URL       string `json:"url"`
-	URLMain   string `json:"urlMain"`
-	URLProbe  string `json:"urlProbe"`
-	URLError  string `json:"errorUrl"`
+	ErrorType string      `json:"errorType"`
+	ErrorMsg  interface{} `json:"errorMsg"`
+	URL       string      `json:"url"`
+	URLMain   string      `json:"urlMain"`
+	URLProbe  string      `json:"urlProbe"`
+	URLError  string      `json:"errorUrl"`
 	// TODO: Add headers
 	UsedUsername   string `json:"username_claimed"`
 	UnusedUsername string `json:"username_unclaimed"`
@@ -476,25 +476,47 @@ func Investigo(username string, site string, data SiteData) Result {
 			}
 		}
 	case "message":
-		if !strings.Contains(ReadResponseBody(r), data.ErrorMsg) {
+		switch errType := data.ErrorMsg.(type) {
+		case string:
+			if !strings.Contains(ReadResponseBody(r), data.ErrorMsg.(string)) {
+				result = Result{
+					Username: username,
+					URL:      data.URL,
+					URLProbe: data.URLProbe,
+					Proxied:  options.withTor,
+					Exist:    true,
+					Link:     u,
+					Site:     site,
+				}
+			} else {
+				result = Result{
+					Username: username,
+					URL:      data.URL,
+					Proxied:  options.withTor,
+					Site:     site,
+					Exist:    false,
+					Err:      false,
+				}
+			}
+		case []interface{}:
+			_flag := false
+			for _, msgString := range (data.ErrorMsg).([]interface{}) {
+				if strings.Contains(ReadResponseBody(r), msgString.(string)) {
+					_flag = true
+					break
+				}
+			}
 			result = Result{
 				Username: username,
 				URL:      data.URL,
 				URLProbe: data.URLProbe,
 				Proxied:  options.withTor,
-				Exist:    true,
+				Exist:    _flag,
 				Link:     u,
 				Site:     site,
 			}
-		} else {
-			result = Result{
-				Username: username,
-				URL:      data.URL,
-				Proxied:  options.withTor,
-				Site:     site,
-				Exist:    false,
-				Err:      false,
-			}
+		default:
+			panic(fmt.Sprintf("%s: Unsupported errorMsg type %T", site, errType))
 		}
 	case "response_url":
 		// In the original Sherlock implementation,
