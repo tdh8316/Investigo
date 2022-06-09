@@ -47,6 +47,7 @@ positional arguments:
 flags:
         -h, --help            show this help message and exit
         --no-color            disable colored stdout output
+        --no-output           disable file output
         --update              update database before run from Sherlock repository
         -t, --tor             use tor proxy
         -v, --verbose         verbose output

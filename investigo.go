@@ -52,6 +52,7 @@ var (
 	specifiedSites []string
 	options        struct {
 		noColor         bool
+		noOutput        bool
 		verbose         bool
 		updateBeforeRun bool
 		runTest         bool
@@ -111,6 +112,7 @@ positional arguments:
 flags:
         -h, --help            show this help message and exit
         --no-color            disable colored stdout output
+        --no-output           disable file output
         --update              update database before run from Sherlock repository
         -t, --tor             use tor proxy
         -v, --verbose         verbose output
@@ -139,6 +141,11 @@ options:
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
+	options.noOutput, argIndex = HasElement(args, "--no-output")
+	if options.noColor {
+		args = append(args[:argIndex], args[argIndex+1:]...)
+	}
+
 	options.withTor, argIndex = HasElement(args, "-t", "--tor")
 	if options.withTor {
 		args = append(args[:argIndex], args[argIndex+1:]...)
@@ -146,6 +153,7 @@ options:
 
 	options.runTest, argIndex = HasElement(args, "--test")
 	if options.runTest {
+		options.noOutput = true
 		args = append(args[:argIndex], args[argIndex+1:]...)
 	}
 
@@ -252,12 +260,14 @@ func main() {
 		}
 		waitGroup.Wait()
 
-		f, err := os.Create("results/" + username + "/out.txt")
-		if err != nil {
-			panic(err)
+		if !options.noOutput {
+			f, err := os.Create("results/" + username + "/out.txt")
+			if err != nil {
+				panic(err)
+			}
+			f.WriteString(outStream.String())
+			f.Close()
 		}
-		f.WriteString(outStream.String())
-		f.Close()
 	}
 
 }
