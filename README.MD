@@ -13,15 +13,6 @@
 
 # Installation
 
-## Download Windows Binary
-
-You can download the binary for Windows.
-> Note that these binary releases are not the latest version.
-
-- [Download the latest release](https://github.com/tdh8316/Investigo/releases/latest)
-
-`$ investigo.exe -h`
-
 ## Build from source
 
 To compile investigo, Go 1.12 or higher is required.
