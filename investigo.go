@@ -616,7 +616,7 @@ func WriteResult(result Result) {
 }
 
 func test() {
-	log.Println("[i]Checking site validity...")
+	logger.Printf("[i] Checking site validity...")
 
 	tc := counter{}
 	waitGroup.Add(len(siteData))
