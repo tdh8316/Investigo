@@ -1,17 +1,17 @@
 ![Works on my machine](https://img.shields.io/badge/works-on%20my%20machine-green)
 
-# Overview
+# Investigo
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Stargazers](https://img.shields.io/github/stars/tdh8316/Investigo.svg)](https://github.com/tdh8316/Investigo/stargazers)
 [![Go](https://img.shields.io/badge/Go-%3E%3D1.12-blue.svg)](https://github.com/tdh8316/Investigo)
 [![Tweet](https://img.shields.io/twitter/url/https/github.com/tdh8316/Investigo.svg?style=social)](https://twitter.com/intent/tweet?text=WoW:&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2FInvestigo)
 
+## Overview
+
 *Investigo* is a command-line tool written in `Go` to investigate usernames and [download](https://github.com/tdh8316/Investigo/tree/master/downloader) their data on [social media](./sites.md).
 
 ![screenshot](./docs/GIF.gif)
-
-# Installation
 
 ## Build from source
 
@@ -23,7 +23,7 @@ cd Investigo
 go build
 ```
 
-# Usage
+## Usage
 
 ```text
 $ investigo -h
@@ -50,30 +50,12 @@ options:
         --timeout SECONDS     specific http request timeout
 ```
 
-# Adding/Fixing site
+## Database
+Investigo uses [Sherlock database](https://github.com/sherlock-project/sherlock).
 
-Investigo is compatible with [Sherlock database](https://github.com/sherlock-project/sherlock).
+Therefore, in case you want to add a new site to the database, you can make an issue or a pull request on the [Sherlock repository](https://github.com/sherlock-project/sherlock).
 
-## To add sites
-
-To add sites to Investigo, make a Pull Request to [Sherlock project](https://github.com/sherlock-project/sherlock). Whenever the Sherlock repository updates, the Investigo database will update automatically!
-
-If you want to add prohibited sites for Sherlock, make an issue or a Pull Request to this repository!
-
-## To fix incompatible sites
-
-Make an issue [here](https://github.com/sherlock-project/sherlock/issues) to let Sherlock developers know.
-
-# Contributors
-
-Thanks to all contributors!
-
-- [x0rzkov](https://github.com/x0rzkov)
-- [lucmski](https://github.com/lucmski)
-
-Contributions are more than welcome!
-
-# License
+## License
 
 Licensed under the MIT License
 
