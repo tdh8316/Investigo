@@ -128,8 +128,7 @@ options:
 	}
 
 	if len(args) < 1 {
-		fmt.Println("WARNING: You executed Investigo without arguments. Use `-h` flag if you need help.")
-		fmt.Printf("Input username to investigate:")
+		fmt.Printf("Enter usernames to investigate separated by a space:")
 		var _usernames string
 		fmt.Scanln(&_usernames)
 		return strings.Split(_usernames, " ")
@@ -207,7 +206,7 @@ options:
 }
 
 func main() {
-	// fmt.Println("Investigo - Investigate User Across Social Networks.")
+	fmt.Println("Investigo - Investigate Users Across Social Networks.")
 
 	// Parse command-line arguments
 	usernames := parseArguments()
