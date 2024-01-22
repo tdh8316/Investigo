@@ -9,13 +9,13 @@
 
 ## Overview
 
-*Investigo* is a command-line tool written in `Go` to investigate usernames and [download](https://github.com/tdh8316/Investigo/tree/master/downloader) their data on [social media](./sites.md).
+*Investigo* is a command-line tool written in `Go` to investigate usernames and [download](https://github.com/tdh8316/Investigo/tree/master/downloaders) their data on [social media](./sites.md).
 
 ![screenshot](./docs/GIF.gif)
 
 ## Build from source
 
-To compile investigo, Go 1.12 or higher is required.
+To compile Investigo, Go 1.12 or higher is required.
 
 ```text
 git clone https://github.com/tdh8316/Investigo.git
@@ -59,4 +59,4 @@ Therefore, in case you want to add a new site to the database, you can make an i
 
 Licensed under the MIT License
 
-Copyright 2022 `Donghyeok Tak`
+Copyright 2024 Donghyeok Tak
