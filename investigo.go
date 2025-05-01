@@ -272,94 +272,160 @@ func main() {
 }
 
 func initializeSiteData(forceUpdate bool) {
-	jsonFile, err := os.Open(dataFileName)
-	if err != nil || forceUpdate {
-		if err != nil {
-			if options.noColor {
-				fmt.Printf(
-					"[!] Cannot open database \"%s\"\n",
-					dataFileName,
-				)
-			} else {
-				fmt.Fprintf(
-					color.Output,
-					"[%s] Cannot open database \"%s\"\n",
-					color.HiRedString("!"), dataFileName,
-				)
-			}
-		}
-		if options.noColor {
-			fmt.Printf(
-				"%s Update database: %s",
-				"[!]",
-				"Downloading...",
-			)
-		} else {
-			fmt.Fprintf(
-				color.Output,
-				"[%s] Update database: %s",
-				color.HiBlueString("!"),
-				color.HiYellowString("Downloading..."),
-			)
-		}
+    jsonFile, err := os.Open(dataFileName)
+    if err != nil || forceUpdate {
+        if err != nil {
+            if options.noColor {
+                fmt.Printf(
+                    "[!] Cannot open database \"%s\"\n",
+                    dataFileName,
+                )
+            } else {
+                fmt.Fprintf(
+                    color.Output,
+                    "[%s] Cannot open database \"%s\"\n",
+                    color.HiRedString("!"), dataFileName,
+                )
+            }
+        }
+        if options.noColor {
+            fmt.Printf(
+                "%s Update database: %s",
+                "[!]",
+                "Downloading...",
+            )
+        } else {
+            fmt.Fprintf(
+                color.Output,
+                "[%s] Update database: %s",
+                color.HiBlueString("!"),
+                color.HiYellowString("Downloading..."),
+            )
+        }
 
-		if forceUpdate && jsonFile != nil {
-			jsonFile.Close()
-		}
+        if forceUpdate && jsonFile != nil {
+            jsonFile.Close()
+        }
 
-		// Updated URL for the Sherlock database
-		r, err := Request("https://raw.githubusercontent.com/sherlock-project/sherlock/refs/heads/master/sherlock_project/resources/data.json")
+        // Updated URL for the Sherlock database
+        r, err := Request("https://raw.githubusercontent.com/sherlock-project/sherlock/refs/heads/master/sherlock_project/resources/data.json")
 
-		if err != nil || r.StatusCode != 200 {
-			if options.noColor {
-				fmt.Printf(" [%s]\n", "Failed")
-			} else {
-				fmt.Fprintf(color.Output, " [%s]\n", color.HiRedString("Failed"))
-			}
-			if err != nil {
-				panic("Failed to update database.\n" + err.Error())
-			} else {
-				panic("Failed to update database: " + r.Status)
-			}
-		} else {
-			defer r.Body.Close()
-		}
-		if _, err := os.Stat(dataFileName); !os.IsNotExist(err) {
-			if err = os.Remove(dataFileName); err != nil {
-				panic(err)
-			}
-		}
-		_updateFile, _ := os.OpenFile(dataFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
-		if _, err := _updateFile.WriteString(ReadResponseBody(r)); err != nil {
-			if options.noColor {
-				fmt.Printf("Failed to update data.\n")
-			} else {
-				fmt.Fprint(color.Output, color.RedString("Failed to update data.\n"))
-			}
-			panic(err)
-		}
+        if err != nil || r.StatusCode != 200 {
+            if options.noColor {
+                fmt.Printf(" [%s]\n", "Failed")
+            } else {
+                fmt.Fprintf(color.Output, " [%s]\n", color.HiRedString("Failed"))
+            }
+            if err != nil {
+                fmt.Printf("Failed to update database: %s\n", err.Error())
+                if jsonFile != nil {
+                    fmt.Println("Using existing database.")
+                    return
+                }
+                panic("Failed to update database and no existing database found.")
+            } else {
+                fmt.Printf("Failed to update database: %s\n", r.Status)
+                if jsonFile != nil {
+                    fmt.Println("Using existing database.")
+                    return
+                }
+                panic("Failed to update database and no existing database found.")
+            }
+        } else {
+            defer r.Body.Close()
+        }
 
-		_updateFile.Close()
-		jsonFile, _ = os.Open(dataFileName)
+        if _, err := os.Stat(dataFileName); !os.IsNotExist(err) {
+            if err = os.Remove(dataFileName); err != nil {
+                panic(err)
+            }
+        }
 
-		if options.noColor {
-			fmt.Println(" [Done]")
-		} else {
-			fmt.Fprintf(color.Output, " [%s]\n", color.GreenString("Done"))
-		}
-	}
+        _updateFile, _ := os.OpenFile(dataFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
+        if _, err := _updateFile.WriteString(ReadResponseBody(r)); err != nil {
+            if options.noColor {
+                fmt.Printf("Failed to update data.\n")
+            } else {
+                fmt.Fprint(color.Output, color.RedString("Failed to update data.\n"))
+            }
+            panic(err)
+        }
 
-	defer jsonFile.Close()
+        _updateFile.Close()
+        jsonFile, _ = os.Open(dataFileName)
 
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		panic("Failed to read file:" + dataFileName)
-	} else {
-		err := json.Unmarshal(byteValue, &siteData)
-		if err != nil {
-			panic(err.Error())
-		}
-	}
+        if options.noColor {
+            fmt.Println(" [Done]")
+        } else {
+            fmt.Fprintf(color.Output, " [%s]\n", color.GreenString("Done"))
+        }
+    }
+
+    defer jsonFile.Close()
+
+    byteValue, err := ioutil.ReadAll(jsonFile)
+    if err != nil {
+        panic("Failed to read file:" + dataFileName)
+    } else {
+        // Add special handling for the JSON format
+        var rawData map[string]interface{}
+
+        err := json.Unmarshal(byteValue, &rawData)
+        if err != nil {
+            panic("Failed to parse JSON: " + err.Error())
+        }
+
+        // Remove $schema field if it exists (it's not part of the site data)
+        delete(rawData, "$schema")
+
+        // Process each site entry
+        for siteName, siteDataRaw := range rawData {
+            if siteDataMap, ok := siteDataRaw.(map[string]interface{}); ok {
+                var sd SiteData
+
+                // Extract fields from the map
+                if errorType, ok := siteDataMap["errorType"].(string); ok {
+                    sd.ErrorType = errorType
+                }
+
+                if url, ok := siteDataMap["url"].(string); ok {
+                    sd.URL = url
+                }
+
+                if urlMain, ok := siteDataMap["urlMain"].(string); ok {
+                    sd.URLMain = urlMain
+                }
+
+                if urlProbe, ok := siteDataMap["urlProbe"].(string); ok {
+                    sd.URLProbe = urlProbe
+                }
+
+                if urlError, ok := siteDataMap["errorUrl"].(string); ok {
+                    sd.URLError = urlError
+                }
+
+                if usedUsername, ok := siteDataMap["username_claimed"].(string); ok {
+                    sd.UsedUsername = usedUsername
+                }
+
+                if unusedUsername, ok := siteDataMap["username_unclaimed"].(string); ok {
+                    sd.UnusedUsername = unusedUsername
+                }
+
+                if regexCheck, ok := siteDataMap["regexCheck"].(string); ok {
+                    sd.RegexCheck = regexCheck
+                }
+
+                // Handle errorMsg which can be string or array
+                if errorMsg, ok := siteDataMap["errorMsg"]; ok {
+                    sd.ErrorMsg = errorMsg
+                }
+
+                // Add to our siteData map
+                siteData[siteName] = sd
+            }
+        }
+    }
 }
 
 // Request makes an HTTP request
