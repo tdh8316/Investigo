@@ -303,11 +303,12 @@ func initializeSiteData(forceUpdate bool) {
 			)
 		}
 
-		if forceUpdate {
+		if forceUpdate && jsonFile != nil {
 			jsonFile.Close()
 		}
 
-		r, err := Request("https://raw.githubusercontent.com/sherlock-project/sherlock/master/sherlock/resources/data.json")
+		// Updated URL for the Sherlock database
+		r, err := Request("https://raw.githubusercontent.com/sherlock-project/sherlock/refs/heads/master/sherlock_project/resources/data.json")
 
 		if err != nil || r.StatusCode != 200 {
 			if options.noColor {
