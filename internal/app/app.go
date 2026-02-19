@@ -104,7 +104,7 @@ func Run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 			return 1
 		}
 
-		// Buffer for out.txt (per-username; fixes original “global builder” bug).
+		// Buffer for out.txt content; printer writes results to this buffer and also streams to stdout.
 		var buf strings.Builder
 
 		printer := output.NewPrinter(stdout, opts.NoColor, opts.Verbose, &buf)
@@ -118,7 +118,6 @@ func Run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 		if err := scanner.ScanUsername(ctx, username, sites, downloadDir, printer.Logger(), printer.Result); err != nil &&
 			!errors.Is(err, context.Canceled) {
 			fmt.Fprintf(stderr, "scan error for %q: %v\n", username, err)
-			// Keep going to next username or exit; old behavior was “best effort”.
 		}
 
 		if !opts.NoOutput {
@@ -261,7 +260,6 @@ func runTest(ctx context.Context, stdout io.Writer, noColor bool, scanner *scan.
 	}
 
 	failCount, _ := scanner.ValidateSites(ctx, sites, func(f scan.ValidationFailure) {
-		// Match the old output style as closely as possible.
 		if f.Used.Err != nil || f.Unused.Err != nil {
 			var msgParts []string
 			if f.Used.Err != nil {

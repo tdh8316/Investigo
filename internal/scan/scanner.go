@@ -6,8 +6,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
-	"path/filepath"
 	"sort"
 	"strings"
 	"sync"
@@ -143,7 +141,7 @@ func (s *Scanner) ValidateSites(
 			for site := range jobs {
 				sd := sites[site]
 				if sd.UsedUsername == "" || sd.UnusedUsername == "" {
-					// If we can't validate, count as failure (same spirit as old test mode).
+					// If we can't validate, count as failure but include an error message for clarity.
 					f := ValidationFailure{
 						Site:           site,
 						UsedUsername:   sd.UsedUsername,
@@ -301,20 +299,6 @@ func (s *Scanner) Investigo(
 	default:
 		res.Err = fmt.Errorf("unsupported error type %q", sd.ErrorType)
 		return res
-	}
-
-	// Optional download hook.
-	if res.Exists && s.cfg.Download {
-		if dl, ok := s.downloaders[strings.ToLower(site)]; ok {
-			if downloadDir == "" {
-				return res
-			}
-			siteDir := filepath.Join(downloadDir, strings.ToLower(site))
-			_ = os.MkdirAll(siteDir, 0o755)
-
-			// Do not convert download errors into not found (keep [+] result).
-			_ = dl(ctx, s.client, profileURL, siteDir, logger)
-		}
 	}
 
 	return res

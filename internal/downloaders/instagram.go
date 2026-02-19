@@ -91,7 +91,7 @@ func DownloadInstagram(ctx context.Context, client *http.Client, profileURL, out
 	wg.Wait()
 
 	if len(errs) > 0 {
-		// Return a compact summary (detailed failures already logged).
+		// Return a compact summary error
 		return fmt.Errorf("instagram downloader: %d download(s) failed (see log/output)", len(errs))
 	}
 

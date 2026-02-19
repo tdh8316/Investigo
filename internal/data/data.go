@@ -26,7 +26,6 @@ type SiteData struct {
 	RegexCheck     string `json:"regexCheck"`
 }
 
-// LoadSites loads sherlock-style data.json but safely ignores the top-level "$schema".
 func LoadSites(filename string) (map[string]SiteData, error) {
 	raw, err := os.ReadFile(filename)
 	if err != nil {

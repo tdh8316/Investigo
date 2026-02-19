@@ -11,7 +11,7 @@ import (
 	"github.com/fatih/color"
 )
 
-var ErrHelp = errors.New("help requested")
+var ErrHelp = errors.New("help message")
 
 type Options struct {
 	NoColor         bool
@@ -129,7 +129,7 @@ func Parse(args []string, stdout, stderr io.Writer) (Options, []string, error) {
 				opts.Sites = append(opts.Sites, s)
 			}
 		}
-		// Old behavior: when specifying sites, force verbose so you see misses/errors.
+		// When specifying sites, force verbose so you see misses/errors.
 		opts.Verbose = true
 	}
 
